@@ -1,0 +1,16 @@
+.card-body {
+  padding: 0rem 3rem 3rem 3rem !important;
+
+  .btn-register {
+    background: #fc2 !important;
+    box-shadow: 0 4px 9px -4px #fc2 !important;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+.footer-register {
+  background: black !important;
+}
