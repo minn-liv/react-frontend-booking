@@ -1,0 +1,54 @@
+.service-experience {
+    margin-top: 3rem;
+
+    .service-experience-link {
+        color: black;
+        font-size: 30px;
+        font-weight: 600;
+    }
+
+    .service-experience-text {
+        margin: 0 !important;
+        color: #595959;
+        font-weight: 300;
+    }
+
+    .service-experience-img {
+        margin-top: 1rem;
+        border-radius: 5px;
+        transition: transform 0.3s;
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+    .service-experience-container {
+        display: flex;
+        gap: 3rem;
+        margin-top: 2rem;
+
+        .service-experience-box {
+            display: flex;
+            gap: 0.8rem;
+            color: black;
+
+            h4 {
+                font-weight: 600;
+                font-size: 20px;
+            }
+
+            p {
+                color: #686868;
+            }
+
+            img {
+                width: 100px;
+                height: 100px;
+                border-radius: 5px;
+                transition: transform 0.3s;
+                &:hover {
+                    transform: scale(1.04);
+                }
+            }
+        }
+    }
+}

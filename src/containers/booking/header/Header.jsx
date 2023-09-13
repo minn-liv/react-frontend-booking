@@ -27,9 +27,9 @@ class Header extends Component {
                     </Link>
                     <ul className="nav__items">
                         <li>
-                            <a href="#" className="nav__items-link">
+                            <Link to="/services" className="nav__items-link">
                                 <FormattedMessage id="header.service-experience" />
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <a href="#" className="nav__items-link">

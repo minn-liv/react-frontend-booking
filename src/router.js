@@ -3,6 +3,9 @@ import HomePage from "./containers/booking/home-page/HomePage";
 import Register from "./containers/booking/auth/Register";
 import Login from "./containers/booking/auth/Login";
 import NotFound from "./containers/error/NotFound";
+import Booking from "./containers/booking/book-page/Booking";
+import Profile from "./containers/booking/profile/Profile";
+import Services from "./containers/booking/services/Services";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -15,6 +18,18 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+    },
+    {
+        path: "/booking",
+        element: <Booking />,
+    },
+    {
+        path: "/services",
+        element: <Services />,
+    },
+    {
+        path: "/profile",
+        element: <Profile />,
     },
     {
         path: "*",

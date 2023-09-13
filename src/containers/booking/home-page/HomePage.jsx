@@ -1,14 +1,20 @@
 import React, { Component, useState } from "react";
 import "./HomePage.scss";
 import Header from "../header/Header";
-import Banner from "../section/HeroBanner";
+import HeroBanner from "../section/HeroBanner";
+import ServiceExperience from "../section/ServiceExperience";
+import Footer from "../footer/Footer";
+import FooterMini from "../footer/FooterMini";
 
 class HomePage extends Component {
     render() {
         return (
             <>
                 <Header />
-                <Banner />
+                <HeroBanner />
+                <ServiceExperience />
+                <Footer />
+                <FooterMini />
             </>
         );
     }
