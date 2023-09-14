@@ -79,13 +79,14 @@ class Register extends Component {
                             >
                                 <MDBCardBody className="p-5 text-center">
                                     <h2 className="fw-bold mb-5">
-                                        Đặt lịch lẹ mấy cha ơi :3
+                                        Booking Schedule
                                     </h2>
                                     <h3 className="text-start">
-                                        Quý khách vui lòng cho biết thông tin
+                                        please enter your information
                                     </h3>
-                                    <h4 className="text-start">
-                                        (*) Vui lòng nhập thông tin bắt buộc
+                                    <h4 className="text-start" style={{ color: 'red' }}>
+
+                                        (*)Please enter required information
                                     </h4>
                                     <MDBInput
                                         wrapperClass="mb-4"
