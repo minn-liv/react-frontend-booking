@@ -45,26 +45,23 @@ class Register extends Component {
             username: this.usernameRef.current.value,
             password: this.passwordRef.current.value,
         };
-        
-        axios.post("/api/v1/ClientLogin/Login", payload)
-            .then((response) => {
-                // Kiểm tra trạng thái của phản hồi từ API
-                if (response.status === 200) {
-                    console.log("Đăng nhập thành công!");
-                    // Thực hiện các hành động sau khi đăng nhập thành công, ví dụ: chuyển hướng người dùng
-                } else {
-                    console.log("Đăng nhập không thành công!");
-                    // Xử lý trường hợp đăng nhập không thành công, ví dụ: hiển thị thông báo lỗi
-                }
-            })
-            .catch((error) => {
-                // Xử lý lỗi từ API
-                console.error("Lỗi khi gọi API đăng nhập:", error);
-                // Hiển thị thông báo lỗi cho người dùng hoặc thực hiện các hành động khác tùy thuộc vào loại lỗi
-                
-                // In nội dung lỗi từ máy chủ
-                console.log("Nội dung lỗi từ máy chủ:", error.response.data);
-            });
+        axios.post("api/v1/ClientLogin/Login", payload)
+        .then((response) => {
+          alert("Đăng nhập thành công!");
+        })
+        .catch((error) => {
+          if (error.response) {
+            // Lỗi từ máy chủ, xem chi tiết lỗi
+            console.log("Lỗi từ máy chủ:", error.response.data);
+          } else if (error.request) {
+            // Yêu cầu không thành công (không kết nối đến máy chủ)
+            console.log("Yêu cầu không thành công:", error.request);
+          } else {
+            // Lỗi trong quá trình gửi yêu cầu
+            console.log("Lỗi khi gửi yêu cầu:", error.message);
+          }
+        });
+      
     };
     
 
