@@ -45,10 +45,11 @@ class Register extends Component {
             username: this.usernameRef.current.value,
             password: this.passwordRef.current.value,
         };
+        console.log(process.env.REACT_APP_BACKEND_URL_API);
         if (payload) {
             console.log(payload);
         }
-        axios.post("/login", payload).then((data) => {
+        axios.post("/api/AdminApi/login", payload).then((data) => {
             console.log(data);
         });
     };
