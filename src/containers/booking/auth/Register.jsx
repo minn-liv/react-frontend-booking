@@ -17,6 +17,7 @@ import {
 } from "mdb-react-ui-kit";
 
 import "./Register.scss";
+import axios from "../../../axios";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
@@ -30,6 +31,10 @@ class Register extends Component {
         this.passwordRef = createRef();
         this.addressRef = createRef();
         this.avatarRef = createRef();
+
+        this.state = {
+            error: "",
+        };
     }
 
     handleOnChangeInput = (event, id) => {
@@ -51,9 +56,22 @@ class Register extends Component {
             address: this.addressRef.current.value,
             // avatar: this.avatarRef.current.file[0],
         };
-        if (payload) {
-            console.log(payload);
-        }
+        axios
+            .post("api/v1/ClientLogin/Register", payload)
+            .then((response) => {
+                alert("Đăng ký thành công!");
+            })
+            .catch((error) => {
+                if (error.response) {
+                    this.setState({
+                        error: error.response.data,
+                    });
+                } else if (error.request) {
+                    console.log("Yêu cầu không thành công:", error.request);
+                } else {
+                    console.log("Lỗi khi gửi yêu cầu:", error.message);
+                }
+            });
     };
 
     render() {
@@ -94,6 +112,9 @@ class Register extends Component {
                                                 type="text"
                                                 ref={this.usernameRef}
                                             />
+                                            {this.state.error && this.state.error.message && (
+                                                <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                            )}
                                         </MDBCol>
 
                                         <MDBCol col="6">
@@ -104,6 +125,9 @@ class Register extends Component {
                                                 type="text"
                                                 ref={this.nameRef}
                                             />
+                                            {this.state.error && this.state.error.message && (
+                                                <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                            )}
                                         </MDBCol>
                                     </MDBRow>
                                     <MDBInput
@@ -113,6 +137,9 @@ class Register extends Component {
                                         type="text"
                                         ref={this.phoneRef}
                                     />
+                                    {this.state.error && this.state.error.message && (
+                                        <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                    )}
                                     <MDBInput
                                         wrapperClass="mb-4"
                                         label="Email"
@@ -120,6 +147,9 @@ class Register extends Component {
                                         type="email"
                                         ref={this.emailRef}
                                     />
+                                    {this.state.error && this.state.error.message && (
+                                        <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                    )}
                                     <MDBInput
                                         wrapperClass="mb-4"
                                         label="Mật khẩu"
@@ -127,6 +157,9 @@ class Register extends Component {
                                         type="password"
                                         ref={this.passwordRef}
                                     />
+                                    {this.state.error && this.state.error.message && (
+                                        <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                    )}
                                     <MDBInput
                                         wrapperClass="mb-4"
                                         label="Địa chỉ"
@@ -134,6 +167,9 @@ class Register extends Component {
                                         type="text"
                                         ref={this.addressRef}
                                     />
+                                    {this.state.error && this.state.error.message && (
+                                        <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                    )}
                                     <div>
                                         <label className="mb-2 d-flex">
                                             Ảnh

@@ -29,6 +29,10 @@ class Register extends Component {
 
         this.usernameRef = createRef();
         this.passwordRef = createRef();
+
+        this.state = {
+            error: "",
+        };
     }
 
     handleOnChangeInput = (event, id) => {
@@ -46,24 +50,26 @@ class Register extends Component {
             password: this.passwordRef.current.value,
         };
         axios.post("api/v1/ClientLogin/Login", payload)
-        .then((response) => {
-          alert("Đăng nhập thành công!");
-        })
-        .catch((error) => {
-          if (error.response) {
-            // Lỗi từ máy chủ, xem chi tiết lỗi
-            console.log("Lỗi từ máy chủ:", error.response.data);
-          } else if (error.request) {
-            // Yêu cầu không thành công (không kết nối đến máy chủ)
-            console.log("Yêu cầu không thành công:", error.request);
-          } else {
-            // Lỗi trong quá trình gửi yêu cầu
-            console.log("Lỗi khi gửi yêu cầu:", error.message);
-          }
-        });
-      
+            .then((response) => {
+                alert("Đăng nhập thành công!");
+            })
+            .catch((error) => {
+                if (error.response) {
+                    // Lỗi từ máy chủ, xem chi tiết lỗi
+                    this.setState({
+                        error: error.response.data,
+                    });
+                } else if (error.request) {
+                    // Yêu cầu không thành công (không kết nối đến máy chủ)
+                    console.log("Yêu cầu không thành công:", error.request);
+                } else {
+                    // Lỗi trong quá trình gửi yêu cầu
+                    console.log("Lỗi khi gửi yêu cầu:", error.message);
+                }
+            });
+
     };
-    
+
 
     render() {
         return (
@@ -88,9 +94,7 @@ class Register extends Component {
                                 }}
                             >
                                 <MDBCardBody className="p-5 text-center">
-                                    <div className="alert_message">
-                                        Alert nè :3 :3
-                                    </div>
+                                    
                                     <h2 className="fw-bold mb-5">
                                         Đăng nhập đi tml
                                     </h2>
@@ -103,6 +107,9 @@ class Register extends Component {
                                         ref={this.usernameRef}
                                         size="lg"
                                     />
+                                    {this.state.error && this.state.error.message && (
+                                        <p style={{ color: "red" }}>{this.state.error.message}</p>
+                                    )}
                                     <MDBInput
                                         wrapperClass="mb-4"
                                         label="Mật khẩu"
@@ -110,8 +117,8 @@ class Register extends Component {
                                         type="password"
                                         ref={this.passwordRef}
                                         size="lg"
+                                        
                                     />
-
                                     <MDBBtn
                                         className="w-100 mb-4 btn-register"
                                         size="lg"
