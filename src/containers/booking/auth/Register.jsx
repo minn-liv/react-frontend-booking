@@ -15,6 +15,7 @@ import {
     MDBCheckbox,
     MDBFile,
 } from "mdb-react-ui-kit";
+import axios from "../../../axios";
 
 import "./Register.scss";
 import Header from "../header/Header";
@@ -23,6 +24,9 @@ import FooterMini from "../footer/FooterMini";
 class Register extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            error: null,
+        };
         this.usernameRef = createRef();
         this.nameRef = createRef();
         this.phoneRef = createRef();
@@ -51,28 +55,59 @@ class Register extends Component {
             address: this.addressRef.current.value,
             // avatar: this.avatarRef.current.file[0],
         };
-        if (payload) {
-            console.log(payload);
-        }
-        axios
-            .post("api/v1/ClientLogin/Register", payload)
-            .then((response) => {
-                alert("Đăng ký thành công!");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    this.setState({
-                        error: error.response.data,
-                    });
-                } else if (error.request) {
-                    console.log("Yêu cầu không thành công:", error.request);
-                } else {
-                    console.log("Lỗi khi gửi yêu cầu:", error.message);
-                }
+        if (!payload.username) {
+            this.setState({
+                error: "Vui lòng nhập Tên đăng nhập",
             });
+            ev.preventDefault();
+        } else if (!payload.name) {
+            this.setState({
+                error: "Vui lòng nhập Họ và tên",
+            });
+            ev.preventDefault();
+        } else if (!payload.phone) {
+            this.setState({
+                error: "Vui lòng nhập Số điện thoại",
+            });
+            ev.preventDefault();
+        } else if (!payload.email) {
+            this.setState({
+                error: "Vui lòng nhập Email",
+            });
+            ev.preventDefault();
+        } else if (!payload.password) {
+            this.setState({
+                error: "Vui lòng nhập Mật khẩu",
+            });
+            ev.preventDefault();
+        } else if (!payload.address) {
+            this.setState({
+                error: "Vui lòng nhập Địa chỉ",
+            });
+            ev.preventDefault();
+        } else {
+            console.log(payload);
+            axios
+                .post("api/v1/ClientLogin/Register", payload)
+                .then((response) => {
+                    alert("Đăng ký thành công!");
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        this.setState({
+                            error: error.response.data,
+                        });
+                    } else if (error.request) {
+                        console.log("Yêu cầu không thành công:", error.request);
+                    } else {
+                        console.log("Lỗi khi gửi yêu cầu:", error.message);
+                    }
+                });
+        }
     };
 
     render() {
+        const { error } = this.state;
         return (
             <div className="">
                 <Header />
@@ -97,6 +132,11 @@ class Register extends Component {
                                 }}
                             >
                                 <MDBCardBody className="p-5 text-center">
+                                    {error && (
+                                        <div className="alert_message failed">
+                                            {error}
+                                        </div>
+                                    )}
                                     <h2 className="fw-bold mb-5">
                                         Đăng ký lẹ lên tml
                                     </h2>

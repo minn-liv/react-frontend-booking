@@ -11,3 +11,17 @@
     }
   }
 }
+
+.alert_message {
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.success {
+  background-color: #d6f0e0;
+  color: #0d6832;
+}
+
+.failed {
+  background-color: #f9e1e5;
+  color: #af233a;
+}

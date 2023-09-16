@@ -22,13 +22,18 @@ import axios from "../../../axios";
 import "./Login.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
+import ToastSuccess from "../../../hoc/Toast/ToastSuccess";
 
-class Register extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
 
         this.usernameRef = createRef();
         this.passwordRef = createRef();
+        this.state = {
+            error: null,
+            success: false,
+        };
     }
 
     handleOnChangeInput = (event, id) => {
@@ -41,39 +46,54 @@ class Register extends Component {
     };
     onSubmit = (ev) => {
         ev.preventDefault();
+
         const payload = {
             username: this.usernameRef.current.value,
             password: this.passwordRef.current.value,
         };
-        if (payload) {
-            console.log(payload);
-        }
-        axios
-            .post("api/v1/ClientLogin/Login", payload)
-            .then((response) => {
-                alert("Đăng nhập thành công!");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    // Lỗi từ máy chủ, xem chi tiết lỗi
-                    this.setState({
-                        error: error.response.data,
-                    });
-                } else if (error.request) {
-                    // Yêu cầu không thành công (không kết nối đến máy chủ)
-                    console.log("Yêu cầu không thành công:", error.request);
-                } else {
-                    // Lỗi trong quá trình gửi yêu cầu
-                    console.log("Lỗi khi gửi yêu cầu:", error.message);
-                }
+        if (!payload.username) {
+            this.setState({
+                error: "Vui lòng nhập tên đăng nhập",
             });
+            ev.preventDefault();
+        } else if (!payload.password) {
+            this.setState({
+                error: "Vui lòng nhập mật khẩu",
+            });
+            ev.preventDefault();
+        } else {
+            console.log(payload);
+            axios
+                .post("api/v1/ClientLogin/Login", payload)
+                .then((response) => {
+                    this.setState({
+                        success: true,
+                    });
+                    console.log(this.state.success);
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        if (error.response.status === 400) {
+                            this.setState({
+                                error: "Sai tên tài khoản hoặc mật khẩu !",
+                            });
+                        } else {
+                            console.log("Lỗi khi gửi yêu cầu:", error.message);
+                        }
+                    }
+                });
+        }
+    };
+
+    showToastComponent = () => {
+        this.ToastSuccessRef.showSuccessToast();
     };
 
     render() {
         return (
             <div className="">
                 <Header />
-
+                <ToastSuccess />
                 <div className="" style={{ background: "#f5f5f5" }}>
                     <form onSubmit={this.onSubmit}>
                         <MDBContainer
@@ -92,16 +112,18 @@ class Register extends Component {
                                 }}
                             >
                                 <MDBCardBody className="p-5 text-center">
-                                    <div className="alert_message">
-                                        Alert nè :3 :3
-                                    </div>
+                                    {this.state.error && (
+                                        <div className="alert_message failed">
+                                            {this.state.error}
+                                        </div>
+                                    )}
                                     <h2 className="fw-bold mb-5">
                                         Đăng nhập đi tml
                                     </h2>
 
                                     <MDBInput
                                         wrapperClass="mb-4"
-                                        label="Tên đăng nhập"
+                                        label="Tên tài khoản"
                                         id="phone"
                                         type="text"
                                         ref={this.usernameRef}
@@ -208,4 +230,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
