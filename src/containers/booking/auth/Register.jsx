@@ -54,6 +54,22 @@ class Register extends Component {
         if (payload) {
             console.log(payload);
         }
+        axios
+            .post("api/v1/ClientLogin/Register", payload)
+            .then((response) => {
+                alert("Đăng ký thành công!");
+            })
+            .catch((error) => {
+                if (error.response) {
+                    this.setState({
+                        error: error.response.data,
+                    });
+                } else if (error.request) {
+                    console.log("Yêu cầu không thành công:", error.request);
+                } else {
+                    console.log("Lỗi khi gửi yêu cầu:", error.message);
+                }
+            });
     };
 
     render() {

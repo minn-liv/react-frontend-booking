@@ -45,13 +45,28 @@ class Register extends Component {
             username: this.usernameRef.current.value,
             password: this.passwordRef.current.value,
         };
-        console.log(process.env.REACT_APP_BACKEND_URL_API);
         if (payload) {
             console.log(payload);
         }
-        axios.post("/api/AdminApi/login", payload).then((data) => {
-            console.log(data);
-        });
+        axios
+            .post("api/v1/ClientLogin/Login", payload)
+            .then((response) => {
+                alert("Đăng nhập thành công!");
+            })
+            .catch((error) => {
+                if (error.response) {
+                    // Lỗi từ máy chủ, xem chi tiết lỗi
+                    this.setState({
+                        error: error.response.data,
+                    });
+                } else if (error.request) {
+                    // Yêu cầu không thành công (không kết nối đến máy chủ)
+                    console.log("Yêu cầu không thành công:", error.request);
+                } else {
+                    // Lỗi trong quá trình gửi yêu cầu
+                    console.log("Lỗi khi gửi yêu cầu:", error.message);
+                }
+            });
     };
 
     render() {

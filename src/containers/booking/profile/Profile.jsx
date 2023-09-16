@@ -13,9 +13,13 @@ import {
     MDBCardImage,
     MDBBtn,
     MDBModal,
-    MDBModalBody,
+    MDBModalDialog,
+    MDBModalContent,
     MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
     MDBModalFooter,
+    MDBInput,
 } from "mdb-react-ui-kit";
 
 import "./Profile.scss";
@@ -26,38 +30,92 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: false,
+            basicModal: false,
         };
 
-        this.usernameRef = createRef();
-        this.passwordRef = createRef();
+        this.nameRef = createRef();
+        this.phoneRef = createRef();
+        this.addressRef = createRef();
     }
 
-    handleOnChangeInput = (event, id) => {
-        let copyState = { ...this.state };
-        copyState[id] = event.target.value;
-
-        this.state({
-            ...copyState,
-        });
-    };
     onSubmit = (ev) => {
         ev.preventDefault();
         const payload = {
-            username: this.usernameRef.current.value,
-            password: this.passwordRef.current.value,
+            name: this.nameRef.current.value,
+            phone: this.phoneRef.current.value,
+            address: this.addressRef.current.value,
         };
         if (payload) {
             console.log(payload);
         }
     };
 
+    toggleShow = () => {
+        this.setState((prevState) => ({
+            basicModal: !prevState.basicModal,
+        }));
+    };
+
     render() {
+        const { basicModal } = this.state;
         return (
             <div className="">
                 <Header />
 
                 <section style={{ backgroundColor: "#eee" }}>
+                    <MDBModal show={basicModal} tabIndex="-1">
+                        <form action="" onSubmit={this.onSubmit}>
+                            <MDBModalDialog>
+                                <MDBModalContent>
+                                    <MDBModalHeader>
+                                        <MDBModalTitle>
+                                            Chỉnh sửa thông tin
+                                        </MDBModalTitle>
+                                        <MDBBtn
+                                            className="btn-close"
+                                            color="none"
+                                            onClick={this.toggleShow}
+                                        ></MDBBtn>
+                                    </MDBModalHeader>
+                                    <MDBModalBody>
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Tên Người Dùng"
+                                            id="name"
+                                            type="text"
+                                            ref={this.nameRef}
+                                        />
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Số điện thoại"
+                                            id="phone"
+                                            type="text"
+                                            ref={this.phoneRef}
+                                        />
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Địa chỉ"
+                                            id="address"
+                                            type="text"
+                                            ref={this.addressRef}
+                                        />
+                                    </MDBModalBody>
+
+                                    <MDBModalFooter>
+                                        <MDBBtn
+                                            color="secondary"
+                                            onClick={this.toggleShow}
+                                        >
+                                            Close
+                                        </MDBBtn>
+                                        <MDBBtn type="submit">
+                                            Save changes
+                                        </MDBBtn>
+                                    </MDBModalFooter>
+                                </MDBModalContent>
+                            </MDBModalDialog>
+                        </form>
+                    </MDBModal>
                     <MDBContainer className="py-5">
                         <MDBRow>
                             <MDBCol lg="4">
@@ -77,7 +135,9 @@ class Profile extends Component {
                                             Bay Area, San Francisco, CA
                                         </p>
                                         <div className="d-flex justify-content-center mb-2">
-                                            <MDBBtn>Chh sửa thông tin</MDBBtn>
+                                            <MDBBtn onClick={this.toggleShow}>
+                                                Chỉnh sửa thông tin
+                                            </MDBBtn>
                                         </div>
                                     </MDBCardBody>
                                 </MDBCard>
