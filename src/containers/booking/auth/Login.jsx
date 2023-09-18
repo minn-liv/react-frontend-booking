@@ -28,7 +28,7 @@ function Login() {
     const passwordRef = useRef();
 
     const navigate = useNavigate();
-    const { setUser, setId } = useStateContext();
+    const { setUser, setId, id } = useStateContext();
 
     const onSubmit = (ev) => {
         ev.preventDefault();
