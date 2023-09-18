@@ -13,14 +13,17 @@ import reduxStore from "./redux";
 import router from "./router";
 
 import InitProviderWrapper from "./hoc/InitProviderWrapper";
+import { ContextProvider } from "./contexts/ContextProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Provider store={reduxStore}>
-        <InitProviderWrapper>
-            <RouterProvider router={router} />
-        </InitProviderWrapper>
-    </Provider>
+    <ContextProvider>
+        <Provider store={reduxStore}>
+            <InitProviderWrapper>
+                <RouterProvider router={router} />
+            </InitProviderWrapper>
+        </Provider>
+    </ContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
