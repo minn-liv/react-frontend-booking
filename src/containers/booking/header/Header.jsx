@@ -1,110 +1,123 @@
-import React, { Component, useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
+import { useStateContext } from "../../../contexts/ContextProvider";
+import axios from "../../../axios";
 
-import { LANGUAGES } from "../../../utils/Constants";
+import { ToastLogoutSuccess } from "../../../hoc/Toast/Toast";
 import "./Header.scss";
-import { changeLanguageApp } from "../../../store/actions";
+import avatar7 from "../../../assets/avatar/avatar7.jpg";
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
+function Header() {
+    const { id, setId } = useStateContext();
+    const [user, setUser] = useState({});
+    const [logoutSuccess, setLogoutSuccess] = useState(false);
 
-    changeLanguage = (language) => {
-        this.props.changeLanguageAppRedux(language);
+    const idUser = localStorage.getItem("Id");
+    useEffect(() => {
+        axios
+            .get(`/api/v1/ClientLogin/user/${idUser}`)
+            .then((response) => {
+                setUser(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [id]);
+
+    const onLogout = (ev) => {
+        setId(null);
+        setUser({});
+        setLogoutSuccess(true);
     };
 
-    render() {
-        let language = this.props.language;
-        return (
-            <nav>
-                <div className="container-custom nav__container">
-                    <Link to="/" className="nav__logo">
-                        Avatar Đẹp Trai
-                    </Link>
-                    <ul className="nav__items">
-                        <li>
-                            <Link to="/services" className="nav__items-link">
-                                <FormattedMessage id="header.service-experience" />
-                            </Link>
+    return (
+        <nav>
+            <ToastLogoutSuccess showToast={logoutSuccess} />
+            <div className="container-custom nav__container">
+                <Link to="/" className="nav__logo">
+                    Avatar Đẹp Trai
+                </Link>
+                <ul className="nav__items">
+                    <li>
+                        <Link to="/services" className="nav__items-link">
+                            Trải nghiệm dịch vụ
+                        </Link>
+                    </li>
+                    <li>
+                        <a href="#" className="nav__items-link">
+                            Cửa hàng
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="nav__items-link">
+                            Hành trình tỏa sáng
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" className="nav__items-link">
+                            Tìm baber gần nhất
+                        </a>
+                    </li>
+                    {!id && (
+                        <ul style={{ display: "flex", gap: "2rem" }}>
+                            <li>
+                                <Link
+                                    to="/register"
+                                    className="nav__items--register"
+                                >
+                                    Đăng ký
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="/login"
+                                    className="nav__items--register"
+                                >
+                                    Đăng nhập
+                                </Link>
+                            </li>
+                        </ul>
+                    )}
+                    {id && (
+                        <li className="nav__profile">
+                            <div className="nav__profile-avatar">
+                                <img src={avatar7} alt="" />
+                            </div>
+                            <ul>
+                                <li>
+                                    <a href="">Thông tin cá nhân</a>
+                                </li>
+                                <li>
+                                    <a onClick={onLogout}>Đăng xuất</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="#" className="nav__items-link">
-                                <FormattedMessage id="header.shop" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav__items-link">
-                                <FormattedMessage id="header.shining-journey" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" className="nav__items-link">
-                                <FormattedMessage id="header.find-baber" />
-                            </a>
-                        </li>
-                        <li>
-                            <Link
-                                to="/register"
-                                className="nav__items--register"
-                            >
-                                <FormattedMessage id="header.register" />
-                            </Link>
-                        </li>
-                    </ul>
-                    <div className="nav__items--language">
-                        <div
-                            className={
-                                language === LANGUAGES.VI
-                                    ? "language-vi active"
-                                    : "language-vi"
-                            }
-                        >
-                            <span
-                                onClick={() =>
-                                    this.changeLanguage(LANGUAGES.VI)
-                                }
-                            >
-                                VN
-                            </span>
-                        </div>
-                        <div
-                            className={
-                                language === LANGUAGES.EN
-                                    ? "language-en active"
-                                    : "language-en"
-                            }
-                        >
-                            <span
-                                onClick={() =>
-                                    this.changeLanguage(LANGUAGES.EN)
-                                }
-                            >
-                                EN
-                            </span>
-                        </div>
+                    )}
+                </ul>
+                {/* <div className="nav__items--language">
+                    <div
+                        className={
+                            language === LANGUAGES.VI
+                                ? "language-vi active"
+                                : "language-vi"
+                        }
+                    >
+                        <span>VN</span>
                     </div>
-                </div>
-            </nav>
-        );
-    }
+                    <div
+                        className={
+                            language === LANGUAGES.EN
+                                ? "language-en active"
+                                : "language-en"
+                        }
+                    >
+                        <span>EN</span>
+                    </div>
+                </div> */}
+            </div>
+        </nav>
+    );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        language: state.app.language,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeLanguageAppRedux: (language) => {
-            dispatch(changeLanguageApp(language));
-        },
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

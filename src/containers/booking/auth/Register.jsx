@@ -1,10 +1,7 @@
-import React, { Component, useState, createRef } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { MDBBtn } from "mdb-react-ui-kit";
-import { LANGUAGES } from "../../../utils/Constants";
-import { changeLanguageApp } from "../../../store/actions";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
+    MDBBtn,
     MDBContainer,
     MDBCard,
     MDBCardBody,
@@ -21,82 +18,54 @@ import "./Register.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
-class Register extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-        };
-        this.usernameRef = createRef();
-        this.nameRef = createRef();
-        this.phoneRef = createRef();
-        this.emailRef = createRef();
-        this.passwordRef = createRef();
-        this.addressRef = createRef();
-        this.avatarRef = createRef();
-    }
+import { ToastRegisterSuccess } from "../../../hoc/Toast/Toast";
+function Register() {
+    const [registerSuccess, setRegisterSuccess] = useState(false);
+    const [errors, setErrors] = useState(null);
 
-    handleOnChangeInput = (event, id) => {
-        let copyState = { ...this.state };
-        copyState[id] = event.target.value;
+    const usernameRef = useRef();
+    const nameRef = useRef();
+    const phoneRef = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const addressRef = useRef();
+    const avatarRef = useRef();
 
-        this.state({
-            ...copyState,
-        });
-    };
-    onSubmit = (ev) => {
+    const navigate = useNavigate();
+
+    const onSubmit = (ev) => {
         ev.preventDefault();
         const payload = {
-            username: this.usernameRef.current.value,
-            name: this.nameRef.current.value,
-            phone: this.phoneRef.current.value,
-            email: this.emailRef.current.value,
-            password: this.passwordRef.current.value,
-            address: this.addressRef.current.value,
+            username: usernameRef.current.value,
+            name: nameRef.current.value,
+            phone: phoneRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            address: addressRef.current.value,
             // avatar: this.avatarRef.current.file[0],
         };
         if (!payload.username) {
-            this.setState({
-                error: "Vui lòng nhập Tên đăng nhập",
-            });
-            ev.preventDefault();
+            setErrors("Vui lòng nhập Tên tài khoản");
         } else if (!payload.name) {
-            this.setState({
-                error: "Vui lòng nhập Họ và tên",
-            });
-            ev.preventDefault();
+            setErrors("Vui lòng nhập Tên người dùng");
         } else if (!payload.phone) {
-            this.setState({
-                error: "Vui lòng nhập Số điện thoại",
-            });
-            ev.preventDefault();
+            setErrors("Vui lòng nhập Số điện thoại");
         } else if (!payload.email) {
-            this.setState({
-                error: "Vui lòng nhập Email",
-            });
-            ev.preventDefault();
+            setErrors("Vui lòng nhập Email");
         } else if (!payload.password) {
-            this.setState({
-                error: "Vui lòng nhập Mật khẩu",
-            });
-            ev.preventDefault();
+            setErrors("Vui lòng nhập Mật khẩu");
         } else if (!payload.address) {
-            this.setState({
-                error: "Vui lòng nhập Địa chỉ",
-            });
-            ev.preventDefault();
+            setErrors("Vui lòng nhập Địa chỉ");
         } else {
             console.log(payload);
             axios
                 .post("api/v1/ClientLogin/Register", payload)
                 .then((response) => {
-                    alert("Đăng ký thành công!");
+                    setRegisterSuccess(true);
                 })
                 .catch((error) => {
                     if (error.response) {
-                        this.setState({
-                            error: error.response.data,
-                        });
+                        setErrors(error.response.data);
                     } else if (error.request) {
                         console.log("Yêu cầu không thành công:", error.request);
                     } else {
@@ -106,202 +75,176 @@ class Register extends Component {
         }
     };
 
-    render() {
-        const { error } = this.state;
-        return (
-            <div className="">
-                <Header />
-                <div className="" style={{ background: "#f5f5f5" }}>
-                    <form
-                        onSubmit={this.onSubmit}
-                        encType="multipart/form-data"
+    const delay = 3000;
+    useEffect(() => {
+        if (registerSuccess) {
+            const timeout = setTimeout(() => {
+                navigate("/login");
+            }, delay);
+        }
+    }, [registerSuccess]);
+
+    return (
+        <div>
+            <Header />
+            <ToastRegisterSuccess showToast={registerSuccess} />
+            <div className="" style={{ background: "#f5f5f5" }}>
+                <form onSubmit={onSubmit} encType="multipart/form-data">
+                    <MDBContainer
+                        fluid
+                        className=" overflow-hidden"
+                        style={{ width: "50%" }}
                     >
-                        <MDBContainer
-                            fluid
-                            className=" overflow-hidden"
-                            style={{ width: "50%" }}
+                        <MDBCard
+                            className="mx-5 mb-5 p-5 shadow-5 background-radial-gradient"
+                            style={{
+                                background: "hsla(0, 0%, 100%, 0.8)",
+                                marginTop: "1rem",
+                                backgroundImage:
+                                    "linear-gradient(0deg, rgba(233, 235, 242, 0), #e8edf4)",
+                            }}
                         >
-                            <MDBCard
-                                className="mx-5 mb-5 p-5 shadow-5 background-radial-gradient"
-                                style={{
-                                    background: "hsla(0, 0%, 100%, 0.8)",
-                                    backdropFilter: "blur(30px)",
-                                    marginTop: "1rem",
-                                    backgroundImage:
-                                        "linear-gradient(0deg, rgba(233, 235, 242, 0), #e8edf4)",
-                                }}
-                            >
-                                <MDBCardBody className="p-5 text-center">
-                                    {error && (
-                                        <div className="alert_message failed">
-                                            {error}
-                                        </div>
-                                    )}
-                                    <h2 className="fw-bold mb-5">
-                                        Đăng ký lẹ lên tml
-                                    </h2>
+                            <MDBCardBody className="p-5 text-center">
+                                {errors && (
+                                    <div className="alert_message failed">
+                                        {errors}
+                                    </div>
+                                )}
+                                <h2 className="fw-bold mb-5">ĐĂNG KÝ</h2>
 
-                                    <MDBRow>
-                                        <MDBCol col="6">
-                                            <MDBInput
-                                                wrapperClass="mb-4"
-                                                label="Tên Đăng Nhập"
-                                                id="username"
-                                                type="text"
-                                                ref={this.usernameRef}
-                                            />
-                                        </MDBCol>
-
-                                        <MDBCol col="6">
-                                            <MDBInput
-                                                wrapperClass="mb-4"
-                                                label="Họ Và Tên"
-                                                id="name"
-                                                type="text"
-                                                ref={this.nameRef}
-                                            />
-                                        </MDBCol>
-                                    </MDBRow>
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Số điện thoại"
-                                        id="phone"
-                                        type="text"
-                                        ref={this.phoneRef}
-                                    />
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Email"
-                                        id="email"
-                                        type="email"
-                                        ref={this.emailRef}
-                                    />
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Mật khẩu"
-                                        id="password"
-                                        type="password"
-                                        ref={this.passwordRef}
-                                    />
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Địa chỉ"
-                                        id="address"
-                                        type="text"
-                                        ref={this.addressRef}
-                                    />
-                                    <div>
-                                        <label className="mb-2 d-flex">
-                                            Ảnh
-                                        </label>
-                                        <MDBFile
+                                <MDBRow>
+                                    <MDBCol col="6">
+                                        <MDBInput
                                             wrapperClass="mb-4"
-                                            label=""
-                                            id="avatar"
-                                            className="mb-4"
-                                            ref={this.avatarRef}
+                                            label="Tên tài khoản"
+                                            id="username"
+                                            type="text"
+                                            ref={usernameRef}
+                                            autoFocus
                                         />
-                                    </div>
+                                    </MDBCol>
 
-                                    <div className="d-flex justify-content-center mb-4">
-                                        <MDBCheckbox
-                                            name="flexCheck"
-                                            value=""
-                                            id="flexCheckDefault"
-                                            label="Đồng ý với các điều khoản của chúng tôi"
+                                    <MDBCol col="6">
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Tên người dùng"
+                                            id="name"
+                                            type="text"
+                                            ref={nameRef}
                                         />
-                                    </div>
+                                    </MDBCol>
+                                </MDBRow>
+                                <MDBInput
+                                    wrapperClass="mb-4"
+                                    label="Số điện thoại"
+                                    id="phone"
+                                    type="text"
+                                    ref={phoneRef}
+                                />
+                                <MDBInput
+                                    wrapperClass="mb-4"
+                                    label="Email"
+                                    id="email"
+                                    type="email"
+                                    ref={emailRef}
+                                />
+                                <MDBInput
+                                    wrapperClass="mb-4"
+                                    label="Mật khẩu"
+                                    id="password"
+                                    type="password"
+                                    ref={passwordRef}
+                                />
+                                <MDBInput
+                                    wrapperClass="mb-4"
+                                    label="Địa chỉ"
+                                    id="address"
+                                    type="text"
+                                    ref={addressRef}
+                                />
+                                <div>
+                                    <label className="mb-2 d-flex">Ảnh</label>
+                                    <MDBFile
+                                        wrapperClass="mb-4"
+                                        label=""
+                                        id="avatar"
+                                        className="mb-4"
+                                        ref={avatarRef}
+                                    />
+                                </div>
+
+                                <div className="d-flex justify-content-center mb-4">
+                                    <MDBCheckbox
+                                        name="flexCheck"
+                                        value=""
+                                        id="flexCheckDefault"
+                                        label="Đồng ý với các điều khoản của chúng tôi"
+                                    />
+                                </div>
+
+                                <MDBBtn
+                                    className="w-100 mb-4 btn-register"
+                                    size="lg"
+                                    type="submit"
+                                >
+                                    ĐĂNG KÝ
+                                </MDBBtn>
+
+                                <div className="text-center">
+                                    <p>
+                                        Already Register?{" "}
+                                        <Link to="/login">Đăng nhập</Link>
+                                    </p>
+                                    <p>or sign up with:</p>
 
                                     <MDBBtn
-                                        className="w-100 mb-4 btn-register"
-                                        size="lg"
-                                        type="submit"
+                                        tag="a"
+                                        color="none"
+                                        className="mx-3"
+                                        style={{ color: "#1266f1" }}
                                     >
-                                        ĐĂNG KÝ
+                                        <MDBIcon
+                                            fab
+                                            icon="facebook-f"
+                                            size="sm"
+                                        />
                                     </MDBBtn>
 
-                                    <div className="text-center">
-                                        <p>
-                                            Already Register?{" "}
-                                            <Link to="/login">Đăng nhập</Link>
-                                        </p>
-                                        <p>or sign up with:</p>
+                                    <MDBBtn
+                                        tag="a"
+                                        color="none"
+                                        className="mx-3"
+                                        style={{ color: "#1266f1" }}
+                                    >
+                                        <MDBIcon fab icon="twitter" size="sm" />
+                                    </MDBBtn>
 
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="facebook-f"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
+                                    <MDBBtn
+                                        tag="a"
+                                        color="none"
+                                        className="mx-3"
+                                        style={{ color: "#1266f1" }}
+                                    >
+                                        <MDBIcon fab icon="google" size="sm" />
+                                    </MDBBtn>
 
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="twitter"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
-
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="google"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
-
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="github"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
-                                    </div>
-                                </MDBCardBody>
-                            </MDBCard>
-                        </MDBContainer>
-                    </form>
-                </div>
-                <FooterMini />
+                                    <MDBBtn
+                                        tag="a"
+                                        color="none"
+                                        className="mx-3"
+                                        style={{ color: "#1266f1" }}
+                                    >
+                                        <MDBIcon fab icon="github" size="sm" />
+                                    </MDBBtn>
+                                </div>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBContainer>
+                </form>
             </div>
-        );
-    }
+            <FooterMini />
+        </div>
+    );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        language: state.app.language,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeLanguageAppRedux: (language) => {
-            dispatch(changeLanguageApp(language));
-        },
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default Register;
