@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../../contexts/ContextProvider";
-import axios from "../../../axios";
 
 import { ToastLogoutSuccess } from "../../../hoc/Toast/Toast";
 import "./Header.scss";
@@ -13,7 +12,9 @@ function Header() {
 
     const idUser = localStorage.getItem("Id");
     useEffect(() => {
-        fetchData();
+        if (idUser) {
+            fetchData();
+        }
     }, [idUser]);
     const onLogout = () => {
         setId(null);

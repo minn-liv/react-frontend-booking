@@ -60,7 +60,7 @@ function Login() {
         }
     };
 
-    const delay = 1500;
+    const delay = 1000;
     useEffect(() => {
         if (loginSuccess) {
             const timeout = setTimeout(() => {
