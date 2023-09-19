@@ -75,7 +75,7 @@ function Register() {
         }
     };
 
-    const delay = 3000;
+    const delay = 1500;
     useEffect(() => {
         if (registerSuccess) {
             const timeout = setTimeout(() => {

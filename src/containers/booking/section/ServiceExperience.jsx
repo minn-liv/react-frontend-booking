@@ -27,29 +27,29 @@ class ServiceExperience extends Component {
                     />
                 </Link>
 
-                <div className="service-experience-container">
-                    <Link to="/services" className="service-experience-box">
+                <div className="service-experience-container row">
+                    <Link to="/services" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Thuốc uốn cao cấp</h4>
                             <p>Được sao Hàn tin dùng</p>
                         </div>
                     </Link>
-                    <Link to="/services" className="service-experience-box">
+                    <Link to="/services" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Style tay nghề cao</h4>
                             <p>100% áp dụng công nghệ giao...</p>
                         </div>
                     </Link>
-                    <Link to="/services" className="service-experience-box">
+                    <Link to="/services" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Đa dạng phong cách</h4>
                             <p>Bao đẹp trai với mọi khuôn mặt</p>
                         </div>
                     </Link>
-                    <Link to="/services" className="service-experience-box">
+                    <Link to="/services" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Cắt gội message</h4>

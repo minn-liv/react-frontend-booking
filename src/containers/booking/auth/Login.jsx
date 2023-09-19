@@ -28,7 +28,7 @@ function Login() {
     const passwordRef = useRef();
 
     const navigate = useNavigate();
-    const { setUser, setId } = useStateContext();
+    const { setUser, setId, id } = useStateContext();
 
     const onSubmit = (ev) => {
         ev.preventDefault();
@@ -60,7 +60,7 @@ function Login() {
         }
     };
 
-    const delay = 1500;
+    const delay = 1000;
     useEffect(() => {
         if (loginSuccess) {
             const timeout = setTimeout(() => {

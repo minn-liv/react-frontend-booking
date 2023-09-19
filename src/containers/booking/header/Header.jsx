@@ -1,36 +1,38 @@
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../../contexts/ContextProvider";
-import axios from "../../../axios";
 
 import { ToastLogoutSuccess } from "../../../hoc/Toast/Toast";
 import "./Header.scss";
 import avatar7 from "../../../assets/avatar/avatar7.jpg";
 
 function Header() {
-    const { id, setId } = useStateContext();
-    const [user, setUser] = useState({});
+    const { user, id, setId, setUser } = useStateContext();
     const [logoutSuccess, setLogoutSuccess] = useState(false);
 
     const idUser = localStorage.getItem("Id");
     useEffect(() => {
-        axios
-            .get(`/api/v1/ClientLogin/user/${idUser}`)
-            .then((response) => {
-                setUser(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [id]);
-
-    const onLogout = (ev) => {
+        if (idUser) {
+            fetchData();
+        }
+    }, [idUser]);
+    const onLogout = () => {
         setId(null);
-        setUser({});
+        setUser(null);
         setLogoutSuccess(true);
     };
 
+    const fetchData = async () => {
+        try {
+            const response = await fetch(
+                `https://localhost:7109/api/v1/ClientLogin/user/${idUser}`
+            );
+            const result = await response.json();
+            setUser(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
     return (
         <nav>
             <ToastLogoutSuccess showToast={logoutSuccess} />
@@ -59,7 +61,23 @@ function Header() {
                             Tìm baber gần nhất
                         </a>
                     </li>
-                    {!id && (
+                    {idUser ? (
+                        <li className="nav__profile">
+                            <div className="nav__profile-avatar">
+                                <img src={avatar7} alt="" />
+                            </div>
+                            <ul>
+                                <li>
+                                    <Link to={`profile/${user.clientId}`}>
+                                        Thông tin cá nhân
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a onClick={onLogout}>Đăng xuất</a>
+                                </li>
+                            </ul>
+                        </li>
+                    ) : (
                         <ul style={{ display: "flex", gap: "2rem" }}>
                             <li>
                                 <Link
@@ -78,21 +96,6 @@ function Header() {
                                 </Link>
                             </li>
                         </ul>
-                    )}
-                    {id && (
-                        <li className="nav__profile">
-                            <div className="nav__profile-avatar">
-                                <img src={avatar7} alt="" />
-                            </div>
-                            <ul>
-                                <li>
-                                    <a href="">Thông tin cá nhân</a>
-                                </li>
-                                <li>
-                                    <a onClick={onLogout}>Đăng xuất</a>
-                                </li>
-                            </ul>
-                        </li>
                     )}
                 </ul>
                 {/* <div className="nav__items--language">
