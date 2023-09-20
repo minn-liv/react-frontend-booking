@@ -8,7 +8,7 @@ import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
 import avatar7 from "../../../assets/avatar/avatar7.jpg";
-import blog1 from "../../../assets/blog/blog1.jpg";
+import background_test from "../../../assets/blog/background_test.jpg";
 
 function SinglePost() {
     return (
@@ -33,7 +33,7 @@ function SinglePost() {
                         </div>
                     </div>
                     <div className="singlepost__thumbnail">
-                        <img src={blog1} alt="" />
+                        <img src={background_test} alt="" />
                     </div>
                     <p>
                         Lorem ipsum dolor, sit amet consectetur adipisicing

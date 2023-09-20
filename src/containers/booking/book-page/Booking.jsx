@@ -14,6 +14,7 @@ import {
     MDBTextArea,
 } from "mdb-react-ui-kit";
 
+import axios from "../../../axios";
 import "./Booking.scss";
 import Header from "../header/Header";
 
@@ -23,16 +24,49 @@ class Register extends Component {
 
         this.usernameRef = createRef();
         this.passwordRef = createRef();
+
+        this.state = {
+            branches: [],
+            staffList: [],
+            services: [],
+        };
     }
 
-    handleOnChangeInput = (event, id) => {
-        let copyState = { ...this.state };
-        copyState[id] = event.target.value;
+    componentDidMount() {
+        //branch nè
+        axios
+            .get("api/v1/Booking/branches")
+            .then((response) => {
+                const branches = response.data;
+                console.log("Branch data from API:", branches);
+                this.setState({ branches });
+            })
+            .catch((error) => {
+                console.error("Error fetching branch data:", error);
+            });
 
-        this.state({
-            ...copyState,
-        });
-    };
+        //Staff nè
+        axios
+            .get("api/AdminApi")
+            .then((staffResponse) => {
+                const staffList = staffResponse.data;
+                this.setState({ staffList });
+            })
+            .catch((staffError) => {
+                console.error("Error fetching staff data:", staffError);
+            });
+        //Services nè
+        axios
+            .get("api/ServiceApi")
+            .then((servicesResponse) => {
+                const services = servicesResponse.data;
+                this.setState({ services });
+            })
+            .catch((servicesError) => {
+                console.error("Error fetching services data:", servicesError);
+            });
+    }
+
     onSubmit = (ev) => {
         ev.preventDefault();
         const payload = {
@@ -53,6 +87,7 @@ class Register extends Component {
     ];
 
     render() {
+        const { branches, staffList, services } = this.state;
         return (
             <div className="">
                 <Header />
@@ -110,26 +145,16 @@ class Register extends Component {
                                         Chọn chi nhánh *
                                     </h3>
                                     <div className="radio-branch">
-                                        <MDBRadio
-                                            name="flexRadioDefault"
-                                            id="flexRadioDefault1"
-                                            label="QUẬN 1: 77 Yersin, Quận 1, TP. HCM"
-                                            defaultChecked
-                                        />
-                                    </div>
-                                    <div className="radio-branch">
-                                        <MDBRadio
-                                            name="flexRadioDefault"
-                                            id="flexRadioDefault2"
-                                            label="QUẬN 2: 37 Xuân Thủy, Phường Thảo Điền, Quận 2"
-                                        />
-                                    </div>
-                                    <div className="radio-branch">
-                                        <MDBRadio
-                                            name="flexRadioDefault"
-                                            id="flexRadioDefault3"
-                                            label="QUẬN 3: 262c Điện Biên Phủ, P. Võ Thị Sáu"
-                                        />
+                                        {branches.map((branch) => (
+                                            <div key={branch.branchId}>
+                                                <MDBRadio
+                                                    name="branch"
+                                                    id={`branch-${branch.branchId}`}
+                                                />
+                                                <h2>{branch.address}</h2>
+                                                <h2>{branch.hotline}</h2>
+                                            </div>
+                                        ))}
                                     </div>
                                     <h3 className="text-start">
                                         Yêu cầu kỹ thuật viên *
@@ -139,12 +164,14 @@ class Register extends Component {
                                         id=""
                                         className="select-staff"
                                     >
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">
-                                            Mercedes
-                                        </option>
-                                        <option value="audi">Audi</option>
+                                        {staffList.map((staff) => (
+                                            <option
+                                                key={staff.staffId}
+                                                value={staff.staffId}
+                                            >
+                                                {staff.name}
+                                            </option>
+                                        ))}
                                     </select>
                                     <h3 className="text-start">Dịch vụ *</h3>
                                     <select
@@ -152,16 +179,14 @@ class Register extends Component {
                                         id=""
                                         className="select-service"
                                     >
-                                        <option value="volvo">
-                                            Uốn lạnh 300.000đ
-                                        </option>
-                                        <option value="saab">
-                                            Nhuộm 7 màu 500.000đ
-                                        </option>
-                                        <option value="mercedes">
-                                            Nhuộm 1000 màu 1 tỷ
-                                        </option>
-                                        <option value="audi">Audi</option>
+                                        {services.map((service) => (
+                                            <option
+                                                key={service.serviceId}
+                                                value={service.serviceId}
+                                            >
+                                                {service.name} - {service.price}
+                                            </option>
+                                        ))}
                                     </select>
                                     <h4 className="text-start">Tổng tiền: </h4>
                                     <h4 className="text-start">

@@ -8,7 +8,7 @@ import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
 import avatar7 from "../../../assets/avatar/avatar7.jpg";
-import blog1 from "../../../assets/blog/blog1.jpg";
+import background_test from "../../../assets/blog/background_test.jpg";
 
 function Blog() {
     return (
@@ -17,14 +17,14 @@ function Blog() {
             <section className="blog__featured">
                 <div className="container featured__container">
                     <div className="post__thumbnail">
-                        <img src={blog1} alt="" />
+                        <img src={background_test} alt="" />
                     </div>
                     <div className="post__info">
                         <a href="" className="post__category-button">
                             Wild Life
                         </a>
                         <h2 className="post__title">
-                            <a href="">Lorem ipsum, dolor sit ament</a>
+                            <Link to="/post">Lorem ipsum, dolor sit ament</Link>
                         </h2>
                         <p className="post__body">
                             Lorem ipsum, dolor sit ament, Lorem ipsum, dolor sit
@@ -53,14 +53,16 @@ function Blog() {
                 <div className="container post_container">
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={blog1} alt="" />
+                            <img src={background_test} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
-                                <a href="">Lorem ipsum, dolor sit ament</a>
+                                <Link to="/post">
+                                    Lorem ipsum, dolor sit ament
+                                </Link>
                             </h3>
                             <p className="post__body">
                                 Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
@@ -86,14 +88,16 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={blog1} alt="" />
+                            <img src={background_test} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
-                                <a href="">Lorem ipsum, dolor sit ament</a>
+                                <Link to="/post">
+                                    Lorem ipsum, dolor sit ament
+                                </Link>
                             </h3>
                             <p className="post__body">
                                 Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
@@ -119,14 +123,16 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={blog1} alt="" />
+                            <img src={background_test} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
-                                <a href="">Lorem ipsum, dolor sit ament</a>
+                                <Link to="/post">
+                                    Lorem ipsum, dolor sit ament
+                                </Link>
                             </h3>
                             <p className="post__body">
                                 Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
@@ -152,14 +158,16 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={blog1} alt="" />
+                            <img src={background_test} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
-                                <a href="">Lorem ipsum, dolor sit ament</a>
+                                <Link to="/post">
+                                    Lorem ipsum, dolor sit ament
+                                </Link>
                             </h3>
                             <p className="post__body">
                                 Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
@@ -185,14 +193,16 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={blog1} alt="" />
+                            <img src={background_test} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
-                                <a href="">Lorem ipsum, dolor sit ament</a>
+                                <Link to="/post">
+                                    Lorem ipsum, dolor sit ament
+                                </Link>
                             </h3>
                             <p className="post__body">
                                 Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
@@ -218,14 +228,16 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={blog1} alt="" />
+                            <img src={background_test} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
-                                <a href="">Lorem ipsum, dolor sit ament</a>
+                                <Link to="/post">
+                                    Lorem ipsum, dolor sit ament
+                                </Link>
                             </h3>
                             <p className="post__body">
                                 Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
