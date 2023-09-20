@@ -52,9 +52,9 @@ function Header() {
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="nav__items-link">
+                        <Link to="/blog" className="nav__items-link">
                             Hành trình tỏa sáng
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a href="" className="nav__items-link">

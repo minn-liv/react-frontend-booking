@@ -31,7 +31,7 @@ class Services extends Component {
         return (
             <div>
                 <Header />
-                <section>
+                <section className="service-section">
                     <div className="container container-service">
                         <div className="service-block service-block-first">
                             <div className="service-block-title">

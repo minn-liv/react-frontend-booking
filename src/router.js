@@ -6,6 +6,8 @@ import NotFound from "./containers/error/NotFound";
 import Booking from "./containers/booking/book-page/Booking";
 import Profile from "./containers/booking/profile/Profile";
 import Services from "./containers/booking/services/Services";
+import Blog from "./containers/booking/blog/Blog";
+import SinglePost from "./containers/booking/blog/SinglePost";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
     {
         path: "/services",
         element: <Services />,
+    },
+    {
+        path: "/blog",
+        element: <Blog />,
+    },
+    {
+        path: "/post",
+        element: <SinglePost />,
     },
     {
         path: "/profile/:id",
