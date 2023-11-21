@@ -5,7 +5,7 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import { ToastLogoutSuccess } from "../../../hoc/Toast/Toast";
 import "./Header.scss";
 import avatar7 from "../../../assets/avatar/avatar7.jpg";
-
+import icon_vo_van from "../../../assets/icon_vo_van.png";
 function Header() {
     const { user, id, setId, setUser } = useStateContext();
     const [logoutSuccess, setLogoutSuccess] = useState(false);
@@ -38,7 +38,7 @@ function Header() {
             <ToastLogoutSuccess showToast={logoutSuccess} />
             <div className="container-custom nav__container">
                 <Link to="/" className="nav__logo">
-                    Avatar Đẹp Trai
+                    <img src={icon_vo_van} />
                 </Link>
                 <ul className="nav__items">
                     <li>

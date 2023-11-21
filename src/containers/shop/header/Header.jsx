@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import icon_vo_van from "../../../assets/icon_vo_van.png";
 import "./Header.scss";
 
 function Header() {
@@ -9,7 +9,7 @@ function Header() {
             <nav className="nav__shop">
                 <div className="container-custom nav__container">
                     <Link to="/" className="nav__logo">
-                        Avatar Đẹp Trai
+                        <img src={icon_vo_van} />
                     </Link>
                     <ul className="nav__items">
                         <li>

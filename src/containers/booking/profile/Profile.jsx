@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import {
     MDBCol,
@@ -18,27 +18,35 @@ import {
     MDBModalFooter,
     MDBInput,
 } from "mdb-react-ui-kit";
-import { useStateContext } from "../../../contexts/ContextProvider";
 
+import { useStateContext } from "../../../contexts/ContextProvider";
+import axios from "../../../axios";
 import "./Profile.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
 function Profile() {
     const { user, id, setId, setUser } = useStateContext();
-
-    const [loginSuccess, setLoginSuccess] = useState(false);
     const [basicModal, setBasicModal] = useState(false);
 
     const nameRef = useRef();
     const phoneRef = useRef();
     const addressRef = useRef();
     const idUser = localStorage.getItem("Id");
+
+    useEffect(() => {
+        if (user) {
+            nameRef.current.value = user.name || "";
+            phoneRef.current.value = user.phone || "";
+            addressRef.current.value = user.address || "";
+        }
+    }, [user]);
+
     if (!idUser) {
         return <Navigate to="/login" />;
     }
 
-    const onSubmit = (ev) => {
+    const onSubmit = async (ev) => {
         ev.preventDefault();
         const payload = {
             name: nameRef.current.value,
@@ -46,11 +54,33 @@ function Profile() {
             address: addressRef.current.value,
         };
         if (payload) {
-            console.log(payload);
+            try {
+                const clientId = user.clientId;
+                const response = await axios.put(
+                    `/api/v1/ClientUpdateApi/update/${clientId}`,
+                    payload
+                );
+                if (response.status === 200) {
+                    const data = response.data;
+                    console.log(data);
+                    console.log(
+                        data.name,
+                        data.phone,
+                        data.address,
+                        data.email
+                    );
+                } else {
+                    console.error("Failed to update client:", response.data);
+                }
+            } catch (error) {
+                console.error("Error updating client", error);
+            }
         }
     };
 
-    const toggleShow = () => setBasicModal(!basicModal);
+    const toggleShow = () => {
+        setBasicModal(!basicModal);
+    };
 
     return (
         <div className="">
@@ -101,11 +131,14 @@ function Profile() {
                                 <MDBModalFooter>
                                     <MDBBtn
                                         color="secondary"
+                                        type="button"
                                         onClick={toggleShow}
                                     >
                                         Close
                                     </MDBBtn>
-                                    <MDBBtn type="submit">Save changes</MDBBtn>
+                                    <MDBBtn type="submit" onClick={toggleShow}>
+                                        Save changes
+                                    </MDBBtn>
                                 </MDBModalFooter>
                             </MDBModalContent>
                         </MDBModalDialog>
