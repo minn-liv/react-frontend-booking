@@ -8,6 +8,10 @@ import Profile from "./containers/booking/profile/Profile";
 import Services from "./containers/booking/services/Services";
 import Blog from "./containers/booking/blog/Blog";
 import SinglePost from "./containers/booking/blog/SinglePost";
+import HomePageShop from "./containers/shop/home-page/HomePageShop";
+import CategoryShop from "./containers/shop/category/CategoryShop";
+import Cart from "./containers/shop/cart/Cart";
+import Product from "./containers/shop/product/Product";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -36,6 +40,22 @@ const router = createBrowserRouter([
     {
         path: "/post",
         element: <SinglePost />,
+    },
+    {
+        path: "/shop",
+        element: <HomePageShop />,
+    },
+    {
+        path: "/category",
+        element: <CategoryShop />,
+    },
+    {
+        path: "/cart",
+        element: <Cart />,
+    },
+    {
+        path: "/product",
+        element: <Product />,
     },
     {
         path: "/profile/:id",

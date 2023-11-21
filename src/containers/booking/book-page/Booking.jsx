@@ -1,9 +1,8 @@
-import React, { Component, useState, createRef } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MDBBtn } from "mdb-react-ui-kit";
-import { LANGUAGES } from "../../../utils/Constants";
 import { changeLanguageApp } from "../../../store/actions";
+import Select from "react-select";
 import {
     MDBContainer,
     MDBCard,
@@ -22,20 +21,22 @@ class Register extends Component {
     constructor(props) {
         super(props);
 
-        this.usernameRef = createRef();
-        this.passwordRef = createRef();
-
         this.state = {
             branches: [],
             staffList: [],
             services: [],
+            selectedBranchId: null,
+            staffListByBranch: [],
+            selectedStaffId: null,
+            selectedServiceId: null,
+            selectedServicePrice: 0,
         };
     }
 
     componentDidMount() {
         //branch nè
         axios
-            .get("api/v1/Booking/branches")
+            .get("/api/v1/Booking/branches")
             .then((response) => {
                 const branches = response.data;
                 console.log("Branch data from API:", branches);
@@ -50,6 +51,8 @@ class Register extends Component {
             .get("api/AdminApi")
             .then((staffResponse) => {
                 const staffList = staffResponse.data;
+                console.log("Branch data from API:", staffList);
+
                 this.setState({ staffList });
             })
             .catch((staffError) => {
@@ -57,9 +60,11 @@ class Register extends Component {
             });
         //Services nè
         axios
-            .get("api/ServiceApi")
+            .get("/api/ServiceApi")
             .then((servicesResponse) => {
                 const services = servicesResponse.data;
+                console.log("Branch data from API:", services);
+
                 this.setState({ services });
             })
             .catch((servicesError) => {
@@ -67,27 +72,104 @@ class Register extends Component {
             });
     }
 
-    onSubmit = (ev) => {
-        ev.preventDefault();
-        const payload = {
-            username: this.usernameRef.current.value,
-            password: this.passwordRef.current.value,
-        };
-        if (payload) {
-            console.log(payload);
+    getStaffByBranch = (branchId) => {
+        const staffList = this.state.staffList;
+        const filteredStaffList = staffList.filter(
+            (staff) => staff.branchId === branchId
+        );
+        return filteredStaffList;
+    };
+
+    handleBranchChange = (event) => {
+        const selectedBranchId = parseInt(event.target.value);
+        const staffListByBranch = this.getStaffByBranch(selectedBranchId);
+
+        this.setState({
+            selectedBranchId: selectedBranchId,
+            staffListByBranch: staffListByBranch,
+            selectedStaffId: null,
+        });
+    };
+
+    handleServiceChange = (event) => {
+        const selectedServiceId = parseInt(event.target.value);
+        const selectedService = this.state.services.find(
+            (service) => service.serviceId === selectedServiceId
+        );
+
+        if (selectedService) {
+            this.setState({
+                selectedServiceId: selectedServiceId,
+                selectedServicePrice: selectedService.price,
+            });
+        } else {
+            this.setState({
+                selectedServiceId: null,
+                selectedServicePrice: 0,
+            });
         }
     };
 
-    data = [
-        { text: "One", value: 1 },
-        { text: "Two", value: 2 },
-        { text: "Three", value: 3 },
-        { text: "Four", value: 4 },
-        { text: "Other", value: 5 },
-    ];
+    onSubmit = (ev) => {
+        ev.preventDefault();
+
+        const phone = document.getElementById("phone").value;
+        const name = document.getElementById("password").value;
+        const selectedStaffId = document.querySelector(".select-staff").value;
+        const selectedServiceId =
+            document.querySelector(".select-service").value;
+        const selectedBranchId = document
+            .querySelector('input[name="branch"]:checked')
+            .id.split("-")[1];
+        const selectedDate = document.querySelector(".input-date").value;
+        const note = document.getElementById("textAreaExample").value;
+        const idUser = localStorage.getItem("Id");
+
+        const clientId = idUser ? parseInt(idUser) : null;
+        if (
+            phone &&
+            name &&
+            selectedStaffId &&
+            selectedServiceId &&
+            selectedBranchId &&
+            selectedDate
+        ) {
+            const payload = {
+                phone: phone,
+                name: name,
+                staffId: parseInt(selectedStaffId),
+                comboId: parseInt(selectedServiceId),
+                branchId: parseInt(selectedBranchId),
+                dateTime: selectedDate,
+                note: note,
+                status: true,
+                clientId: clientId,
+            };
+
+            axios
+                .post("/api/v1/Booking/create", payload)
+                .then((response) => {
+                    console.log("Booking created:", response.data);
+                })
+                .catch((error) => {
+                    console.error("Error creating booking:", error);
+                });
+        } else {
+            console.error("All required fields must be filled.");
+        }
+    };
+
+    // data = [
+    //     { text: "One", value: 1 },
+    //     { text: "Two", value: 2 },
+    //     { text: "Three", value: 3 },
+    //     { text: "Four", value: 4 },
+    //     { text: "Other", value: 5 },
+    // ];
 
     render() {
         const { branches, staffList, services } = this.state;
+        console.log("check check", this.state.services);
         return (
             <div className="">
                 <Header />
@@ -114,7 +196,7 @@ class Register extends Component {
                             >
                                 <MDBCardBody className="p-5 text-center">
                                     <h2 className="fw-bold mb-5">
-                                        Đặt lịch lẹ mấy cha ơi :3
+                                        Đặt lịch ne
                                     </h2>
                                     <h3 className="text-start">
                                         Quý khách vui lòng cho biết thông tin
@@ -127,15 +209,13 @@ class Register extends Component {
                                         label="Số điện thoại"
                                         id="phone"
                                         type="text"
-                                        ref={this.usernameRef}
                                         size="lg"
                                     />
                                     <MDBInput
                                         wrapperClass="mb-4"
                                         label="Họ và tên"
                                         id="password"
-                                        type="password"
-                                        ref={this.passwordRef}
+                                        type="text"
                                         size="lg"
                                     />
                                     <h3 className="text-start">
@@ -147,12 +227,21 @@ class Register extends Component {
                                     <div className="radio-branch">
                                         {branches.map((branch) => (
                                             <div key={branch.branchId}>
-                                                <MDBRadio
+                                                <input
+                                                    type="radio"
                                                     name="branch"
                                                     id={`branch-${branch.branchId}`}
+                                                    onChange={
+                                                        this.handleBranchChange
+                                                    }
+                                                    value={branch.branchId}
                                                 />
-                                                <h2>{branch.address}</h2>
-                                                <h2>{branch.hotline}</h2>
+                                                <label
+                                                    htmlFor={`branch-${branch.branchId}`}
+                                                >
+                                                    <h2>{branch.address}</h2>
+                                                    <h2>{branch.hotline}</h2>
+                                                </label>
                                             </div>
                                         ))}
                                     </div>
@@ -162,33 +251,56 @@ class Register extends Component {
                                     <select
                                         name=""
                                         id=""
-                                        className="select-staff"
+                                        className="form-control select-staff"
+                                        value={this.state.selectedStaffId}
+                                        onChange={(event) =>
+                                            this.setState({
+                                                selectedStaffId:
+                                                    event.target.value,
+                                            })
+                                        }
                                     >
-                                        {staffList.map((staff) => (
-                                            <option
-                                                key={staff.staffId}
-                                                value={staff.staffId}
-                                            >
-                                                {staff.name}
-                                            </option>
-                                        ))}
+                                        <option value="" disabled>
+                                            Chọn nhân viên
+                                        </option>
+                                        {this.state.staffListByBranch.map(
+                                            (staff) => (
+                                                <option
+                                                    key={staff.staffId}
+                                                    value={staff.staffId}
+                                                >
+                                                    {staff.name}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <h3 className="text-start">Dịch vụ *</h3>
                                     <select
-                                        name=""
-                                        id=""
                                         className="select-service"
+                                        onChange={this.handleServiceChange}
+                                        value={this.state.selectedServiceId}
                                     >
+                                        <option value="" disabled>
+                                            Select a service
+                                        </option>
                                         {services.map((service) => (
                                             <option
                                                 key={service.serviceId}
                                                 value={service.serviceId}
                                             >
-                                                {service.name} - {service.price}
+                                                {service.name}
                                             </option>
                                         ))}
                                     </select>
-                                    <h4 className="text-start">Tổng tiền: </h4>
+                                    <Select
+                                        className="select-service"
+                                        onChange={this.handleServiceChange}
+                                        value={this.state.services.name}
+                                    />
+                                    <h4 className="text-start">
+                                        Price services:{" "}
+                                        {this.state.selectedServicePrice}
+                                    </h4>
                                     <h4 className="text-start">
                                         Thời lượng dự kiến:{" "}
                                     </h4>

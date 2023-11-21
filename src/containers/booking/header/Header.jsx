@@ -47,7 +47,7 @@ function Header() {
                         </Link>
                     </li>
                     <li>
-                        <a href="#" className="nav__items-link">
+                        <a href="/shop" className="nav__items-link">
                             Cửa hàng
                         </a>
                     </li>

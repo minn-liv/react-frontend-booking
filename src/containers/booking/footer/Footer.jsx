@@ -1,13 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
 
-import { LANGUAGES } from "../../../utils/Constants";
 import "./Footer.scss";
 import { changeLanguageApp } from "../../../store/actions";
-
-import { UilReact, UilYoutube } from "@iconscout/react-unicons/icons/uil-react";
 
 class Header extends Component {
     constructor(props) {

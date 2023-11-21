@@ -1,27 +1,27 @@
 .card-body {
-  padding: 0rem 3rem 3rem 3rem !important;
+    padding: 0rem 3rem 3rem 3rem !important;
 
-  .btn-register {
-    background: #fc2 !important;
-    box-shadow: 0 4px 9px -4px #fc2 !important;
-    opacity: 0.6;
+    .btn-register {
+        background: #fc2 !important;
+        box-shadow: 0 4px 9px -4px #fc2 !important;
+        opacity: 0.6;
 
-    &:hover {
-      opacity: 1;
+        &:hover {
+            opacity: 1;
+        }
     }
-  }
 }
 
 .alert_message {
-  padding: 1.25rem 1.5rem;
-  border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.5rem;
 }
 .success {
-  background-color: #d6f0e0;
-  color: #0d6832;
+    background-color: #d6f0e0;
+    color: #0d6832;
 }
 
 .failed {
-  background-color: #f9e1e5;
-  color: #af233a;
+    background-color: #f9e1e5;
+    color: #af233a;
 }

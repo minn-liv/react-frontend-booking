@@ -1,0 +1,22 @@
+.policy-menu {
+    .menu-item {
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 0 !important;
+        padding-left: 0 !important;
+        li {
+            border-right: 1px solid #ddd;
+            margin: 1.5rem;
+            padding: 1rem;
+            padding-right: 5rem;
+            p {
+                margin-bottom: 0 !important;
+                font-size: 18px;
+            }
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}

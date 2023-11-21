@@ -1,0 +1,82 @@
+.cart-container {
+    .cart-title {
+        font-size: 2rem;
+        padding: 2rem 2rem 0 2rem;
+    }
+    .cart-main {
+        min-height: 610px;
+        .cart-list {
+            .cart-item {
+                display: flex;
+                gap: 2rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid #ddd;
+                input {
+                    width: 2%;
+                    cursor: pointer;
+                }
+                .cart-item-box {
+                    display: flex;
+                    gap: 1rem;
+                    img {
+                        width: 64px;
+                        height: 64px;
+                    }
+
+                    p {
+                        color: black;
+                        font-size: 1rem;
+                    }
+
+                    .cart-item-price {
+                        padding: 0.5rem 0;
+                        font-weight: 600;
+                    }
+
+                    .cart-item-button {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
+
+        .cart-checkout-box {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            .cart-checkout-select-all {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                input {
+                    width: 24px;
+                    height: 24px;
+                    cursor: pointer;
+                }
+
+                p {
+                    font-size: 16px;
+                    color: black;
+                    font-weight: 600;
+                }
+            }
+
+            .cart-checkout-button {
+                display: flex;
+                gap: 1rem;
+                button {
+                    padding: 1rem;
+                    background: #ffe985;
+                    border: 1px solid;
+                    border-radius: 5px;
+                }
+                p {
+                    font-size: 16px;
+                    color: black;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
