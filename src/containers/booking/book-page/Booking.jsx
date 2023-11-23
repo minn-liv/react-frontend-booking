@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useState, createRef } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { MDBBtn } from "mdb-react-ui-kit";
+import { LANGUAGES } from "../../../utils/Constants";
 import { changeLanguageApp } from "../../../store/actions";
-import Select from "react-select";
+import { Navigate } from "react-router-dom";
 import {
     MDBContainer,
     MDBCard,
@@ -16,6 +18,7 @@ import {
 import axios from "../../../axios";
 import "./Booking.scss";
 import Header from "../header/Header";
+import FooterMini from "../footer/FooterMini";
 
 class Register extends Component {
     constructor(props) {
@@ -74,9 +77,7 @@ class Register extends Component {
 
     getStaffByBranch = (branchId) => {
         const staffList = this.state.staffList;
-        const filteredStaffList = staffList.filter(
-            (staff) => staff.branchId === branchId
-        );
+        const filteredStaffList = staffList.filter((staff) => staff.branchId === branchId);
         return filteredStaffList;
     };
 
@@ -87,7 +88,7 @@ class Register extends Component {
         this.setState({
             selectedBranchId: selectedBranchId,
             staffListByBranch: staffListByBranch,
-            selectedStaffId: null,
+            selectedStaffId: null, 
         });
     };
 
@@ -112,32 +113,21 @@ class Register extends Component {
 
     onSubmit = (ev) => {
         ev.preventDefault();
-
+    
         const phone = document.getElementById("phone").value;
         const name = document.getElementById("password").value;
         const selectedStaffId = document.querySelector(".select-staff").value;
-        const selectedServiceId =
-            document.querySelector(".select-service").value;
-        const selectedBranchId = document
-            .querySelector('input[name="branch"]:checked')
-            .id.split("-")[1];
+        const selectedServiceId = document.querySelector(".select-service").value;
+        const selectedBranchId = document.querySelector('input[name="branch"]:checked').id.split("-")[1]; 
         const selectedDate = document.querySelector(".input-date").value;
         const note = document.getElementById("textAreaExample").value;
         const idUser = localStorage.getItem("Id");
-
         const clientId = idUser ? parseInt(idUser) : null;
-        if (
-            phone &&
-            name &&
-            selectedStaffId &&
-            selectedServiceId &&
-            selectedBranchId &&
-            selectedDate
-        ) {
+        if (phone && name && selectedStaffId && selectedServiceId && selectedBranchId && selectedDate) {
             const payload = {
                 phone: phone,
                 name: name,
-                staffId: parseInt(selectedStaffId),
+                staffId: parseInt(selectedStaffId), 
                 comboId: parseInt(selectedServiceId),
                 branchId: parseInt(selectedBranchId),
                 dateTime: selectedDate,
@@ -145,7 +135,7 @@ class Register extends Component {
                 status: true,
                 clientId: clientId,
             };
-
+            
             axios
                 .post("/api/v1/Booking/create", payload)
                 .then((response) => {
@@ -158,22 +148,12 @@ class Register extends Component {
             console.error("All required fields must be filled.");
         }
     };
-
-    // data = [
-    //     { text: "One", value: 1 },
-    //     { text: "Two", value: 2 },
-    //     { text: "Three", value: 3 },
-    //     { text: "Four", value: 4 },
-    //     { text: "Other", value: 5 },
-    // ];
-
+    
     render() {
         const { branches, staffList, services } = this.state;
-        console.log("check check", this.state.services);
         return (
             <div className="">
                 <Header />
-
                 <div
                     className=""
                     style={{ background: "#f5f5f5", paddingBottom: "1rem" }}
@@ -224,28 +204,23 @@ class Register extends Component {
                                     <h3 className="text-start">
                                         Chọn chi nhánh *
                                     </h3>
-                                    <div className="radio-branch">
-                                        {branches.map((branch) => (
-                                            <div key={branch.branchId}>
-                                                <input
-                                                    type="radio"
-                                                    name="branch"
-                                                    id={`branch-${branch.branchId}`}
-                                                    onChange={
-                                                        this.handleBranchChange
-                                                    }
-                                                    value={branch.branchId}
-                                                />
-                                                <label
-                                                    htmlFor={`branch-${branch.branchId}`}
-                                                >
-                                                    <h2>{branch.address}</h2>
-                                                    <h2>{branch.hotline}</h2>
-                                                </label>
-                                            </div>
-                                        ))}
+                                    <div className="select-branch">
+                                        <select
+                                            name="branch"
+                                            id="select-branch"
+                                            className="form-control select-branch"
+                                            value={this.state.selectedBranchId}
+                                            onChange={this.handleBranchChange}
+                                        >
+                                            <option value="" disabled>Chọn chi nhánh</option>
+                                            {branches.map((branch) => (
+                                            <option key={branch.branchId} value={branch.branchId}>
+                                                {branch.address} - {branch.hotline}
+                                            </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                    <h3 className="text-start">
+                                    <h3 className="text-stajrt">
                                         Yêu cầu kỹ thuật viên *
                                     </h3>
                                     <select
@@ -253,36 +228,24 @@ class Register extends Component {
                                         id=""
                                         className="form-control select-staff"
                                         value={this.state.selectedStaffId}
-                                        onChange={(event) =>
-                                            this.setState({
-                                                selectedStaffId:
-                                                    event.target.value,
-                                            })
-                                        }
+                                        onChange={(event) => this.setState({ selectedStaffId: event.target.value })}
                                     >
-                                        <option value="" disabled>
-                                            Chọn nhân viên
-                                        </option>
-                                        {this.state.staffListByBranch.map(
-                                            (staff) => (
-                                                <option
-                                                    key={staff.staffId}
-                                                    value={staff.staffId}
-                                                >
-                                                    {staff.name}
-                                                </option>
-                                            )
-                                        )}
+                                        <option value="" disabled>Chọn nhân viên</option>
+                                        {this.state.staffListByBranch.map((staff) => (
+                                            <option key={staff.staffId} value={staff.staffId}>
+                                                {staff.name}
+                                            </option>
+                                        ))}
                                     </select>
                                     <h3 className="text-start">Dịch vụ *</h3>
                                     <select
+                                        name=""
+                                        id=""
                                         className="select-service"
                                         onChange={this.handleServiceChange}
                                         value={this.state.selectedServiceId}
                                     >
-                                        <option value="" disabled>
-                                            Select a service
-                                        </option>
+                                        <option value="" disabled>Select a service</option>
                                         {services.map((service) => (
                                             <option
                                                 key={service.serviceId}
@@ -292,14 +255,8 @@ class Register extends Component {
                                             </option>
                                         ))}
                                     </select>
-                                    <Select
-                                        className="select-service"
-                                        onChange={this.handleServiceChange}
-                                        value={this.state.services.name}
-                                    />
                                     <h4 className="text-start">
-                                        Price services:{" "}
-                                        {this.state.selectedServicePrice}
+                                        Price services: {this.state.selectedServicePrice}
                                     </h4>
                                     <h4 className="text-start">
                                         Thời lượng dự kiến:{" "}
@@ -331,9 +288,7 @@ class Register extends Component {
                 </div>
 
                 <div className="footer-login d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-                    <div className="text-white mb-3 mb-md-0">
-                        Copyright © 2020. All rights reserved.
-                    </div>
+                     <FooterMini/>
                     <div>
                         <MDBBtn
                             tag="a"

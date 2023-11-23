@@ -1,6 +1,23 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "../../../axios";
 import "./MainShop.scss";
-import sanpham1 from "../../../assets/shop/product/sanpham1.jpg";
 function MainShop() {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get("/api/ProductApi");
+                console.log("API Response:", response.data);
+                setProducts(response.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+    
+        fetchProducts();
+    }, []);
     return (
         <div className="shop-container">
             <div className="shop-title text-center">
@@ -19,103 +36,17 @@ function MainShop() {
             </div>
             <div className="shop-main-content container mt-3">
                 <div className="shop-main-card">
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item " href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                    <a className="shop-main-item" href="#">
-                        <img src={sanpham1} />
-                        <h3>
-                            Kem ngày Dưỡng trắng Kiềm dầu 5 trong 1 UNO UV
-                            Perfection Gel
-                        </h3>
-                        <p>199.999 đ</p>
-                    </a>
-                </div>
+                {products.map((product) => (
+                    <Link key={product.ProductId} to={`/product/${product.productId}`}>
+                        <div key={product.ProductId} className="shop-main-item">
+                            <img src={`https://localhost:7109${product.image}`} alt={product.name} />
+                            <h3><strong>{product.name}</strong></h3>
+                            <h3>Mã Sản phảm: {product.productId}</h3>
+                            <p>{product.price} đ</p>
+                        </div>
+                    </Link>
+                ))}
+            </div>
                 <div className="shop-main-show-more">
                     <button className="text-center">Xem thêm</button>
                 </div>

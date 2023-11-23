@@ -12,6 +12,7 @@ import HomePageShop from "./containers/shop/home-page/HomePageShop";
 import CategoryShop from "./containers/shop/category/CategoryShop";
 import Cart from "./containers/shop/cart/Cart";
 import Product from "./containers/shop/product/Product";
+import MainShop from "./containers/shop/main-shop/MainShop";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
         element: <Cart />,
     },
     {
-        path: "/product",
+        path: "/product/:productId", 
         element: <Product />,
     },
     {

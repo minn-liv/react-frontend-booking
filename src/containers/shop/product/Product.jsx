@@ -1,9 +1,10 @@
 import "./Product.scss";
-import React, { Component } from "react";
+import React, { Component,useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../header/Header";
 import FooterMini from "../../booking/footer/FooterMini";
-import sanpham1 from "../../../assets/shop/product/sanpham1.jpg";
 import Banner from "../../shop/trending/Trending";
+import axios from "../../../axios";
 
 import icon1 from "../../../assets/shop/product/cam-ket.png";
 import icon2 from "../../../assets/shop/product/mua-1-duoc-5.png";
@@ -13,18 +14,40 @@ import icon5 from "../../../assets/shop/product/giao-hang-trong-24h.png";
 import icon6 from "../../../assets/shop/product/doi-tra-24h.png";
 import icon7 from "../../../assets/shop/product/tong-dai-tu-van.png";
 import icon8 from "../../../assets/shop/product/an-toan-chuan-quoc-te.png";
-class Product extends Component {
-    render() {
+function Product() {
+    const { productId } = useParams();
+    const [product, setProduct] = useState(null);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          if (productId) {
+            const response = await axios.get(`/api/ProductApi/${productId}`);
+            const productData = response.data;
+            setProduct(productData);
+          }
+        } catch (error) {
+          console.error("Error fetching product:", error);
+        }
+      };
+  
+      fetchData();
+    }, [productId]);
+  
+
+    if (!product) {
+        return <p>Loading...</p>;
+    }
+
         return (
             <React.Fragment>
                 <Header />
                 <div className="product-container container">
                     <div className="product-info-main">
-                        <img src={sanpham1} />
-                        <p className="mb-0 product-price">1.000.000.000 đ</p>
+                        <img src={`https://localhost:7109${product.image}`} />
+                        <p className="mb-0 product-price">{product.price} đ</p>
                         <p className="mb-0 product-name">
-                            Sáp vuốt tóc Tạo kiểu Giữ nếp tự nhiên UNO Hybrid
-                            Hard
+                        {product.name} 
                         </p>
                     </div>
                     <div className="product-policy">
@@ -150,7 +173,7 @@ class Product extends Component {
                 <FooterMini />
             </React.Fragment>
         );
-    }
+    
 }
 
 export default Product;
