@@ -84,13 +84,14 @@ class Register extends Component {
     handleBranchChange = (event) => {
         const selectedBranchId = parseInt(event.target.value);
         const staffListByBranch = this.getStaffByBranch(selectedBranchId);
-
+    
         this.setState({
             selectedBranchId: selectedBranchId,
             staffListByBranch: staffListByBranch,
-            selectedStaffId: null, 
+            selectedStaffId: null,
         });
     };
+    
 
     handleServiceChange = (event) => {
         const selectedServiceId = parseInt(event.target.value);
@@ -201,25 +202,25 @@ class Register extends Component {
                                     <h3 className="text-start">
                                         Thông tin dịch vụ
                                     </h3>
-                                    <h3 className="text-start">
-                                        Chọn chi nhánh *
-                                    </h3>
+                                    <h3 className="text-start">Chọn chi nhánh *</h3>
                                     <div className="select-branch">
-                                        <select
-                                            name="branch"
-                                            id="select-branch"
-                                            className="form-control select-branch"
-                                            value={this.state.selectedBranchId}
-                                            onChange={this.handleBranchChange}
-                                        >
-                                            <option value="" disabled>Chọn chi nhánh</option>
-                                            {branches.map((branch) => (
-                                            <option key={branch.branchId} value={branch.branchId}>
-                                                {branch.address} - {branch.hotline}
-                                            </option>
-                                            ))}
-                                        </select>
+                                        {branches.map((branch) => (
+                                            <div key={branch.branchId}>
+                                                <input
+                                                    type="radio"
+                                                    id={`branch-${branch.branchId}`}
+                                                    name="branch"
+                                                    value={branch.branchId}
+                                                    checked={this.state.selectedBranchId === branch.branchId}
+                                                    onChange={this.handleBranchChange}
+                                                />
+                                                <label htmlFor={`branch-${branch.branchId}`}>
+                                                    {branch.address} - {branch.hotline}
+                                                </label>
+                                            </div>
+                                        ))}
                                     </div>
+
                                     <h3 className="text-stajrt">
                                         Yêu cầu kỹ thuật viên *
                                     </h3>
