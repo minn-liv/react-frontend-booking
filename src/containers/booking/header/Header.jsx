@@ -68,7 +68,7 @@ function Header() {
                             </div>
                             <ul>
                                 <li>
-                                    <Link to={`profile/${user.clientId}`}>
+                                    <Link to={`profile/${idUser}`}>
                                         Thông tin cá nhân
                                     </Link>
                                 </li>
