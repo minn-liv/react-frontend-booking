@@ -5,6 +5,7 @@ import Header from "../header/Header";
 import FooterMini from "../../booking/footer/FooterMini";
 import Banner from "../../shop/trending/Trending";
 import axios from "../../../axios";
+import { useSelector } from "react-redux";
 
 import icon1 from "../../../assets/shop/product/cam-ket.png";
 import icon2 from "../../../assets/shop/product/mua-1-duoc-5.png";
@@ -17,7 +18,32 @@ import icon8 from "../../../assets/shop/product/an-toan-chuan-quoc-te.png";
 function Product() {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+    const userInfo = useSelector(state => state.user.userInfo);
+
+    const handleQuantityChange = (e) => {
+      setQuantity(parseInt(e.target.value, 10));
+    };
   
+    const handleAddToCart = async () => {
+        
+        try {
+            console.log("User ID:", userInfo.userID);
+            console.log("Product ID:", product.id);
+            console.log("Quantity:", quantity);
+            const response = await axios.post("/api/v1/ClientBuyProductApi/AddToCart", {
+                UserId: userInfo.userID, 
+              ProductId: product.id,
+              Quantity: quantity,
+            });
+          console.log(userInfo.userID);
+            console.log("Server Response:", response.data);
+          } catch (error) {
+            console.error("Error adding to cart:", error);
+          }
+          
+    };
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -166,7 +192,7 @@ function Product() {
                     <Banner />
                 </div>
                 <div className="product-checkout">
-                    <button>THÊM VÀO GIỎ HÀNG</button>
+                    <button onClick={handleAddToCart}>THÊM VÀO GIỎ HÀNG</button>
                     <button className="product-checkout-buy">MUA NGAY</button>
                 </div>
 
