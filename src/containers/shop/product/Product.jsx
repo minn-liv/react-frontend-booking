@@ -27,22 +27,21 @@ function Product() {
     };
   
     const handleAddToCart = async () => {
-        
         try {
             console.log("User ID:", userInfo.userID);
-            console.log("Product ID:", product.id);
+            console.log("Product ID:", product.productId);
             console.log("Quantity:", quantity);
             const response = await axios.post("/api/v1/ClientBuyProductApi/AddToCart", {
-                UserId: userInfo.userID, 
-              ProductId: product.id,
-              Quantity: quantity,
+                UserId: userInfo.userID,
+                ProductId: product.productId,
+                Quantity: quantity,
+                User: {},
+                Product: {}
             });
-          console.log(userInfo.userID);
             console.log("Server Response:", response.data);
-          } catch (error) {
-            console.error("Error adding to cart:", error);
-          }
-          
+        } catch (error) {
+        console.error("Error adding to cart:", error);
+        } 
     };
 
     useEffect(() => {
