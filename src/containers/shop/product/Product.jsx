@@ -17,6 +17,7 @@ import icon7 from "../../../assets/shop/product/tong-dai-tu-van.png";
 import icon8 from "../../../assets/shop/product/an-toan-chuan-quoc-te.png";
 function Product() {
     const { productId } = useParams();
+    console.log("Product ID:", productId);
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const userInfo = useSelector(state => state.user.userInfo);

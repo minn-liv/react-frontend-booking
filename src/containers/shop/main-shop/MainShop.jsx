@@ -37,8 +37,8 @@ function MainShop() {
             <div className="shop-main-content container mt-3">
                 <div className="shop-main-card">
                 {products.map((product) => (
-                    <Link key={product.ProductId} to={`/product/${product.productId}`}>
-                        <div key={product.ProductId} className="shop-main-item">
+                    <Link key={product.productId} to={`/product/${product.productId}`}>
+                        <div key={product.productId} className="shop-main-item">
                             <img src={`https://localhost:7109${product.image}`} alt={product.name} />
                             <h3><strong>{product.name}</strong></h3>
                             <h3>Mã Sản phảm: {product.productId}</h3>
