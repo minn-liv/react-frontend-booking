@@ -43,7 +43,23 @@ function Product() {
         console.error("Error adding to cart:", error);
         } 
     };
-
+    const handleBuyNow = async () => {
+        try {
+            console.log("User ID:", userInfo.userID);
+            console.log("Product ID:", product.productId);
+            console.log("Quantity:", quantity);
+            const response = await axios.post("/api/v1/ClientBuyProductApi/BuyNow", {
+                UserId: userInfo.userID,
+                ProductId: product.productId,
+                Quantity: quantity,
+                User: {},
+                Product: {}
+            });
+            console.log("Server Response:", response.data);
+        } catch (error) {
+        console.error("Error adding to cart:", error);
+        } 
+    };
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -193,7 +209,7 @@ function Product() {
                 </div>
                 <div className="product-checkout">
                     <button onClick={handleAddToCart}>THÊM VÀO GIỎ HÀNG</button>
-                    <button className="product-checkout-buy">MUA NGAY</button>
+                    <button onClick={handleBuyNow} className="product-checkout-buy">MUA NGAY</button>
                 </div>
 
                 <FooterMini />
