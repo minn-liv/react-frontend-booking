@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { Component } from "react";
 import { Navigate } from "react-router-dom";
 import {
     MDBCol,
@@ -18,44 +18,59 @@ import {
     MDBModalFooter,
     MDBInput,
 } from "mdb-react-ui-kit";
+import { connect } from "react-redux";
 
-import { useStateContext } from "../../../contexts/ContextProvider";
 import axios from "../../../axios";
 import "./Profile.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
-function Profile() {
-    const { user, id, setId, setUser } = useStateContext();
-    const [basicModal, setBasicModal] = useState(false);
-
-    const nameRef = useRef();
-    const phoneRef = useRef();
-    const addressRef = useRef();
-    const idUser = localStorage.getItem("Id");
-
-    useEffect(() => {
-        if (user) {
-            nameRef.current.value = user.name || "";
-            phoneRef.current.value = user.phone || "";
-            addressRef.current.value = user.address || "";
-        }
-    }, [user]);
-
-    if (!idUser) {
-        return <Navigate to="/login" />;
+class Profile extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            name: "",
+            phone: "",
+            address: "",
+            userData: "",
+        };
     }
 
-    const onSubmit = async (ev) => {
-        ev.preventDefault();
+    // if (!idUser) {
+    //     return <Navigate to="/login" />;
+    // }
+    fetchData = async () => {
+        try {
+            if (this.props.userInfo.userID) {
+                const response = await fetch(
+                    `https://localhost:7109/api/v1/ClientLogin/user/${this.props.userInfo.userID}`
+                );
+                const user = await response.json();
+                this.setState({
+                    email: user.email,
+                    name: user.name,
+                    phone: user.phone,
+                    address: user.address,
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+    componentDidUpdate() {
+        this.fetchData();
+    }
+
+    onSubmit = async () => {
         const payload = {
-            name: nameRef.current.value,
-            phone: phoneRef.current.value,
-            address: addressRef.current.value,
+            name: "",
+            phone: "",
+            address: "",
         };
         if (payload) {
             try {
-                const clientId = user.clientId;
+                const clientId = this.props.userInfo.userID;
                 const response = await axios.put(
                     `/api/v1/ClientUpdateApi/update/${clientId}`,
                     payload
@@ -78,15 +93,15 @@ function Profile() {
         }
     };
 
-    const toggleShow = () => {
-        setBasicModal(!basicModal);
-    };
-
-    return (
-        <div className="">
-            <Header />
-            <section style={{ backgroundColor: "#eee" }}>
-                <MDBModal
+    // toggleShow = () => {
+    //     setBasicModal(!basicModal);
+    // };
+    render() {
+        return (
+            <div className="">
+                <Header />
+                <section style={{ backgroundColor: "#eee" }}>
+                    {/* <MDBModal
                     show={basicModal}
                     setShow={setBasicModal}
                     tabIndex="-1"
@@ -143,91 +158,106 @@ function Profile() {
                             </MDBModalContent>
                         </MDBModalDialog>
                     </form>
-                </MDBModal>
-                <MDBContainer className="py-5">
-                    <MDBRow>
-                        <MDBCol lg="4">
-                            <MDBCard className="mb-4">
-                                <MDBCardBody className="profile-avatar-container text-center ps-4">
-                                    <MDBCardImage
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                        alt="avatar"
-                                        className="rounded-circle"
-                                        fluid
-                                    />
-                                    <p
-                                        className="text-muted mb-4 mt-4"
-                                        style={{ fontSize: "20px" }}
-                                    >
-                                        {user.username}
-                                    </p>
-                                    <div className="d-flex justify-content-center mb-2">
-                                        <MDBBtn onClick={toggleShow}>
-                                            Chỉnh sửa thông tin
-                                        </MDBBtn>
-                                    </div>
-                                </MDBCardBody>
-                            </MDBCard>
-                        </MDBCol>
-                        <MDBCol lg="8">
-                            <MDBCard className="mb-4">
-                                <MDBCardBody className="profile-information-container">
-                                    <MDBRow>
-                                        <MDBCol sm="3">
-                                            <MDBCardText>
-                                                Tên người dùng
-                                            </MDBCardText>
-                                        </MDBCol>
-                                        <MDBCol sm="9">
-                                            <MDBCardText className="text-muted">
-                                                {user.name}
-                                            </MDBCardText>
-                                        </MDBCol>
-                                    </MDBRow>
-                                    <hr />
-                                    <MDBRow>
-                                        <MDBCol sm="3">
-                                            <MDBCardText>Email</MDBCardText>
-                                        </MDBCol>
-                                        <MDBCol sm="9">
-                                            <MDBCardText className="text-muted">
-                                                {user.email}
-                                            </MDBCardText>
-                                        </MDBCol>
-                                    </MDBRow>
-                                    <hr />
-                                    <MDBRow>
-                                        <MDBCol sm="3">
-                                            <MDBCardText>
-                                                Số điện thoại
-                                            </MDBCardText>
-                                        </MDBCol>
-                                        <MDBCol sm="9">
-                                            <MDBCardText className="text-muted">
-                                                {user.phone}
-                                            </MDBCardText>
-                                        </MDBCol>
-                                    </MDBRow>
-                                    <hr />
-                                    <MDBRow>
-                                        <MDBCol sm="3">
-                                            <MDBCardText>Địa chỉ</MDBCardText>
-                                        </MDBCol>
-                                        <MDBCol sm="9">
-                                            <MDBCardText className="text-muted">
-                                                {user.address}
-                                            </MDBCardText>
-                                        </MDBCol>
-                                    </MDBRow>
-                                </MDBCardBody>
-                            </MDBCard>
-                        </MDBCol>
-                    </MDBRow>
-                </MDBContainer>
-            </section>
-            <FooterMini />
-        </div>
-    );
+                </MDBModal> */}
+                    <MDBContainer className="py-5">
+                        <MDBRow>
+                            <MDBCol lg="4">
+                                <MDBCard className="mb-4">
+                                    <MDBCardBody className="profile-avatar-container text-center ps-4">
+                                        <MDBCardImage
+                                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                            alt="avatar"
+                                            className="rounded-circle"
+                                            fluid
+                                        />
+                                        <p
+                                            className="text-muted mb-4 mt-4"
+                                            style={{ fontSize: "20px" }}
+                                        >
+                                            {this.state.name}
+                                        </p>
+                                        <div className="d-flex justify-content-center mb-2">
+                                            <MDBBtn
+                                                onClick={() => this.fetchData()}
+                                            >
+                                                Chỉnh sửa thông tin
+                                            </MDBBtn>
+                                        </div>
+                                    </MDBCardBody>
+                                </MDBCard>
+                            </MDBCol>
+                            <MDBCol lg="8">
+                                <MDBCard className="mb-4">
+                                    <MDBCardBody className="profile-information-container">
+                                        <MDBRow>
+                                            <MDBCol sm="3">
+                                                <MDBCardText>
+                                                    Tên người dùng
+                                                </MDBCardText>
+                                            </MDBCol>
+                                            <MDBCol sm="9">
+                                                <MDBCardText className="text-muted">
+                                                    {this.state.name}
+                                                </MDBCardText>
+                                            </MDBCol>
+                                        </MDBRow>
+                                        <hr />
+                                        <MDBRow>
+                                            <MDBCol sm="3">
+                                                <MDBCardText>Email</MDBCardText>
+                                            </MDBCol>
+                                            <MDBCol sm="9">
+                                                <MDBCardText className="text-muted">
+                                                    {this.state.email}
+                                                </MDBCardText>
+                                            </MDBCol>
+                                        </MDBRow>
+                                        <hr />
+                                        <MDBRow>
+                                            <MDBCol sm="3">
+                                                <MDBCardText>
+                                                    Số điện thoại
+                                                </MDBCardText>
+                                            </MDBCol>
+                                            <MDBCol sm="9">
+                                                <MDBCardText className="text-muted">
+                                                    {this.state.phone}
+                                                </MDBCardText>
+                                            </MDBCol>
+                                        </MDBRow>
+                                        <hr />
+                                        <MDBRow>
+                                            <MDBCol sm="3">
+                                                <MDBCardText>
+                                                    Địa chỉ
+                                                </MDBCardText>
+                                            </MDBCol>
+                                            <MDBCol sm="9">
+                                                <MDBCardText className="text-muted">
+                                                    {this.state.address}
+                                                </MDBCardText>
+                                            </MDBCol>
+                                        </MDBRow>
+                                    </MDBCardBody>
+                                </MDBCard>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBContainer>
+                </section>
+                <FooterMini />
+            </div>
+        );
+    }
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.user.userInfo,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

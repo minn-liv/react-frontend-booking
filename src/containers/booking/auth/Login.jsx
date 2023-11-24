@@ -1,8 +1,6 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Component } from "react";
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { LANGUAGES } from "../../../utils/Constants";
-import { changeLanguageApp } from "../../../store/actions";
 import {
     MDBBtn,
     MDBContainer,
@@ -11,47 +9,64 @@ import {
     MDBInput,
     MDBIcon,
 } from "mdb-react-ui-kit";
-
+import toast, { Toaster } from "react-hot-toast";
 import axios from "../../../axios";
 
+import * as actions from "../../../store/actions";
 import "./Login.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 import { ToastLoginSuccess } from "../../../hoc/Toast/Toast";
-import { useStateContext } from "../../../contexts/ContextProvider";
 
-function Login() {
-    const [loginSuccess, setLoginSuccess] = useState(false);
-    const [errors, setErrors] = useState(null);
+class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: "",
+            errMessage: "",
+        };
+    }
 
-    const usernameRef = useRef();
-    const passwordRef = useRef();
+    onChangeUsername = (event) => {
+        this.setState({
+            username: event.target.value,
+        });
+    };
+    onChangePassword = (event) => {
+        this.setState({
+            password: event.target.value,
+        });
+    };
 
-    const navigate = useNavigate();
-    const { setUser, setId, id } = useStateContext();
-
-    const onSubmit = (ev) => {
-        ev.preventDefault();
-
+    onLogin = async () => {
+        this.setState({
+            errMessage: "",
+        });
         const payload = {
-            username: usernameRef.current.value,
-            password: passwordRef.current.value,
+            username: this.state.username,
+            password: this.state.password,
         };
         if (!payload.username) {
-            setErrors("Vui lòng nhập tên đăng nhập");
+            this.setState({
+                errMessage: "Vùi lòng nhập tên tài khoản",
+            });
         } else if (!payload.password) {
-            setErrors("Vui lòng nhập mật khẩu");
+            this.setState({
+                errMessage: "Vui lòng nhập mật khẩu",
+            });
         } else {
             axios
                 .post("api/v1/ClientLogin/Login", payload)
                 .then((response) => {
-                    setLoginSuccess(true);
-                    setId(response.data.userID);
+                    this.props.userLoginSuccess(response.data);
                 })
                 .catch((error) => {
                     if (error.response) {
                         if (error.response.status === 400) {
-                            setErrors("Sai tên tài khoản hoặc mật khẩu !");
+                            this.setState({
+                                errMessage: "Sai tên tài khoản hoặc mật khẩu",
+                            });
                         } else {
                             console.log("Lỗi khi gửi yêu cầu:", error.message);
                         }
@@ -60,21 +75,12 @@ function Login() {
         }
     };
 
-    const delay = 1000;
-    useEffect(() => {
-        if (loginSuccess) {
-            const timeout = setTimeout(() => {
-                navigate("/");
-            }, delay);
-        }
-    }, [loginSuccess]);
-
-    return (
-        <div className="">
-            <Header />
-            <ToastLoginSuccess showToast={loginSuccess} />
-            <div className="" style={{ background: "#f5f5f5" }}>
-                <form onSubmit={onSubmit}>
+    render() {
+        return (
+            <div className="">
+                {this.props.isLoggedIn && <Navigate to="/" />}
+                <Header />
+                <div className="" style={{ background: "#f5f5f5" }}>
                     <MDBContainer
                         fluid
                         className=" overflow-hidden"
@@ -91,9 +97,9 @@ function Login() {
                             }}
                         >
                             <MDBCardBody className="p-5 text-center">
-                                {errors && (
+                                {this.state.errMessage && (
                                     <div className="alert_message failed">
-                                        {errors}
+                                        {this.state.errMessage}
                                     </div>
                                 )}
                                 <h2 className="fw-bold mb-5">ĐĂNG NHẬP</h2>
@@ -101,25 +107,31 @@ function Login() {
                                 <MDBInput
                                     wrapperClass="mb-4"
                                     label="Tên tài khoản"
-                                    id="phone"
                                     type="text"
-                                    ref={usernameRef}
                                     size="lg"
+                                    value={this.state.username}
+                                    onChange={(event) =>
+                                        this.onChangeUsername(event)
+                                    }
                                     autoFocus
                                 />
                                 <MDBInput
                                     wrapperClass="mb-4"
                                     label="Mật khẩu"
-                                    id="password"
                                     type="password"
-                                    ref={passwordRef}
+                                    value={this.state.password}
+                                    onChange={(event) =>
+                                        this.onChangePassword(event)
+                                    }
                                     size="lg"
                                 />
 
                                 <MDBBtn
                                     className="w-100 mb-4 btn-register"
                                     size="lg"
-                                    type="submit"
+                                    onClick={() => {
+                                        this.onLogin();
+                                    }}
                                 >
                                     ĐĂNG NHẬP
                                 </MDBBtn>
@@ -174,11 +186,24 @@ function Login() {
                             </MDBCardBody>
                         </MDBCard>
                     </MDBContainer>
-                </form>
+                </div>
+                <FooterMini />
             </div>
-            <FooterMini />
-        </div>
-    );
+        );
+    }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+    return {
+        isLoggedIn: state.user.isLoggedIn,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userLoginSuccess: (userInfo) =>
+            dispatch(actions.userLoginSuccess(userInfo)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

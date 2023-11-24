@@ -1,12 +1,17 @@
 import React, { Component } from "react";
+import { Navigate } from "react-router-dom";
+
 import "./Cart.scss";
 import Header from "../header/Header";
+import { connect } from "react-redux";
+import * as actions from "../../../store/actions";
 import FooterMini from "../../booking/footer/FooterMini";
 import sanpham1 from "../../../assets/shop/product/sanpham1.jpg";
 class CategoryShop extends Component {
     render() {
         return (
             <React.Fragment>
+                {!this.props.isLoggedIn && <Navigate to="/login" />}
                 <Header />
                 <div className="cart-container">
                     <p className="cart-title container">
@@ -119,4 +124,14 @@ class CategoryShop extends Component {
         );
     }
 }
-export default CategoryShop;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.user.userInfo,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryShop);
