@@ -207,7 +207,7 @@ function Product() {
             </div>
             <div className="product-checkout">
                 <button onClick={handleAddToCart}>THÊM VÀO GIỎ HÀNG</button>
-                <button className="product-checkout-buy">MUA NGAY</button>
+                <button onClick={handleBuyNow} className="product-checkout-buy">MUA NGAY</button>
             </div>
 
             <FooterMini />

@@ -1,0 +1,87 @@
+.filter-container {
+    .filter-title {
+        padding: 2rem 2rem 0 2rem;
+        font-size: 26px;
+        font-weight: 700;
+        color: black;
+    }
+
+    .filter-menu {
+        display: flex;
+        flex-direction: row;
+
+        li {
+            padding: 1rem;
+            font-size: 1.3rem;
+            color: black;
+            cursor: pointer;
+
+            &.filter-menu-selected {
+                border-bottom: 3px solid #f0b000;
+                color: #f0b000;
+            }
+        }
+    }
+
+    .filter-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 3rem;
+        .filter-info-text {
+            font-size: 1.3rem;
+            color: black;
+        }
+        .filter-button {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            p {
+                font-size: 1rem;
+                font-weight: 700;
+            }
+            select {
+                padding: 1rem 2rem;
+                border: 1px solid black;
+                border-radius: 3px;
+            }
+        }
+    }
+    .shop-main-content {
+        .shop-main-card {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            .shop-main-item {
+                border-radius: 0.375rem;
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                &:hover {
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                }
+
+                h3 {
+                    color: black;
+                    font-weight: 300;
+                    padding: 0rem 1rem 0 1rem;
+                }
+                p {
+                    color: #e54d69;
+                    font-weight: 700;
+                    font-size: 20px;
+                    padding: 0rem 1rem 0 1rem;
+                }
+            }
+        }
+        .shop-main-show-more {
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            button {
+                background-color: #fff;
+                border-radius: 6px;
+                padding: 1rem 4rem 1rem 4rem;
+                border: 1px solid black;
+            }
+        }
+    }
+}
