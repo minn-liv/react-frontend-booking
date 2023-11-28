@@ -321,9 +321,7 @@ function Product() {
             </div>
             <div className="product-checkout">
                 <button onClick={handleAddToCart}>THÊM VÀO GIỎ HÀNG</button>
-                <button className="product-checkout-buy" onClick={toggleShow}>
-                    MUA NGAY
-                </button>
+                <button className="product-checkout-buy">MUA NGAY</button>
             </div>
 
             <FooterMini />
