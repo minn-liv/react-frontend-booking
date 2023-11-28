@@ -49,7 +49,7 @@ class CategoryShop extends Component {
                                 <li className="cart-item">
                                     <input type="checkbox" />
                                     <div className="cart-item-box">
-                                        <img src={sanpham1} />
+                                        <img  src={`https://localhost:7109${item.productImage}`}/>
                                         <div>
                                             <p className="mb-0">
                                                 {item.productName}
