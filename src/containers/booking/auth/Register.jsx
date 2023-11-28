@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, Component } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
     MDBBtn,
     MDBContainer,
@@ -17,6 +17,7 @@ import CommonUtils from "../../../utils/CommonUtils";
 import "./Register.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
+import toast, { Toaster } from "react-hot-toast";
 
 import { ToastRegisterSuccess } from "../../../hoc/Toast/Toast";
 // function Register() {
@@ -115,6 +116,7 @@ class Register extends Component {
             password: "",
             address: "",
             avatar: "",
+            registerSuccess: false,
         };
     }
     handleOnChangeImage = async (event) => {
@@ -145,30 +147,30 @@ class Register extends Component {
             ...copyState,
         });
     };
-    checkValidateInput = () => {
-        let isValid = true;
-        let arrCheck = [
-            "email",
-            "password",
-            "firstName",
-            "lastName",
-            "phoneNumber",
-            "address",
-            "gender",
-            "position",
-            "role",
-            "avatar",
-        ];
-        for (let i = 0; i < arrCheck.length; i++) {
-            if (!this.state[arrCheck[i]]) {
-                isValid = false;
-                alert("This is input is required: " + arrCheck[i]);
-                break;
-            }
-        }
+    // checkValidateInput = () => {
+    //     let isValid = true;
+    //     let arrCheck = [
+    //         "email",
+    //         "password",
+    //         "firstName",
+    //         "lastName",
+    //         "phoneNumber",
+    //         "address",
+    //         "gender",
+    //         "position",
+    //         "role",
+    //         "avatar",
+    //     ];
+    //     for (let i = 0; i < arrCheck.length; i++) {
+    //         if (!this.state[arrCheck[i]]) {
+    //             isValid = false;
+    //             alert("This is input is required: " + arrCheck[i]);
+    //             break;
+    //         }
+    //     }
 
-        return isValid;
-    };
+    //     return isValid;
+    // };
 
     onSubmit = () => {
         const payload = {
@@ -180,56 +182,72 @@ class Register extends Component {
             address: this.state.address,
             avatar: this.state.avatar,
         };
-        // if (!payload.username) {
-        //     this.setState({
-        //         errors: "Vui lòng nhập Tên tài khoản",
-        //     });
-        // } else if (!payload.name) {
-        //     this.setState({
-        //         errors: "Vui lòng nhập Tên người dùng",
-        //     });
-        // } else if (!payload.phone) {
-        //     this.setState({
-        //         errors: "Vui lòng nhập Tên người dùng",
-        //     });
-        // } else if (!payload.email) {
-        //     this.setState({
-        //         errors: "Vui lòng nhập Tên người dùng",
-        //     });
-        // } else if (!payload.password) {
-        //     this.setState({
-        //         errors: "Vui lòng nhập Tên người dùng",
-        //     });
-        // } else if (!payload.address) {
-        //     this.setState({
-        //         errors: "Vui lòng nhập Tên người dùng",
-        //     });
-        // } else {
-        console.log(payload);
-        axios
-            .post("api/v1/ClientLogin/Register", payload)
-            .then((response) => {
-                // setRegisterSuccess(true);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    // setErrors(error.response.data);
-                    console.log(error);
-                } else if (error.request) {
-                    console.log("Yêu cầu không thành công:", error.request);
-                } else {
-                    console.log("Lỗi khi gửi yêu cầu:", error.message);
-                }
+        if (!payload.username) {
+            this.setState({
+                errors: "Vui lòng nhập Tên tài khoản",
             });
-        // }
+        } else if (!payload.name) {
+            this.setState({
+                errors: "Vui lòng nhập Tên người dùng",
+            });
+        } else if (!payload.phone) {
+            this.setState({
+                errors: "Vui lòng nhập Số điện thoại",
+            });
+        } else if (!payload.email) {
+            this.setState({
+                errors: "Vui lòng nhập Tên Email",
+            });
+        } else if (!payload.password) {
+            this.setState({
+                errors: "Vui lòng nhập Mật khẩu",
+            });
+        } else if (!payload.address) {
+            this.setState({
+                errors: "Vui lòng nhập Địa chỉ",
+            });
+        } else {
+            axios
+                .post("api/v1/ClientLogin/Register", payload)
+                .then((response) => {
+                    toast.loading("Waiting.....", {
+                        duration: 1500,
+                    });
+                    setTimeout(() => {
+                        toast.success("Đăng ký thành công!");
+                    }, 2000);
+                    setTimeout(() => {
+                        this.setState({
+                            registerSuccess: true,
+                        });
+                    }, 3500);
+                })
+                .catch((error) => {
+                    let errorMessage = error.response.data.message;
+                    this.setState({
+                        errors: errorMessage,
+                    });
+                });
+            // }
+        }
     };
 
     render() {
-        let { username, name, phone, email, password, address, avatar } =
-            this.state;
+        let {
+            username,
+            name,
+            phone,
+            email,
+            password,
+            address,
+            avatar,
+            errors,
+        } = this.state;
         return (
             <div>
+                {this.state.registerSuccess && <Navigate to="/login" />}
                 <Header />
+                <Toaster />
                 {/* <ToastRegisterSuccess showToast={registerSuccess} /> */}
                 <div
                     className="register-container"

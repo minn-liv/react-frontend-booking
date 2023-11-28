@@ -51,11 +51,15 @@ const router = createBrowserRouter([
         element: <CategoryShop />,
     },
     {
+        path: "/cart/:cartId",
+        element: <Cart />,
+    },
+    {
         path: "/cart",
         element: <Cart />,
     },
     {
-        path: "/product/:productId", 
+        path: "/product/:productId",
         element: <Product />,
     },
     {

@@ -17,11 +17,12 @@ class Header extends Component {
             errMessage: "",
         };
     }
-
-    notify = () => toast("Here is your toast.");
-    notifyLogout = () => toast.success("Bạn đã đăng xuất");
+    onLogout = () => {
+        this.props.userLogout();
+        toast.success("Đăng xuất thành công!");
+    };
     render() {
-        const { userLogout, userInfo } = this.props;
+        const { userInfo } = this.props;
         return (
             <nav>
                 <Toaster />
@@ -62,7 +63,9 @@ class Header extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <a onClick={userLogout}>Đăng xuất</a>
+                                        <a onClick={() => this.onLogout()}>
+                                            Đăng xuất
+                                        </a>
                                     </li>
                                 </ul>
                             </li>

@@ -25,6 +25,7 @@ class Login extends Component {
             username: "",
             password: "",
             errMessage: "",
+            loginSuccess: false,
         };
     }
 
@@ -59,7 +60,18 @@ class Login extends Component {
             axios
                 .post("api/v1/ClientLogin/Login", payload)
                 .then((response) => {
-                    this.props.userLoginSuccess(response.data);
+                    toast.loading("Waiting.....", {
+                        duration: 1000,
+                    });
+                    setTimeout(() => {
+                        toast.success("Đăng nhập thành công!");
+                    }, 1500);
+                    setTimeout(() => {
+                        this.setState({
+                            loginSuccess: true,
+                        });
+                        this.props.userLoginSuccess(response.data);
+                    }, 2500);
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -79,6 +91,7 @@ class Login extends Component {
         return (
             <div className="">
                 {this.props.isLoggedIn && <Navigate to="/" />}
+                <Toaster />
                 <Header />
                 <div className="" style={{ background: "#f5f5f5" }}>
                     <MDBContainer

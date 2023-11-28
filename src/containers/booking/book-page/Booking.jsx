@@ -1,10 +1,10 @@
-import React, { Component, useState, createRef } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MDBBtn } from "mdb-react-ui-kit";
-import { LANGUAGES } from "../../../utils/Constants";
 import { changeLanguageApp } from "../../../store/actions";
-import { Navigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+
 import {
     MDBContainer,
     MDBCard,
@@ -42,7 +42,6 @@ class Register extends Component {
             .get("/api/v1/Booking/branches")
             .then((response) => {
                 const branches = response.data;
-                console.log("Branch data from API:", branches);
                 this.setState({ branches });
             })
             .catch((error) => {
@@ -54,8 +53,6 @@ class Register extends Component {
             .get("api/AdminApi")
             .then((staffResponse) => {
                 const staffList = staffResponse.data;
-                console.log("Branch data from API:", staffList);
-
                 this.setState({ staffList });
             })
             .catch((staffError) => {
@@ -66,7 +63,6 @@ class Register extends Component {
             .get("/api/ServiceApi")
             .then((servicesResponse) => {
                 const services = servicesResponse.data;
-                console.log("Branch data from API:", services);
 
                 this.setState({ services });
             })
@@ -77,21 +73,22 @@ class Register extends Component {
 
     getStaffByBranch = (branchId) => {
         const staffList = this.state.staffList;
-        const filteredStaffList = staffList.filter((staff) => staff.branchId === branchId);
+        const filteredStaffList = staffList.filter(
+            (staff) => staff.branchId === branchId
+        );
         return filteredStaffList;
     };
 
     handleBranchChange = (event) => {
         const selectedBranchId = parseInt(event.target.value);
         const staffListByBranch = this.getStaffByBranch(selectedBranchId);
-    
+
         this.setState({
             selectedBranchId: selectedBranchId,
             staffListByBranch: staffListByBranch,
             selectedStaffId: null,
         });
     };
-    
 
     handleServiceChange = (event) => {
         const selectedServiceId = parseInt(event.target.value);
@@ -114,21 +111,48 @@ class Register extends Component {
 
     onSubmit = (ev) => {
         ev.preventDefault();
-    
+        toast.loading("Waiting.....", {
+            duration: 1000,
+        });
         const phone = document.getElementById("phone").value;
         const name = document.getElementById("password").value;
         const selectedStaffId = document.querySelector(".select-staff").value;
-        const selectedServiceId = document.querySelector(".select-service").value;
-        const selectedBranchId = document.querySelector('input[name="branch"]:checked').id.split("-")[1]; 
+        const selectedServiceId =
+            document.querySelector(".select-service").value;
+        const selectedBranchId = document
+            .querySelector('input[name="branch"]:checked')
+            .id.split("-")[1];
         const selectedDate = document.querySelector(".input-date").value;
         const note = document.getElementById("textAreaExample").value;
-        const idUser = localStorage.getItem("Id");
+        // this.props.userInfo && this.props.userInfo.userID
+        //     ? userInfo.userID
+        //     : null;
+        let idUser;
+        if (this.props.userInfo && this.props.userInfo.userID) {
+            idUser = this.props.userInfo.userID;
+        } else {
+            idUser = null;
+        }
         const clientId = idUser ? parseInt(idUser) : null;
-        if (phone && name && selectedStaffId && selectedServiceId && selectedBranchId && selectedDate) {
+        let responseMessage;
+        if (clientId) {
+            responseMessage = "Đặt lịch thành công. Vui lòng kiểm tra Email!";
+        } else {
+            responseMessage =
+                "Đặt lịch thành công. Nhân viên sẽ liên hệ với bạn thông qua điện thoại";
+        }
+        if (
+            phone &&
+            name &&
+            selectedStaffId &&
+            selectedServiceId &&
+            selectedBranchId &&
+            selectedDate
+        ) {
             const payload = {
                 phone: phone,
                 name: name,
-                staffId: parseInt(selectedStaffId), 
+                staffId: parseInt(selectedStaffId),
                 comboId: parseInt(selectedServiceId),
                 branchId: parseInt(selectedBranchId),
                 dateTime: selectedDate,
@@ -136,20 +160,24 @@ class Register extends Component {
                 status: true,
                 clientId: clientId,
             };
-            
+
             axios
                 .post("/api/v1/Booking/create", payload)
                 .then((response) => {
-                    console.log("Booking created:", response.data);
+                    setTimeout(() => {
+                        toast.success(responseMessage);
+                    }, 500);
                 })
                 .catch((error) => {
-                    console.error("Error creating booking:", error);
+                    setTimeout(() => {
+                        toast.error("Đặt lịch thất bại. Vui lòng thử lại!");
+                    }, 500);
                 });
         } else {
             console.error("All required fields must be filled.");
         }
     };
-    
+
     render() {
         const { branches, staffList, services } = this.state;
         return (
@@ -202,7 +230,9 @@ class Register extends Component {
                                     <h3 className="text-start">
                                         Thông tin dịch vụ
                                     </h3>
-                                    <h3 className="text-start">Chọn chi nhánh *</h3>
+                                    <h3 className="text-start">
+                                        Chọn chi nhánh *
+                                    </h3>
                                     <div className="select-branch">
                                         {branches.map((branch) => (
                                             <div key={branch.branchId}>
@@ -211,11 +241,20 @@ class Register extends Component {
                                                     id={`branch-${branch.branchId}`}
                                                     name="branch"
                                                     value={branch.branchId}
-                                                    checked={this.state.selectedBranchId === branch.branchId}
-                                                    onChange={this.handleBranchChange}
+                                                    checked={
+                                                        this.state
+                                                            .selectedBranchId ===
+                                                        branch.branchId
+                                                    }
+                                                    onChange={
+                                                        this.handleBranchChange
+                                                    }
                                                 />
-                                                <label htmlFor={`branch-${branch.branchId}`}>
-                                                    {branch.address} - {branch.hotline}
+                                                <label
+                                                    htmlFor={`branch-${branch.branchId}`}
+                                                >
+                                                    {branch.address} -{" "}
+                                                    {branch.hotline}
                                                 </label>
                                             </div>
                                         ))}
@@ -229,14 +268,26 @@ class Register extends Component {
                                         id=""
                                         className="form-control select-staff"
                                         value={this.state.selectedStaffId}
-                                        onChange={(event) => this.setState({ selectedStaffId: event.target.value })}
+                                        onChange={(event) =>
+                                            this.setState({
+                                                selectedStaffId:
+                                                    event.target.value,
+                                            })
+                                        }
                                     >
-                                        <option value="" disabled>Chọn nhân viên</option>
-                                        {this.state.staffListByBranch.map((staff) => (
-                                            <option key={staff.staffId} value={staff.staffId}>
-                                                {staff.name}
-                                            </option>
-                                        ))}
+                                        <option value="" disabled>
+                                            Chọn nhân viên
+                                        </option>
+                                        {this.state.staffListByBranch.map(
+                                            (staff) => (
+                                                <option
+                                                    key={staff.staffId}
+                                                    value={staff.staffId}
+                                                >
+                                                    {staff.name}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <h3 className="text-start">Dịch vụ *</h3>
                                     <select
@@ -246,7 +297,9 @@ class Register extends Component {
                                         onChange={this.handleServiceChange}
                                         value={this.state.selectedServiceId}
                                     >
-                                        <option value="" disabled>Select a service</option>
+                                        <option value="" disabled>
+                                            Select a service
+                                        </option>
                                         {services.map((service) => (
                                             <option
                                                 key={service.serviceId}
@@ -257,7 +310,8 @@ class Register extends Component {
                                         ))}
                                     </select>
                                     <h4 className="text-start">
-                                        Price services: {this.state.selectedServicePrice}
+                                        Price services:{" "}
+                                        {this.state.selectedServicePrice}
                                     </h4>
                                     <h4 className="text-start">
                                         Thời lượng dự kiến:{" "}
@@ -289,7 +343,7 @@ class Register extends Component {
                 </div>
 
                 <div className="footer-login d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-                     <FooterMini/>
+                    <FooterMini />
                     <div>
                         <MDBBtn
                             tag="a"
@@ -335,16 +389,12 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        language: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        changeLanguageAppRedux: (language) => {
-            dispatch(changeLanguageApp(language));
-        },
-    };
+    return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

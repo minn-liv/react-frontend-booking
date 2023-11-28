@@ -34,6 +34,7 @@ class Profile extends Component {
             phone: "",
             address: "",
             userData: "",
+            basicModal: false,
         };
     }
 
@@ -93,72 +94,75 @@ class Profile extends Component {
         }
     };
 
-    // toggleShow = () => {
-    //     setBasicModal(!basicModal);
-    // };
+    toggleShow = () => {
+        this.setState({
+            // basicModal: !this.state.basicModal,
+        });
+    };
     render() {
+        let userInfo = this.props.userInfo;
         return (
             <div className="">
                 <Header />
                 <section style={{ backgroundColor: "#eee" }}>
-                    {/* <MDBModal
-                    show={basicModal}
-                    setShow={setBasicModal}
-                    tabIndex="-1"
-                >
-                    <form action="" onSubmit={onSubmit}>
-                        <MDBModalDialog>
-                            <MDBModalContent>
-                                <MDBModalHeader>
-                                    <MDBModalTitle>
-                                        Chỉnh sửa thông tin
-                                    </MDBModalTitle>
-                                    <MDBBtn
-                                        className="btn-close"
-                                        color="none"
-                                        onClick={toggleShow}
-                                    ></MDBBtn>
-                                </MDBModalHeader>
-                                <MDBModalBody>
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Tên Người Dùng"
-                                        id="name"
-                                        type="text"
-                                        ref={nameRef}
-                                    />
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Số điện thoại"
-                                        id="phone"
-                                        type="text"
-                                        ref={phoneRef}
-                                    />
-                                    <MDBInput
-                                        wrapperClass="mb-4"
-                                        label="Địa chỉ"
-                                        id="address"
-                                        type="text"
-                                        ref={addressRef}
-                                    />
-                                </MDBModalBody>
+                    <MDBModal
+                        show={this.state.basicModal}
+                        setShow={() => this.toggleShow()}
+                        tabIndex="-1"
+                    >
+                        <form action="">
+                            <MDBModalDialog>
+                                <MDBModalContent>
+                                    <MDBModalHeader>
+                                        <MDBModalTitle>
+                                            Chỉnh sửa thông tin
+                                        </MDBModalTitle>
+                                        <MDBBtn
+                                            className="btn-close"
+                                            color="none"
+                                            onClick={() => this.toggleShow()}
+                                        ></MDBBtn>
+                                    </MDBModalHeader>
+                                    <MDBModalBody>
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Tên Người Dùng"
+                                            id="name"
+                                            type="text"
+                                        />
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Số điện thoại"
+                                            id="phone"
+                                            type="text"
+                                        />
+                                        <MDBInput
+                                            wrapperClass="mb-4"
+                                            label="Địa chỉ"
+                                            id="address"
+                                            type="text"
+                                        />
+                                    </MDBModalBody>
 
-                                <MDBModalFooter>
-                                    <MDBBtn
-                                        color="secondary"
-                                        type="button"
-                                        onClick={toggleShow}
-                                    >
-                                        Close
-                                    </MDBBtn>
-                                    <MDBBtn type="submit" onClick={toggleShow}>
-                                        Save changes
-                                    </MDBBtn>
-                                </MDBModalFooter>
-                            </MDBModalContent>
-                        </MDBModalDialog>
-                    </form>
-                </MDBModal> */}
+                                    <MDBModalFooter>
+                                        <MDBBtn
+                                            color="secondary"
+                                            type="button"
+                                            onClick={() => this.toggleShow()}
+                                        >
+                                            Close
+                                        </MDBBtn>
+                                        <MDBBtn
+                                            type="submit"
+                                            onClick={() => this.toggleShow()}
+                                        >
+                                            Save changes
+                                        </MDBBtn>
+                                    </MDBModalFooter>
+                                </MDBModalContent>
+                            </MDBModalDialog>
+                        </form>
+                    </MDBModal>
                     <MDBContainer className="py-5">
                         <MDBRow>
                             <MDBCol lg="4">
@@ -174,7 +178,7 @@ class Profile extends Component {
                                             className="text-muted mb-4 mt-4"
                                             style={{ fontSize: "20px" }}
                                         >
-                                            {this.state.name}
+                                            {userInfo.name}
                                         </p>
                                         <div className="d-flex justify-content-center mb-2">
                                             <MDBBtn
@@ -197,7 +201,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {this.state.name}
+                                                    {userInfo.name}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>
@@ -208,7 +212,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {this.state.email}
+                                                    {userInfo.email}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>
@@ -221,7 +225,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {this.state.phone}
+                                                    {userInfo.phone}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>
@@ -234,7 +238,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {this.state.address}
+                                                    {userInfo.address}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>

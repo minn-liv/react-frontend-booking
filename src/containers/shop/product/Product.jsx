@@ -1,11 +1,13 @@
 import "./Product.scss";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../header/Header";
 import FooterMini from "../../booking/footer/FooterMini";
 import Banner from "../../shop/trending/Trending";
 import axios from "../../../axios";
 import { useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+import { MDBModal, MDBModalDialog, MDBModalContent } from "mdb-react-ui-kit";
 
 import icon1 from "../../../assets/shop/product/cam-ket.png";
 import icon2 from "../../../assets/shop/product/mua-1-duoc-5.png";
@@ -15,57 +17,66 @@ import icon5 from "../../../assets/shop/product/giao-hang-trong-24h.png";
 import icon6 from "../../../assets/shop/product/doi-tra-24h.png";
 import icon7 from "../../../assets/shop/product/tong-dai-tu-van.png";
 import icon8 from "../../../assets/shop/product/an-toan-chuan-quoc-te.png";
-import Checkout from "../cart/Checkout";
+
 function Product() {
     const { productId } = useParams();
-    console.log("Product ID:", productId);
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const userInfo = useSelector((state) => state.user.userInfo);
+    const [basicModal, setBasicModal] = useState(false);
 
     const handleQuantityChange = (e) => {
         setQuantity(parseInt(e.target.value, 10));
     };
 
     const handleAddToCart = async () => {
-        try {
-            console.log("User ID:", userInfo.userID);
-            console.log("Product ID:", product.productId);
-            console.log("Quantity:", quantity);
-            const response = await axios.post(
-                "/api/v1/ClientBuyProductApi/AddToCart",
-                {
-                    UserId: userInfo.userID,
-                    ProductId: product.productId,
-                    Quantity: quantity,
-                    User: {},
-                    Product: {},
-                }
-            );
-            console.log("Server Response:", response.data);
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-        }
+        toast.loading("Waiting.....", {
+            duration: 1500,
+        });
+        const response = await axios
+            .post("/api/v1/ClientBuyProductApi/AddToCart", {
+                UserId: userInfo.userID,
+                ProductId: product.productId,
+                Quantity: quantity,
+                User: {},
+                Product: {},
+            })
+            .then((response) => {
+                setTimeout(() => {
+                    toast.success("Thêm sản phẩm vào giỏ hàng thành công!");
+                }, 2000);
+            })
+            .catch((error) => {
+                setTimeout(() => {
+                    toast.error(
+                        "Thêm sản phẩm vào giỏ hàng thất bại, sản phẩm đã hết hàng!"
+                    );
+                }, 2000);
+            });
     };
     const handleBuyNow = async () => {
-        try {
-            console.log("User ID:", userInfo.userID);
-            console.log("Product ID:", product.productId);
-            console.log("Quantity:", quantity);
-            const response = await axios.post(
-                "/api/v1/ClientBuyProductApi/BuyNow",
-                {
-                    UserId: userInfo.userID,
-                    ProductId: product.productId,
-                    Quantity: quantity,
-                    User: {},
-                    Product: {},
-                }
-            );
-            console.log("Server Response:", response.data);
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-        }
+        toast.loading("Waiting.....", {
+            duration: 1500,
+        });
+        const response = await axios
+            .post("/api/v1/ClientBuyProductApi/BuyNow", {
+                UserId: userInfo.userID,
+                ProductId: product.productId,
+                Quantity: quantity,
+                User: {},
+                Product: {},
+            })
+            .then((response) => {
+                setTimeout(() => {
+                    toast.success("Đặt hàng thành công!");
+                }, 2000);
+                console.log("thanh cong");
+            })
+            .catch((error) => {
+                setTimeout(() => {
+                    toast.error("Đặt hàng thất bại, sản phẩm đã hết hàng!");
+                }, 2000);
+            });
     };
     useEffect(() => {
         const fetchData = async () => {
@@ -89,9 +100,112 @@ function Product() {
         return <p>Loading...</p>;
     }
 
+    const toggleShow = () => {
+        setBasicModal(!basicModal);
+    };
     return (
-        <React.Fragment>
+        <div className="product-wrapper">
             <Header />
+            <Toaster />
+            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
+                <div>
+                    <MDBModalDialog>
+                        <MDBModalContent>
+                            {/* <MDBModalHeader>
+                                <MDBModalTitle>
+                                    Chỉnh sửa thông tin
+                                </MDBModalTitle>
+                                <MDBBtn
+                                    className="btn-close"
+                                    color="none"
+                                    onClick={toggleShow}
+                                ></MDBBtn>
+                            </MDBModalHeader> */}
+                            {/* <MDBModalFooter>
+                                <MDBBtn
+                                    color="secondary"
+                                    type="button"
+                                    onClick={toggleShow}
+                                >
+                                    Close
+                                </MDBBtn>
+                                <MDBBtn type="submit" onClick={toggleShow}>
+                                    Save changes
+                                </MDBBtn>
+                            </MDBModalFooter> */}
+                            <div className="checkout-container">
+                                <div className="checkout-close">
+                                    <span onClick={toggleShow}>X</span>
+                                </div>
+                                <div class="iphone">
+                                    <header class="header">
+                                        <h1>Thanh Toán</h1>
+                                    </header>
+
+                                    <div>
+                                        <div>
+                                            <h2>Địa chỉ</h2>
+
+                                            <div class="card">
+                                                <address>
+                                                    Adam Johnson
+                                                    <br />
+                                                    {userInfo.address}
+                                                </address>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h2>Hóa đơn</h2>
+
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Shipping fee</td>
+                                                        <td align="right">
+                                                            $5.43
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Discount 10%</td>
+                                                        <td align="right">
+                                                            -$1.89
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Price Total</td>
+                                                        <td align="right">
+                                                            $84.82
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td>Tổng thanh toán</td>
+                                                        <td align="right">
+                                                            {product.price}
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                        <div>
+                                            <button
+                                                class="button button--full"
+                                                onClick={handleBuyNow}
+                                            >
+                                                Mua ngay
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </MDBModalContent>
+                    </MDBModalDialog>
+                </div>
+            </MDBModal>
+
             <div className="product-container container">
                 <div className="product-info-main">
                     <img src={`https://localhost:7109${product.image}`} />
@@ -207,11 +321,13 @@ function Product() {
             </div>
             <div className="product-checkout">
                 <button onClick={handleAddToCart}>THÊM VÀO GIỎ HÀNG</button>
-                <button className="product-checkout-buy">MUA NGAY</button>
+                <button className="product-checkout-buy" onClick={toggleShow}>
+                    MUA NGAY
+                </button>
             </div>
 
             <FooterMini />
-        </React.Fragment>
+        </div>
     );
 }
 

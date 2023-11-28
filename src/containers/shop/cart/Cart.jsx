@@ -7,103 +7,67 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import FooterMini from "../../booking/footer/FooterMini";
 import sanpham1 from "../../../assets/shop/product/sanpham1.jpg";
+import axios from "../../../axios";
+
 class CategoryShop extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            arrCart: [],
+        };
+    }
+    componentDidMount() {
+        axios
+            .get(
+                `/api/v1/ClientBuyProductApi/GetCart/${this.props.userInfo.userID}`
+            )
+            .then((response) => {
+                this.setState({
+                    arrCart: response.data,
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching branch data:", error);
+            });
+    }
+
     render() {
+        const { isLoggedIn } = this.props;
+
+        if (!isLoggedIn) {
+            return <Navigate to="/login" />;
+        }
+        let arrCart = this.state.arrCart;
         return (
             <React.Fragment>
-                {!this.props.isLoggedIn && <Navigate to="/login" />}
                 <Header />
                 <div className="cart-container">
-                    <p className="cart-title container">
-                        Giỏ hàng của thằng ngồi bên cạnh
-                    </p>
+                    <p className="cart-title container">GIỎ HÀNG</p>
                     <div className="cart-main container">
-                        <ul className="cart-list mb-0 ">
-                            <li className="cart-item">
-                                <input type="checkbox" />
-                                <div className="cart-item-box">
-                                    <img src={sanpham1} />
-                                    <div>
-                                        <p className="mb-0">
-                                            Kem ngày Dưỡng trắng Kiềm dầu 5
-                                            trong 1 UNO UV Perfection Gel
-                                        </p>
-                                        <p className="mb-0 cart-item-price">
-                                            199.000 ₫
-                                        </p>
-                                        <div className="cart-item-button">
-                                            <button>
-                                                Cộng trừ nhân chia sản phẩm
-                                            </button>
-                                            <button>Xóa sản phẩm</button>
+                        {this.state.arrCart.map((item, key) => (
+                            <ul className="cart-list mb-0 " key={key}>
+                                <li className="cart-item">
+                                    <input type="checkbox" />
+                                    <div className="cart-item-box">
+                                        <img src={sanpham1} />
+                                        <div>
+                                            <p className="mb-0">
+                                                {item.productName}
+                                            </p>
+                                            <p className="mb-0 cart-item-price">
+                                                {item.totalAmount}
+                                            </p>
+                                            <div className="cart-item-button">
+                                                <button>
+                                                    Cộng trừ nhân chia sản phẩm
+                                                </button>
+                                                <button>Xóa sản phẩm</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li className="cart-item">
-                                <input type="checkbox" />
-                                <div className="cart-item-box">
-                                    <img src={sanpham1} />
-                                    <div>
-                                        <p className="mb-0">
-                                            Kem ngày Dưỡng trắng Kiềm dầu 5
-                                            trong 1 UNO UV Perfection Gel
-                                        </p>
-                                        <p className="mb-0 cart-item-price">
-                                            199.000 ₫
-                                        </p>
-                                        <div className="cart-item-button">
-                                            <button>
-                                                Cộng trừ nhân chia sản phẩm
-                                            </button>
-                                            <button>Xóa sản phẩm</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="cart-item">
-                                <input type="checkbox" />
-                                <div className="cart-item-box">
-                                    <img src={sanpham1} />
-                                    <div>
-                                        <p className="mb-0">
-                                            Kem ngày Dưỡng trắng Kiềm dầu 5
-                                            trong 1 UNO UV Perfection Gel
-                                        </p>
-                                        <p className="mb-0 cart-item-price">
-                                            199.000 ₫
-                                        </p>
-                                        <div className="cart-item-button">
-                                            <button>
-                                                Cộng trừ nhân chia sản phẩm
-                                            </button>
-                                            <button>Xóa sản phẩm</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="cart-item">
-                                <input type="checkbox" />
-                                <div className="cart-item-box">
-                                    <img src={sanpham1} />
-                                    <div>
-                                        <p className="mb-0">
-                                            Kem ngày Dưỡng trắng Kiềm dầu 5
-                                            trong 1 UNO UV Perfection Gel
-                                        </p>
-                                        <p className="mb-0 cart-item-price">
-                                            199.000 ₫
-                                        </p>
-                                        <div className="cart-item-button">
-                                            <button>
-                                                Cộng trừ nhân chia sản phẩm
-                                            </button>
-                                            <button>Xóa sản phẩm</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        ))}
                         <div className="cart-checkout-box">
                             <div className="cart-checkout-select-all">
                                 <input type="checkbox" />
@@ -127,6 +91,7 @@ class CategoryShop extends Component {
 const mapStateToProps = (state) => {
     return {
         userInfo: state.user.userInfo,
+        isLoggedIn: state.user.isLoggedIn,
     };
 };
 
