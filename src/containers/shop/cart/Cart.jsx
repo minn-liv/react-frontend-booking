@@ -45,6 +45,23 @@ class CategoryShop extends Component {
         );
     };
 
+    XoaTungSanPham = (productId, quantity) => {
+        const { userID } = this.props.userInfo;
+        axios
+            .delete(
+                `/api/v1/ClientBuyProductApi/RemoveFromCart/${userID}/${productId}/${quantity}`
+            )
+            .then(() => {
+                console.log("xoa ok")
+            })
+            .catch((error) => {
+                console.error("Error removing item from cart:", error);
+            });
+    };
+    
+    
+    
+
     render() {
         const { isLoggedIn } = this.props;
 
@@ -81,7 +98,9 @@ class CategoryShop extends Component {
                                                 <button>
                                                     Cộng trừ nhân chia sản phẩm
                                                 </button>
-                                                <button>Xóa sản phẩm</button>
+                                                <button onClick={() => this.XoaTungSanPham(item.productId, item.quantity)}>
+                                                    Xóa sản phẩm
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
