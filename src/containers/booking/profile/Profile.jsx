@@ -94,11 +94,7 @@ class Profile extends Component {
         }
     };
 
-    toggleShow = () => {
-        this.setState({
-            // basicModal: !this.state.basicModal,
-        });
-    };
+    toggleShow = () => {};
     render() {
         let userInfo = this.props.userInfo;
         return (

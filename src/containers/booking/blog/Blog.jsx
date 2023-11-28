@@ -8,7 +8,7 @@ import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
 import avatar7 from "../../../assets/avatar/avatar7.jpg";
-import background_test from "../../../assets/blog/background_test.jpg";
+import blog10 from "../../../assets/blog/blog10.jpg";
 
 function Blog() {
     return (
@@ -17,7 +17,7 @@ function Blog() {
             <section className="blog__featured">
                 <div className="container featured__container">
                     <div className="post__thumbnail">
-                        <img src={background_test} alt="" />
+                        <img src={blog10} alt="" />
                     </div>
                     <div className="post__info">
                         <a href="" className="post__category-button">
@@ -53,7 +53,7 @@ function Blog() {
                 <div className="container post_container">
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={background_test} alt="" />
+                            <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
@@ -88,7 +88,7 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={background_test} alt="" />
+                            <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
@@ -123,7 +123,7 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={background_test} alt="" />
+                            <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
@@ -158,7 +158,7 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={background_test} alt="" />
+                            <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
@@ -193,7 +193,7 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={background_test} alt="" />
+                            <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">
@@ -228,7 +228,7 @@ function Blog() {
 
                     <article className="post">
                         <div className="post__thumbnail">
-                            <img src={background_test} alt="" />
+                            <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
                             <a href="" className="post__category-button">

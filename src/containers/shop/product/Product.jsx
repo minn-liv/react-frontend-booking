@@ -1,6 +1,6 @@
 import "./Product.scss";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../header/Header";
 import FooterMini from "../../booking/footer/FooterMini";
 import Banner from "../../shop/trending/Trending";
@@ -24,7 +24,7 @@ function Product() {
     const [quantity, setQuantity] = useState(1);
     const userInfo = useSelector((state) => state.user.userInfo);
     const [basicModal, setBasicModal] = useState(false);
-
+    const navigate = useNavigate();
     const handleQuantityChange = (e) => {
         setQuantity(parseInt(e.target.value, 10));
     };
@@ -68,9 +68,14 @@ function Product() {
             })
             .then((response) => {
                 setTimeout(() => {
-                    toast.success("Đặt hàng thành công!");
+                    toast.success(
+                        "Đặt hàng thành công, Vui lòng kiểm tra Email!"
+                    );
                 }, 2000);
-                console.log("thanh cong");
+
+                setTimeout(() => {
+                    navigate("/shop");
+                }, 4000);
             })
             .catch((error) => {
                 setTimeout(() => {
@@ -111,28 +116,6 @@ function Product() {
                 <div>
                     <MDBModalDialog>
                         <MDBModalContent>
-                            {/* <MDBModalHeader>
-                                <MDBModalTitle>
-                                    Chỉnh sửa thông tin
-                                </MDBModalTitle>
-                                <MDBBtn
-                                    className="btn-close"
-                                    color="none"
-                                    onClick={toggleShow}
-                                ></MDBBtn>
-                            </MDBModalHeader> */}
-                            {/* <MDBModalFooter>
-                                <MDBBtn
-                                    color="secondary"
-                                    type="button"
-                                    onClick={toggleShow}
-                                >
-                                    Close
-                                </MDBBtn>
-                                <MDBBtn type="submit" onClick={toggleShow}>
-                                    Save changes
-                                </MDBBtn>
-                            </MDBModalFooter> */}
                             <div className="checkout-container">
                                 <div className="checkout-close">
                                     <span onClick={toggleShow}>X</span>
@@ -321,7 +304,9 @@ function Product() {
             </div>
             <div className="product-checkout">
                 <button onClick={handleAddToCart}>THÊM VÀO GIỎ HÀNG</button>
-                <button className="product-checkout-buy">MUA NGAY</button>
+                <button className="product-checkout-buy" onClick={toggleShow}>
+                    MUA NGAY
+                </button>
             </div>
 
             <FooterMini />

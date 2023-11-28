@@ -14,7 +14,7 @@ class ImageSlider extends Component {
         const { images } = this.props;
 
         const settings = {
-            dots: true,
+            dots: false,
             infinite: true,
             speed: 500,
             slidesToShow: 1,
@@ -41,7 +41,10 @@ class HeroBanner extends Component {
         const images = [banner, banner2, banner3];
 
         return (
-            <div style={{ position: "relative" }}>
+            <div
+                style={{ position: "relative" }}
+                className="hero-banner-container"
+            >
                 <ImageSlider images={images} />
                 <div className="booking-click">
                     <h3>ĐẶT LỊCH GIỮ CHỖ CHỈ 30 GIÂY</h3>

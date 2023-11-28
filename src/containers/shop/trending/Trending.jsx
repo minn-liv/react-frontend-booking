@@ -40,14 +40,14 @@ class Trending extends Component {
         const images = [sanpham1, suaruamat, sanpham1, suaruamat];
 
         return (
-            <React.Fragment>
+            <div className="trending-wrapper">
                 <div className="container trending-container">
                     <h2 className="trending-title">TOP TÌM KIẾM</h2>
                     <div style={{ position: "relative" }} className="container">
                         <ImageSlider images={images} />
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

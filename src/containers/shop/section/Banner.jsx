@@ -41,7 +41,7 @@ class HeroBanner extends Component {
         const images = [banner, banner2, banner3];
 
         return (
-            <React.Fragment>
+            <div className="banner-container">
                 <div style={{ position: "relative" }}>
                     <ImageSlider images={images} />
                 </div>
@@ -65,7 +65,7 @@ class HeroBanner extends Component {
                         </li>
                     </ul>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }
