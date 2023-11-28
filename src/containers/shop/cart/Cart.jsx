@@ -14,6 +14,7 @@ class CategoryShop extends Component {
         super(props);
         this.state = {
             arrCart: [],
+            allChecked: false,
         };
     }
     componentDidMount() {
@@ -58,9 +59,49 @@ class CategoryShop extends Component {
                 console.error("Error removing item from cart:", error);
             });
     };
-    
-    
-    
+    handleCheckboxChange = () => {
+        this.setState((prevState) => ({
+            allChecked: !prevState.allChecked,
+        }));
+    };
+
+    ChechBox = (productId) => {
+        const updatedCart = this.state.arrCart.map((item) => {
+            if (item.productId === productId) {
+                return {
+                    ...item,
+                    isChecked: !item.isChecked,
+                };
+            }
+            return item;
+        });
+
+        this.setState({
+            arrCart: updatedCart,
+        });
+    };
+
+    XoaTatCaSanPham = () => {
+        const { userID } = this.props.userInfo;
+        const productsToDelete = this.state.arrCart
+            .filter((item) => item.isChecked)
+            .map((item) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+            }));
+
+        axios
+            .delete(`/api/v1/ClientBuyProductApi/removeAll/${userID}`, {
+                products: productsToDelete,
+            })
+            .then(() => {
+                console.log("Xóa tất cả sản phẩm thành công");
+                this.fetchCartData();
+            })
+            .catch((error) => {
+                console.error("Lỗi khi xóa tất cả sản phẩm từ giỏ hàng:", error);
+            });
+    };
 
     render() {
         const { isLoggedIn } = this.props;
@@ -78,7 +119,11 @@ class CategoryShop extends Component {
                         {this.state.arrCart.map((item, key) => (
                             <ul className="cart-list mb-0 " key={key}>
                                 <li className="cart-item">
-                                    <input type="checkbox" />
+                                <input
+                                        type="checkbox"
+                                        checked={item.isChecked || this.state.allChecked}
+                                        onChange={() => this.toggleProductCheckbox(item.productId)}
+                                    />
                                     <div className="cart-item-box">
                                         <img src={`https://localhost:7109${item.productImage}`}/>
                                         <div>
@@ -109,7 +154,11 @@ class CategoryShop extends Component {
                         ))}
                         <div className="cart-checkout-box">
                             <div className="cart-checkout-select-all">
-                                <input type="checkbox" />
+                                 <input
+                                        type="checkbox"
+                                        checked={this.state.allChecked}
+                                        onChange={this.handleCheckboxChange}
+                                    />
                                 <p className="mb-0">Tất cả</p>
                             </div>
                             <div className="cart-checkout-button">
@@ -117,6 +166,9 @@ class CategoryShop extends Component {
                                     <p className="mb-0">Tạm tính: {this.TamTinhTien()}{" "}  </p>
                                     <p className="mb-0">({this.tongSoLuongSP()} sản phẩm)</p>
                                 </div>
+                                <button onClick={this.XoaTatCaSanPham}>
+                                        Xóa sản phẩm đã chọn
+                                    </button>
                                 <button>ĐẶT HÀNG</button>
                             </div>
                         </div>
