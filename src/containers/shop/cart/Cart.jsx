@@ -31,6 +31,20 @@ class CategoryShop extends Component {
             });
     }
 
+    TamTinhTien = () => {
+        return this.state.arrCart.reduce(
+            (total, item) => total + item.totalAmount,
+            0
+        );
+    };
+
+    tongSoLuongSP = () => {
+        return this.state.arrCart.reduce(
+            (totalQuantity, item) => totalQuantity + item.quantity,
+            0
+        );
+    };
+
     render() {
         const { isLoggedIn } = this.props;
 
@@ -49,13 +63,19 @@ class CategoryShop extends Component {
                                 <li className="cart-item">
                                     <input type="checkbox" />
                                     <div className="cart-item-box">
-                                        <img  src={`https://localhost:7109${item.productImage}`}/>
+                                        <img src={`https://localhost:7109${item.productImage}`}/>
                                         <div>
+                                            <p className="mb-0 cart-item-price">
+                                               Mã Sản Phẩm: {item.productId}
+                                            </p>
                                             <p className="mb-0">
                                                 {item.productName}
                                             </p>
                                             <p className="mb-0 cart-item-price">
-                                                {item.totalAmount}
+                                               Giá tiền tạm tính theo từng sản phẩm: {item.totalAmount}
+                                            </p>
+                                            <p className="mb-0 cart-item-price">
+                                               số Lượng: {item.quantity}
                                             </p>
                                             <div className="cart-item-button">
                                                 <button>
@@ -75,8 +95,8 @@ class CategoryShop extends Component {
                             </div>
                             <div className="cart-checkout-button">
                                 <div>
-                                    <p className="mb-0">Tạm tính: 1 tỷ</p>
-                                    <p className="mb-0">(0 sản phẩm)</p>
+                                    <p className="mb-0">Tạm tính: {this.TamTinhTien()}{" "}  </p>
+                                    <p className="mb-0">({this.tongSoLuongSP()} sản phẩm)</p>
                                 </div>
                                 <button>ĐẶT HÀNG</button>
                             </div>
