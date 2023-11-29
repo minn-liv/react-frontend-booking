@@ -14,6 +14,7 @@ class CategoryShop extends Component {
         super(props);
         this.state = {
             arrCart: [],
+            allChecked: false,
         };
     }
     componentDidMount() {
@@ -31,6 +32,77 @@ class CategoryShop extends Component {
             });
     }
 
+    TamTinhTien = () => {
+        return this.state.arrCart.reduce(
+            (total, item) => total + item.totalAmount,
+            0
+        );
+    };
+
+    tongSoLuongSP = () => {
+        return this.state.arrCart.reduce(
+            (totalQuantity, item) => totalQuantity + item.quantity,
+            0
+        );
+    };
+
+    XoaTungSanPham = (productId, quantity) => {
+        const { userID } = this.props.userInfo;
+        axios
+            .delete(
+                `/api/v1/ClientBuyProductApi/RemoveFromCart/${userID}/${productId}/${quantity}`
+            )
+            .then(() => {
+                console.log("xoa ok")
+            })
+            .catch((error) => {
+                console.error("Error removing item from cart:", error);
+            });
+    };
+    handleCheckboxChange = () => {
+        this.setState((prevState) => ({
+            allChecked: !prevState.allChecked,
+        }));
+    };
+
+    ChechBox = (productId) => {
+        const updatedCart = this.state.arrCart.map((item) => {
+            if (item.productId === productId) {
+                return {
+                    ...item,
+                    isChecked: !item.isChecked,
+                };
+            }
+            return item;
+        });
+
+        this.setState({
+            arrCart: updatedCart,
+        });
+    };
+
+    XoaTatCaSanPham = () => {
+        const { userID } = this.props.userInfo;
+        const productsToDelete = this.state.arrCart
+            .filter((item) => item.isChecked)
+            .map((item) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+            }));
+
+        axios
+            .delete(`/api/v1/ClientBuyProductApi/removeAll/${userID}`, {
+                products: productsToDelete,
+            })
+            .then(() => {
+                console.log("Xóa tất cả sản phẩm thành công");
+                this.fetchCartData();
+            })
+            .catch((error) => {
+                console.error("Lỗi khi xóa tất cả sản phẩm từ giỏ hàng:", error);
+            });
+    };
+
     render() {
         const { isLoggedIn } = this.props;
 
@@ -47,21 +119,33 @@ class CategoryShop extends Component {
                         {this.state.arrCart.map((item, key) => (
                             <ul className="cart-list mb-0 " key={key}>
                                 <li className="cart-item">
-                                    <input type="checkbox" />
+                                <input
+                                        type="checkbox"
+                                        checked={item.isChecked || this.state.allChecked}
+                                        onChange={() => this.toggleProductCheckbox(item.productId)}
+                                    />
                                     <div className="cart-item-box">
-                                        <img src={sanpham1} />
+                                        <img src={`https://localhost:7109${item.productImage}`}/>
                                         <div>
+                                            <p className="mb-0 cart-item-price">
+                                               Mã Sản Phẩm: {item.productId}
+                                            </p>
                                             <p className="mb-0">
                                                 {item.productName}
                                             </p>
                                             <p className="mb-0 cart-item-price">
-                                                {item.totalAmount}
+                                               Giá tiền tạm tính theo từng sản phẩm: {item.totalAmount}
+                                            </p>
+                                            <p className="mb-0 cart-item-price">
+                                               số Lượng: {item.quantity}
                                             </p>
                                             <div className="cart-item-button">
                                                 <button>
                                                     Cộng trừ nhân chia sản phẩm
                                                 </button>
-                                                <button>Xóa sản phẩm</button>
+                                                <button onClick={() => this.XoaTungSanPham(item.productId, item.quantity)}>
+                                                    Xóa sản phẩm
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -70,14 +154,21 @@ class CategoryShop extends Component {
                         ))}
                         <div className="cart-checkout-box">
                             <div className="cart-checkout-select-all">
-                                <input type="checkbox" />
+                                 <input
+                                        type="checkbox"
+                                        checked={this.state.allChecked}
+                                        onChange={this.handleCheckboxChange}
+                                    />
                                 <p className="mb-0">Tất cả</p>
                             </div>
                             <div className="cart-checkout-button">
                                 <div>
-                                    <p className="mb-0">Tạm tính: 1 tỷ</p>
-                                    <p className="mb-0">(0 sản phẩm)</p>
+                                    <p className="mb-0">Tạm tính: {this.TamTinhTien()}{" "}  </p>
+                                    <p className="mb-0">({this.tongSoLuongSP()} sản phẩm)</p>
                                 </div>
+                                <button onClick={this.XoaTatCaSanPham}>
+                                        Xóa sản phẩm đã chọn
+                                    </button>
                                 <button>ĐẶT HÀNG</button>
                             </div>
                         </div>
