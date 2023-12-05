@@ -13,6 +13,7 @@ import CategoryShop from "./containers/shop/category/CategoryShop";
 import Cart from "./containers/shop/cart/Cart";
 import Product from "./containers/shop/product/Product";
 import MainShop from "./containers/shop/main-shop/MainShop";
+import About from "./containers/booking/about/About";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
     {
         path: "/profile/:id",
         element: <Profile />,
+    },
+    {
+        path: "/about",
+        element: <About />,
     },
     {
         path: "*",

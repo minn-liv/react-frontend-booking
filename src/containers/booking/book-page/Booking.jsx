@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MDBBtn } from "mdb-react-ui-kit";
-import { changeLanguageApp } from "../../../store/actions";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
 
 import {
     MDBContainer,
@@ -205,7 +203,7 @@ class Register extends Component {
                             >
                                 <MDBCardBody className="p-5 text-center">
                                     <h2 className="fw-bold mb-5">
-                                        Đặt lịch ne
+                                        ĐẶT LỊCH NGAY
                                     </h2>
                                     <h3 className="text-start">
                                         Quý khách vui lòng cho biết thông tin

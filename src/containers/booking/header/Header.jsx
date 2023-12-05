@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-import { ToastLogoutSuccess } from "../../../hoc/Toast/Toast";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import toast, { Toaster } from "react-hot-toast";
@@ -58,7 +57,9 @@ class Header extends Component {
                                 </div>
                                 <ul>
                                     <li>
-                                        <Link to={`profile/${userInfo.userID}`}>
+                                        <Link
+                                            to={`/profile/${userInfo.userID}`}
+                                        >
                                             Thông tin cá nhân
                                         </Link>
                                     </li>

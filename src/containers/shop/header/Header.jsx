@@ -116,13 +116,13 @@ class Header extends Component {
                             <a href="#"> Thương Hiệu </a>
                         </li>
                         <li>
-                            <a href="#"> Giới Thiệu</a>
+                            <a href="/about"> Giới Thiệu</a>
                         </li>
                         <li>
                             <a href="#"> Liên Hệ </a>
                         </li>
                         <li>
-                            <a>Blog</a>
+                            <a href="/blog">Blog</a>
                         </li>
                     </ul>
                 </div>

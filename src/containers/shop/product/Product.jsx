@@ -108,6 +108,10 @@ function Product() {
     const toggleShow = () => {
         setBasicModal(!basicModal);
     };
+
+    function currencyFormat(num) {
+        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
+    }
     return (
         <div className="product-wrapper">
             <Header />
@@ -166,7 +170,9 @@ function Product() {
                                                     <tr>
                                                         <td>Tổng thanh toán</td>
                                                         <td align="right">
-                                                            {product.price}
+                                                            {currencyFormat(
+                                                                product.price
+                                                            )}
                                                         </td>
                                                     </tr>
                                                 </tfoot>
@@ -192,7 +198,9 @@ function Product() {
             <div className="product-container container">
                 <div className="product-info-main">
                     <img src={`https://localhost:7109${product.image}`} />
-                    <p className="mb-0 product-price">{product.price} đ</p>
+                    <p className="mb-0 product-price">
+                        {currencyFormat(product.price)}
+                    </p>
                     <p className="mb-0 product-name">{product.name}</p>
                 </div>
                 <div className="product-policy">

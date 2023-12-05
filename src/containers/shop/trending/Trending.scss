@@ -1,4 +1,11 @@
 .trending-wrapper {
+    .slick-slide > div {
+        margin: 0 10px;
+    }
+
+    .slick-dots li.slick-active button:before {
+        color: orange !important;
+    }
     // Reset slick slider css
     .slick-prev {
         left: -10px !important;
@@ -35,6 +42,7 @@
         }
     }
     .trending-container {
+        margin: 0 100px;
         display: flex;
         flex-direction: column;
         .trending-title {
@@ -47,17 +55,39 @@
             font-weight: 700;
         }
 
-        .trending-image {
-            width: 347;
-            height: 277px;
-
-            img {
-                width: 100%;
-                height: 100%;
-                background-position: center center;
-                background-repeat: no-repeat;
-                background-size: cover;
+        .trending-box {
+            .trending-card {
+                img {
+                    width: 347;
+                    height: 277px;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
             }
+            .trending-link {
+                border: 2px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                padding: 1rem;
+                color: #fc2;
+
+                &.hover {
+                    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+                        rgba(0, 0, 0, 0.12) 0px -12px 30px,
+                        rgba(0, 0, 0, 0.12) 0px 4px 6px,
+                        rgba(0, 0, 0, 0.17) 0px 12px 13px,
+                        rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                }
+            }
+        }
+    }
+
+    .trending-card {
+        img {
+            width: 400px;
+            height: 300px;
         }
     }
 }

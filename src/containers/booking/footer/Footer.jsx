@@ -17,13 +17,13 @@ class Header extends Component {
         let language = this.props.language;
         return (
             <footer className="footer">
-                <div className="footer-socials">
+                {/* <div className="footer-socials">
                     <a href="">C</a>
                     <a href="">o</a>
                     <a href="">n</a>
                     <a href="">C</a>
                     <a href="">u</a>
-                </div>
+                </div> */}
                 <div className="container footer-container">
                     <article>
                         <h4>Support</h4>

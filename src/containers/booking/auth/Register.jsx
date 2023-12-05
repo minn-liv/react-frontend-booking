@@ -19,89 +19,6 @@ import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 import toast, { Toaster } from "react-hot-toast";
 
-import { ToastRegisterSuccess } from "../../../hoc/Toast/Toast";
-// function Register() {
-//     const [registerSuccess, setRegisterSuccess] = useState(false);
-//     const [errors, setErrors] = useState(null);
-
-//     const usernameRef = useRef();
-//     const nameRef = useRef();
-//     const phoneRef = useRef();
-//     const emailRef = useRef();
-//     const passwordRef = useRef();
-//     const addressRef = useRef();
-//     const avatarRef = useRef();
-
-//     const navigate = useNavigate();
-
-//     // const onChangeImage = async (event) => {
-//     //     let data = event.target.files;
-//     //     let file = data[0];
-//     //     if(file) {
-//     //         let base64 = await
-//     //     }
-//     // }
-
-//     const openPreviewImage = () => {
-//         if (!avatarRef) {
-//             return;
-//         }
-//     };
-//     const onSubmit = (ev) => {
-//         ev.preventDefault();
-//         const payload = {
-//             username: usernameRef.current.value,
-//             name: nameRef.current.value,
-//             phone: phoneRef.current.value,
-//             email: emailRef.current.value,
-//             password: passwordRef.current.value,
-//             address: addressRef.current.value,
-//             // avatar: this.avatarRef.current.file[0],
-//         };
-//         if (!payload.username) {
-//             setErrors("Vui lòng nhập Tên tài khoản");
-//         } else if (!payload.name) {
-//             setErrors("Vui lòng nhập Tên người dùng");
-//         } else if (!payload.phone) {
-//             setErrors("Vui lòng nhập Số điện thoại");
-//         } else if (!payload.email) {
-//             setErrors("Vui lòng nhập Email");
-//         } else if (!payload.password) {
-//             setErrors("Vui lòng nhập Mật khẩu");
-//         } else if (!payload.address) {
-//             setErrors("Vui lòng nhập Địa chỉ");
-//         } else {
-//             console.log(payload);
-//             axios
-//                 .post("api/v1/ClientLogin/Register", payload)
-//                 .then((response) => {
-//                     setRegisterSuccess(true);
-//                 })
-//                 .catch((error) => {
-//                     if (error.response) {
-//                         setErrors(error.response.data);
-//                     } else if (error.request) {
-//                         console.log("Yêu cầu không thành công:", error.request);
-//                     } else {
-//                         console.log("Lỗi khi gửi yêu cầu:", error.message);
-//                     }
-//                 });
-//         }
-//     };
-
-//     const delay = 1500;
-//     useEffect(() => {
-//         if (registerSuccess) {
-//             const timeout = setTimeout(() => {
-//                 navigate("/login");
-//             }, delay);
-//         }
-//     }, [registerSuccess]);
-//     return (
-
-//     );
-// }
-
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -147,30 +64,6 @@ class Register extends Component {
             ...copyState,
         });
     };
-    // checkValidateInput = () => {
-    //     let isValid = true;
-    //     let arrCheck = [
-    //         "email",
-    //         "password",
-    //         "firstName",
-    //         "lastName",
-    //         "phoneNumber",
-    //         "address",
-    //         "gender",
-    //         "position",
-    //         "role",
-    //         "avatar",
-    //     ];
-    //     for (let i = 0; i < arrCheck.length; i++) {
-    //         if (!this.state[arrCheck[i]]) {
-    //             isValid = false;
-    //             alert("This is input is required: " + arrCheck[i]);
-    //             break;
-    //         }
-    //     }
-
-    //     return isValid;
-    // };
 
     onSubmit = () => {
         const payload = {
@@ -248,7 +141,6 @@ class Register extends Component {
                 {this.state.registerSuccess && <Navigate to="/login" />}
                 <Header />
                 <Toaster />
-                {/* <ToastRegisterSuccess showToast={registerSuccess} /> */}
                 <div
                     className="register-container"
                     style={{ background: "#f5f5f5" }}

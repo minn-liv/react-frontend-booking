@@ -2,6 +2,7 @@ import actionTypes from "../actions/actionTypes";
 const initialState = {
     isLoggedIn: false,
     userInfo: null,
+    cart: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -25,6 +26,32 @@ const appReducer = (state = initialState, action) => {
                 isLoggedIn: false,
                 userInfo: null,
             };
+
+        case actionTypes.GET_ITEM_CART_SUCCESS:
+            state.cart = action.data;
+            // state.isLoadingCart = false;
+            return {
+                ...state,
+            };
+
+        case actionTypes.GET_ITEM_CART_FAILED:
+            state.cart = [];
+            return {
+                ...state,
+            };
+
+        case actionTypes.DELETE_ALL_ITEM_CART_SUCCESS:
+            state.cart = [];
+            return {
+                ...state,
+            };
+
+        case actionTypes.DELETE_ALL_ITEM_CART_SUCCESS:
+            state.cart = [];
+            return {
+                ...state,
+            };
+
         default:
             return state;
     }

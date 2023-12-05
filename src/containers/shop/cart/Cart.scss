@@ -6,6 +6,8 @@
     .cart-main {
         min-height: 610px;
         .cart-list {
+            display: flex;
+            justify-content: space-between;
             .cart-item {
                 display: flex;
                 gap: 2rem;
@@ -38,6 +40,20 @@
                         display: flex;
                         justify-content: space-between;
                     }
+                }
+            }
+
+            .cart-list-delete {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span {
+                    padding: 1rem;
+                    cursor: pointer;
+                    border-radius: 5px;
+                    background: #e65b65;
+                    color: white;
                 }
             }
         }

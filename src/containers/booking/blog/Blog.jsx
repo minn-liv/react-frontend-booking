@@ -11,6 +11,14 @@ import avatar7 from "../../../assets/avatar/avatar7.jpg";
 import blog10 from "../../../assets/blog/blog10.jpg";
 
 function Blog() {
+    const replaceIfOverflow = (str, maxLength) => {
+        if (str.length > maxLength) {
+            return str.substring(0, maxLength) + "...";
+        }
+        return str;
+    };
+    let textEx =
+        "Lorem ipsum, dolor sit ament, Lorem ipsum, dolor sit ament, Lorem ipsum, dolor sit ament Lorem ipsum, dolor sit ament, Lorem ipsum, dolor sit ament ,Lorem ipsum, dolor sit ament";
     return (
         <div className="">
             <Header />
@@ -27,10 +35,7 @@ function Blog() {
                             <Link to="/post">Lorem ipsum, dolor sit ament</Link>
                         </h2>
                         <p className="post__body">
-                            Lorem ipsum, dolor sit ament, Lorem ipsum, dolor sit
-                            ament, Lorem ipsum, dolor sit ament Lorem ipsum,
-                            dolor sit ament, Lorem ipsum, dolor sit ament ,Lorem
-                            ipsum, dolor sit ament
+                            {replaceIfOverflow(textEx, 200)}
                         </p>
                         <div className="post__author">
                             <div className="post__author-avatar">
@@ -65,10 +70,7 @@ function Blog() {
                                 </Link>
                             </h3>
                             <p className="post__body">
-                                Lorem ipsum, dolor sit ament, Lorem ipsum, dolor
-                                sit ament, Lorem ipsum, dolor sit ament Lorem
-                                ipsum, dolor sit ament, Lorem ipsum, dolor sit
-                                ament ,Lorem ipsum, dolor sit ament
+                                {replaceIfOverflow(textEx, 170)}
                             </p>
                             <div className="post__author">
                                 <div className="post__author-avatar">

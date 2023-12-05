@@ -16,7 +16,6 @@ import * as actions from "../../../store/actions";
 import "./Login.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
-import { ToastLoginSuccess } from "../../../hoc/Toast/Toast";
 
 class Login extends Component {
     constructor(props) {
