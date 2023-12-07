@@ -1,27 +1,44 @@
-.radio-branch {
-    display: flex;
-    padding: 1rem 0 1rem 1rem;
-    background: #fff;
-    margin-bottom: 1rem;
-}
+.booking-container {
+    .radio-branch {
+        display: flex;
+        padding: 1rem 0 1rem 1rem;
+        background: #fff;
+        margin-bottom: 1rem;
+    }
 
-.select-staff {
-    width: 100%;
-    display: flex;
-    margin-bottom: 1rem;
-    padding: 1rem 1rem 1rem 1rem;
-}
+    .select-branch {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        div {
+            width: 100%;
+            border: 1px solid #bdbdbd;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            label {
+                padding: 1rem;
+            }
+        }
+    }
+    .select-staff {
+        width: 100%;
+        display: flex;
+        margin-bottom: 1rem;
+        padding: 1rem 1rem 1rem 1rem;
+    }
 
-.select-service {
-    width: 100%;
-    display: flex;
-    margin-bottom: 1rem;
-    padding: 1rem 1rem 1rem 1rem;
-}
+    .select-service {
+        width: 100%;
+        display: flex;
+        margin-bottom: 1rem;
+        padding: 1rem 1rem 1rem 1rem;
+    }
 
-.input-date {
-    display: flex;
-    width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    .input-date {
+        display: flex;
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
 }

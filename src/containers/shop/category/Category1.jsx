@@ -15,7 +15,7 @@ function Category1() {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    "api/v1/ClientSearchProduct/filterProduct?productTypeId=2"
+                    "api/v1/ClientSearchProduct/filterProduct?productTypeId=8"
                 );
                 console.log("API Response:", response.data);
                 setProducts(response.data);
@@ -42,14 +42,14 @@ function Category1() {
         <React.Fragment>
             <Header />
             <div className="filter-container container-custom">
-                <p className="filter-title mb-0">GÔM DỮ NẾP</p>
+                <p className="filter-title mb-0">DANH MỤC</p>
                 <ul className="filter-menu">
                     <a href="/category">Tất cả</a>
                     <a
                         href="/category/tao-mau-cho-toc"
                         className="filter-menu-selected"
                     >
-                        Tạo màu cho tóc
+                        Tạo kiểu tóc
                     </a>
                     <a href="/#">Máy sấy tóc</a>
                     <a href="/#">Sáp vuốt tóc</a>
@@ -57,8 +57,8 @@ function Category1() {
                 </ul>
                 <div className="filter-info">
                     <p className="mb-0 filter-info-text text-center">
-                        {productsLength} sản phẩm được tìm thấy theo *Tạo màu
-                        cho tóc*
+                        {productsLength} sản phẩm được tìm thấy theo *Tạo kiểu
+                        tóc*
                     </p>
                     <div className="filter-button">
                         <p className="mb-0">Sắp xếp theo</p>

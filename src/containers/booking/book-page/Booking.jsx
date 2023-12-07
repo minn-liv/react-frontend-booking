@@ -56,9 +56,9 @@ class Register extends Component {
             .catch((staffError) => {
                 console.error("Error fetching staff data:", staffError);
             });
-        //Services nè
+        //Combo nè
         axios
-            .get("/api/ServiceApi")
+            .get("api/ComboApi")
             .then((servicesResponse) => {
                 const services = servicesResponse.data;
 
@@ -87,24 +87,25 @@ class Register extends Component {
             selectedStaffId: null,
         });
     };
-
-    handleServiceChange = (event) => {
-        const selectedServiceId = parseInt(event.target.value);
-        const selectedService = this.state.services.find(
-            (service) => service.serviceId === selectedServiceId
+    handleComboChange = (event) => {
+        const selectedComboId = parseInt(event.target.value);
+        console.log(
+            "Handle Combo Change - Selected Combo ID:",
+            selectedComboId
         );
 
-        if (selectedService) {
-            this.setState({
-                selectedServiceId: selectedServiceId,
-                selectedServicePrice: selectedService.price,
-            });
-        } else {
-            this.setState({
-                selectedServiceId: null,
-                selectedServicePrice: 0,
-            });
-        }
+        this.setState(
+            {
+                selectedComboId: selectedComboId,
+                selectedServicePrice:
+                    this.state.services.find(
+                        (service) => service.comboId === selectedComboId
+                    )?.price || 0,
+            },
+            () => {
+                console.log("Updated State:", this.state);
+            }
+        );
     };
 
     onSubmit = (ev) => {
@@ -115,8 +116,7 @@ class Register extends Component {
         const phone = document.getElementById("phone").value;
         const name = document.getElementById("password").value;
         const selectedStaffId = document.querySelector(".select-staff").value;
-        const selectedServiceId =
-            document.querySelector(".select-service").value;
+        const selectedComboId = document.querySelector(".select-combo").value;
         const selectedBranchId = document
             .querySelector('input[name="branch"]:checked')
             .id.split("-")[1];
@@ -125,6 +125,15 @@ class Register extends Component {
         // this.props.userInfo && this.props.userInfo.userID
         //     ? userInfo.userID
         //     : null;
+
+        console.log("phone:", phone);
+        console.log("name:", name);
+        console.log("selectedStaffId:", selectedStaffId);
+        console.log("selectedComboId:", selectedComboId);
+        console.log("selectedBranchId:", selectedBranchId);
+        console.log("selectedDate:", selectedDate);
+        console.log("note:", note);
+
         let idUser;
         if (this.props.userInfo && this.props.userInfo.userID) {
             idUser = this.props.userInfo.userID;
@@ -143,7 +152,7 @@ class Register extends Component {
             phone &&
             name &&
             selectedStaffId &&
-            selectedServiceId &&
+            selectedComboId &&
             selectedBranchId &&
             selectedDate
         ) {
@@ -151,7 +160,7 @@ class Register extends Component {
                 phone: phone,
                 name: name,
                 staffId: parseInt(selectedStaffId),
-                comboId: parseInt(selectedServiceId),
+                comboId: parseInt(selectedComboId),
                 branchId: parseInt(selectedBranchId),
                 dateTime: selectedDate,
                 note: note,
@@ -159,18 +168,29 @@ class Register extends Component {
                 clientId: clientId,
             };
 
-            axios
-                .post("/api/v1/Booking/create", payload)
-                .then((response) => {
-                    setTimeout(() => {
-                        toast.success(responseMessage);
-                    }, 500);
-                })
-                .catch((error) => {
-                    setTimeout(() => {
-                        toast.error("Đặt lịch thất bại. Vui lòng thử lại!");
-                    }, 500);
-                });
+            if (
+                phone &&
+                name &&
+                selectedStaffId &&
+                selectedComboId &&
+                selectedBranchId &&
+                selectedDate
+            ) {
+                axios
+                    .post("/api/v1/Booking/create", payload)
+                    .then((response) => {
+                        setTimeout(() => {
+                            toast.success(responseMessage);
+                        }, 500);
+                    })
+                    .catch((error) => {
+                        setTimeout(() => {
+                            toast.error("Đặt lịch thất bại. Vui lòng thử lại!");
+                        }, 500);
+                    });
+            } else {
+                console.error("All required fields must be filled.");
+            }
         } else {
             console.error("All required fields must be filled.");
         }
@@ -179,7 +199,7 @@ class Register extends Component {
     render() {
         const { branches, staffList, services } = this.state;
         return (
-            <div className="">
+            <div className="booking-container">
                 <Header />
                 <div
                     className=""
@@ -194,7 +214,7 @@ class Register extends Component {
                             <MDBCard
                                 className=" p-5 shadow-5 background-radial-gradient"
                                 style={{
-                                    background: "hsla(0, 0%, 100%, 0.8)",
+                                    background: "hsla(0, 0%, 100%, 0.😎",
                                     backdropFilter: "blur(30px)",
                                     marginTop: "1rem",
                                     backgroundImage:
@@ -233,7 +253,10 @@ class Register extends Component {
                                     </h3>
                                     <div className="select-branch">
                                         {branches.map((branch) => (
-                                            <div key={branch.branchId}>
+                                            <div
+                                                key={branch.branchId}
+                                                className="mb-3"
+                                            >
                                                 <input
                                                     type="radio"
                                                     id={`branch-${branch.branchId}`}
@@ -258,7 +281,7 @@ class Register extends Component {
                                         ))}
                                     </div>
 
-                                    <h3 className="text-stajrt">
+                                    <h3 className="text-start mt-2">
                                         Yêu cầu kỹ thuật viên *
                                     </h3>
                                     <select
@@ -287,27 +310,26 @@ class Register extends Component {
                                             )
                                         )}
                                     </select>
-                                    <h3 className="text-start">Dịch vụ *</h3>
+                                    <h3 className="text-start">Combo*</h3>
                                     <select
-                                        name=""
-                                        id=""
-                                        className="select-service"
-                                        onChange={this.handleServiceChange}
-                                        value={this.state.selectedServiceId}
+                                        className="form-control select-combo"
+                                        value={this.state.selectedComboId}
+                                        onChange={this.handleComboChange}
                                     >
                                         <option value="" disabled>
-                                            Select a service
+                                            Chọn combo
                                         </option>
                                         {services.map((service) => (
                                             <option
-                                                key={service.serviceId}
-                                                value={service.serviceId}
+                                                key={service.comboId}
+                                                value={service.comboId}
                                             >
                                                 {service.name}
                                             </option>
                                         ))}
                                     </select>
-                                    <h4 className="text-start">
+
+                                    <h4 className="text-start mt-3">
                                         Price services:{" "}
                                         {this.state.selectedServicePrice}
                                     </h4>
@@ -340,46 +362,7 @@ class Register extends Component {
                     </form>
                 </div>
 
-                <div className="footer-login d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-                    <FooterMini />
-                    <div>
-                        <MDBBtn
-                            tag="a"
-                            color="none"
-                            className="mx-3"
-                            style={{ color: "white" }}
-                        >
-                            <MDBIcon fab icon="facebook-f" size="md" />
-                        </MDBBtn>
-
-                        <MDBBtn
-                            tag="a"
-                            color="none"
-                            className="mx-3"
-                            style={{ color: "white" }}
-                        >
-                            <MDBIcon fab icon="twitter" size="md" />
-                        </MDBBtn>
-
-                        <MDBBtn
-                            tag="a"
-                            color="none"
-                            className="mx-3"
-                            style={{ color: "white" }}
-                        >
-                            <MDBIcon fab icon="google" size="md" />
-                        </MDBBtn>
-
-                        <MDBBtn
-                            tag="a"
-                            color="none"
-                            className="mx-3"
-                            style={{ color: "white" }}
-                        >
-                            <MDBIcon fab icon="linkedin-in" size="md" />
-                        </MDBBtn>
-                    </div>
-                </div>
+                <FooterMini />
             </div>
         );
     }
