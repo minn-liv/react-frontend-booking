@@ -10,7 +10,7 @@
         display: flex;
         flex-direction: row;
 
-        li {
+        a {
             padding: 1rem;
             font-size: 1.3rem;
             color: black;
@@ -26,6 +26,7 @@
     .filter-info {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 0 3rem;
         .filter-info-text {
             font-size: 1.3rem;
@@ -62,7 +63,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    padding: 0.5rem;
+                    padding: 1rem;
                     img {
                         height: 208px;
                     }
@@ -73,13 +74,25 @@
                     padding: 0rem 1rem 0 1rem;
                 }
                 .shop-main-item-name {
+                    color: #000000;
                     height: 3rem;
+                    text-transform: capitalize;
+                    font-size: 0.875rem;
+                    line-height: 1.25rem;
                 }
                 p {
-                    color: #e54d69;
+                    color: black;
                     font-weight: 700;
                     font-size: 20px;
                     padding: 0rem 1rem 0 1rem;
+                }
+                .shop-main-item-rating {
+                    display: flex;
+                    justify-content: flex-start;
+                    padding: 0.5rem 1rem 1rem 1rem;
+                    svg {
+                        color: #ffcc33;
+                    }
                 }
             }
         }

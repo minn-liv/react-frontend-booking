@@ -25,15 +25,12 @@ function Product() {
     const userInfo = useSelector((state) => state.user.userInfo);
     const [basicModal, setBasicModal] = useState(false);
     const navigate = useNavigate();
-    const handleQuantityChange = (e) => {
-        setQuantity(parseInt(e.target.value, 10));
-    };
 
     const handleAddToCart = async () => {
         toast.loading("Waiting.....", {
             duration: 1500,
         });
-        const response = await axios
+        await axios
             .post("/api/v1/ClientBuyProductApi/AddToCart", {
                 UserId: userInfo.userID,
                 ProductId: product.productId,
@@ -45,6 +42,7 @@ function Product() {
                 setTimeout(() => {
                     toast.success("Thêm sản phẩm vào giỏ hàng thành công!");
                 }, 2000);
+                console.log(response);
             })
             .catch((error) => {
                 setTimeout(() => {
@@ -52,6 +50,7 @@ function Product() {
                         "Thêm sản phẩm vào giỏ hàng thất bại, sản phẩm đã hết hàng!"
                     );
                 }, 2000);
+                console.log(error);
             });
     };
     const handleBuyNow = async () => {
@@ -197,7 +196,10 @@ function Product() {
 
             <div className="product-container container">
                 <div className="product-info-main">
-                    <img src={`https://localhost:7109${product.image}`} />
+                    <img
+                        alt="alt"
+                        src={`https://localhost:7109${product.image}`}
+                    />
                     <p className="mb-0 product-price">
                         {currencyFormat(product.price)}
                     </p>
@@ -207,20 +209,20 @@ function Product() {
                     <ul className="ps-0 mb-0">
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon1} />
+                                <img alt="alt" src={icon1} />
                                 <p className="mb-0">Cam kết 7 ngày hiệu quả</p>
                             </div>
                         </li>
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon2} />
+                                <img alt="alt" src={icon2} />
 
                                 <p className="mb-0">Mua 1 hưởng 5 đặc quyền</p>
                             </div>
                         </li>
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon3} />
+                                <img alt="alt" src={icon3} />
 
                                 <p className="mb-0">
                                     Chính sách hoàn tiền 120%
@@ -229,7 +231,7 @@ function Product() {
                         </li>
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon4} />
+                                <img alt="alt" src={icon4} />
                                 <p className="mb-0">
                                     Chất lượng sản phẩm cao cấp
                                 </p>
@@ -237,13 +239,13 @@ function Product() {
                         </li>
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon5} />
+                                <img alt="alt" src={icon5} />
                                 <p className="mb-0">Giao hàng siêu tốc 2h</p>
                             </div>
                         </li>
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon6} />
+                                <img alt="alt" src={icon6} />
                                 <p className="mb-0">
                                     Đổi trả tận nơi trong 24h
                                 </p>
@@ -251,7 +253,7 @@ function Product() {
                         </li>
                         <li className="product-policy-item">
                             <div>
-                                <img src={icon7} />
+                                <img alt="alt" src={icon7} />
                                 <p className="mb-0">
                                     Tổng đài tư vấn mọi lúc mọi nơi
                                 </p>
@@ -259,7 +261,7 @@ function Product() {
                         </li>
                         <li className="product-policy-item last-child">
                             <div>
-                                <img src={icon8} />
+                                <img alt="alt" src={icon8} />
                                 <p className="mb-0">
                                     An toàn chuẩn giao vận quốc tế
                                 </p>

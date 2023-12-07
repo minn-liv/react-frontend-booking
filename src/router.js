@@ -14,6 +14,8 @@ import Cart from "./containers/shop/cart/Cart";
 import Product from "./containers/shop/product/Product";
 import MainShop from "./containers/shop/main-shop/MainShop";
 import About from "./containers/booking/about/About";
+import Category1 from "./containers/shop/category/Category1";
+import CategoryTopSell from "./containers/shop/category/CategoryTopSell";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
     {
         path: "/category",
         element: <CategoryShop />,
+    },
+    {
+        path: "/category/tao-mau-cho-toc",
+        element: <Category1 />,
+    },
+    {
+        path: "/category/san-pham-ban-chay",
+        element: <CategoryTopSell />,
     },
     {
         path: "/cart/:cartId",

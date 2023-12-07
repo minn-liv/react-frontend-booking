@@ -71,9 +71,12 @@
                 }
                 .shop-main-item-name {
                     height: 3rem;
+                    text-transform: capitalize;
+                    font-size: 0.875rem;
+                    line-height: 1.25rem;
                 }
                 p {
-                    color: #e54d69;
+                    color: black;
                     font-weight: 700;
                     font-size: 20px;
                     padding: 0rem 1rem 0 1rem;

@@ -16,8 +16,6 @@ class Trending extends Component {
         return str;
     };
     render() {
-        const images = [sanpham1, suaruamat, sanpham1, suaruamat];
-
         const settings = {
             dots: false,
             infinite: true,
@@ -75,7 +73,7 @@ class Trending extends Component {
                                         </div>
                                         <a
                                             className="trending-link text-center"
-                                            href="#"
+                                            href="/#"
                                         >
                                             Xem tiếp &#8594;
                                         </a>

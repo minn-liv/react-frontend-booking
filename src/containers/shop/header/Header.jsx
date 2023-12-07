@@ -104,22 +104,23 @@ class Header extends Component {
                             <a href="/category">Danh mục</a>
                         </li>
                         <li>
-                            <a href="#"> Combo Siêu Hời</a>
+                            <a href="/#"> Combo Siêu Hời</a>
                         </li>
                         <li>
-                            <a href="#"> Sản Phẩm Bán Chạy </a>
+                            <a href="/category/san-pham-ban-chay">
+                                {" "}
+                                Sản Phẩm Bán Chạy{" "}
+                            </a>
                         </li>
+
                         <li>
-                            <a href="#">Sản Phẩm Mới</a>
-                        </li>
-                        <li>
-                            <a href="#"> Thương Hiệu </a>
+                            <a href="/#"> Thương Hiệu </a>
                         </li>
                         <li>
                             <a href="/about"> Giới Thiệu</a>
                         </li>
                         <li>
-                            <a href="#"> Liên Hệ </a>
+                            <a href="/#"> Liên Hệ </a>
                         </li>
                         <li>
                             <a href="/blog">Blog</a>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../../axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,8 +6,6 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import "./MainShop.scss";
 function MainShop() {
     const [products, setProducts] = useState([]);
-    const textRef = useRef(null);
-    const [isOverflowing, setIsOverflowing] = useState(false);
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -20,13 +18,6 @@ function MainShop() {
         };
 
         fetchProducts();
-    }, []);
-
-    useEffect(() => {
-        const textElement = textRef.current;
-        if (textElement) {
-            setIsOverflowing(textElement.scrollWidth > textElement.clientWidth);
-        }
     }, []);
 
     const onActiveBorder = () => {

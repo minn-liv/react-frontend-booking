@@ -2,27 +2,12 @@ import "./FilterSection.scss";
 import axios from "../../../axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-    MDBTabs,
-    MDBTabsItem,
-    MDBTabsLink,
-    MDBTabsContent,
-    MDBTabsPane,
-} from "mdb-react-ui-kit";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 function FilterSection() {
     const [products, setProducts] = useState([]);
-    const [basicActive, setBasicActive] = useState("tab1");
-
-    const handleBasicClick = (value) => {
-        if (value === basicActive) {
-            return;
-        }
-
-        setBasicActive(value);
-    };
+    const [productsLength, setProductsLength] = useState(0);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -30,6 +15,7 @@ function FilterSection() {
                 const response = await axios.get("/api/ProductApi");
                 console.log("API Response:", response.data);
                 setProducts(response.data);
+                setProductsLength(response.data.length);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -44,66 +30,31 @@ function FilterSection() {
         }
         return str;
     };
+    function currencyFormat(num) {
+        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
+    }
     return (
         <div className="filter-container container-custom">
-            <p className="filter-title mb-0">GÔM DỮ NẾP</p>
+            <p className="filter-title mb-0">DANH MỤC</p>
             <ul className="filter-menu">
-                <li className="filter-menu-selected">Tất cả</li>
-                <li>Tạo màu cho tóc</li>
-                <li>Máy sấy tóc</li>
-                <li>Sáp vuốt tóc</li>
-                <li>Gôm giữ nếp</li>
+                <a href="/category" className="filter-menu-selected">
+                    Tất cả
+                </a>
+                <a href="/category/tao-mau-cho-toc">Tạo màu cho tóc</a>
+                <a>Máy sấy tóc</a>
+                <a>Sáp vuốt tóc</a>
+                <a>Gôm giữ nếp</a>
             </ul>
-            <div className="filter-tab-pane">
-                <MDBTabs className="mb-3">
-                    <MDBTabsItem>
-                        <MDBTabsLink
-                            onClick={() => handleBasicClick("tab1")}
-                            active={basicActive === "tab1"}
-                        >
-                            Tab 1
-                        </MDBTabsLink>
-                    </MDBTabsItem>
-                    <MDBTabsItem>
-                        <MDBTabsLink
-                            onClick={() => handleBasicClick("tab2")}
-                            active={basicActive === "tab2"}
-                        >
-                            Tab 2
-                        </MDBTabsLink>
-                    </MDBTabsItem>
-                    <MDBTabsItem>
-                        <MDBTabsLink
-                            onClick={() => handleBasicClick("tab3")}
-                            active={basicActive === "tab3"}
-                        >
-                            Tab 3
-                        </MDBTabsLink>
-                    </MDBTabsItem>
-                </MDBTabs>
-
-                <MDBTabsContent>
-                    <MDBTabsPane open={basicActive === "tab1"}>
-                        Tab 1 content
-                    </MDBTabsPane>
-                    <MDBTabsPane open={basicActive === "tab2"}>
-                        Tab 2 content
-                    </MDBTabsPane>
-                    <MDBTabsPane open={basicActive === "tab3"}>
-                        Tab 3 content
-                    </MDBTabsPane>
-                </MDBTabsContent>
-            </div>
             <div className="filter-info">
                 <p className="mb-0 filter-info-text">
-                    10 sản phẩm được tìm thấy theo *Combo tiết kiệm*
+                    {productsLength} sản phẩm được tìm thấy theo *Tất cả*
                 </p>
                 <div className="filter-button">
                     <p className="mb-0">Sắp xếp theo</p>
                     <select>
                         <option defaultChecked>Mặc định</option>
-                        <option>A dến Á</option>
-                        <option>Kimochi</option>
+                        <option>Giá thấp nhất đến cao nhất</option>
+                        <option>Giá cao nhất đến thấp nhất</option>
                     </select>
                 </div>
             </div>
@@ -124,11 +75,19 @@ function FilterSection() {
                                         alt={product.name}
                                     />
                                 </div>
-                                <h3 className="shop-main-item-name">
-                                    {replaceIfOverflow(product.name, 55)}
+                                <h3 className="shop-main-item-name  mb-0">
+                                    {replaceIfOverflow(product.name, 40)}
                                 </h3>
-                                <h3>Mã Sản phảm: {product.productId}</h3>
-                                <p>{product.price} đ</p>
+                                <p className="mb-0">
+                                    {currencyFormat(product.price)}
+                                </p>
+                                <div className="shop-main-item-rating">
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                </div>
                             </div>
                         </Link>
                     ))}

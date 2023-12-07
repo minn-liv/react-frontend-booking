@@ -1,7 +1,4 @@
-import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import axios from "../../../axios";
 
 import "./Blog.scss";
 import Header from "../header/Header";
@@ -28,7 +25,7 @@ function Blog() {
                         <img src={blog10} alt="" />
                     </div>
                     <div className="post__info">
-                        <a href="" className="post__category-button">
+                        <a href="/#" className="post__category-button">
                             Wild Life
                         </a>
                         <h2 className="post__title">
@@ -61,7 +58,7 @@ function Blog() {
                             <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
-                            <a href="" className="post__category-button">
+                            <a href="/#" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
@@ -93,7 +90,7 @@ function Blog() {
                             <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
-                            <a href="" className="post__category-button">
+                            <a href="/#" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
@@ -128,7 +125,7 @@ function Blog() {
                             <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
-                            <a href="" className="post__category-button">
+                            <a href="/#" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
@@ -163,7 +160,7 @@ function Blog() {
                             <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
-                            <a href="" className="post__category-button">
+                            <a href="/#" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
@@ -198,7 +195,7 @@ function Blog() {
                             <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
-                            <a href="" className="post__category-button">
+                            <a href="/#" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
@@ -233,7 +230,7 @@ function Blog() {
                             <img src={blog10} alt="" />
                         </div>
                         <div className="post__info">
-                            <a href="" className="post__category-button">
+                            <a href="/#" className="post__category-button">
                                 Wild Life
                             </a>
                             <h3 className="post__title">
