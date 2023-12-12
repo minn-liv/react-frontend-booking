@@ -13,7 +13,6 @@ function FilterSection() {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get("/api/ProductApi");
-                console.log("API Response:", response.data);
                 setProducts(response.data);
                 setProductsLength(response.data.length);
             } catch (error) {
@@ -37,13 +36,13 @@ function FilterSection() {
         <div className="filter-container container-custom">
             <p className="filter-title mb-0">DANH MỤC</p>
             <ul className="filter-menu">
-                <a href="/category" className="filter-menu-selected">
+                <a href="/danh-muc" className="filter-menu-selected">
                     Tất cả
                 </a>
-                <a href="/category/tao-mau-cho-toc">Tạo màu cho tóc</a>
-                <a>Máy sấy tóc</a>
-                <a>Sáp vuốt tóc</a>
-                <a>Gôm giữ nếp</a>
+                <a href="/danh-muc/tao-mau-cho-toc">Tạo kiểu tóc</a>
+                <a href="/danh-muc/cham-soc-da-mat">Chăm sóc da mặt</a>
+                <a href="/danh-muc/cham-soc-toc">Chăm sóc tóc</a>
+                <a href="/#">Gôm giữ nếp</a>
             </ul>
             <div className="filter-info">
                 <p className="mb-0 filter-info-text">
@@ -76,7 +75,7 @@ function FilterSection() {
                                     />
                                 </div>
                                 <h3 className="shop-main-item-name  mb-0">
-                                    {replaceIfOverflow(product.name, 40)}
+                                    {replaceIfOverflow(product.name, 45)}
                                 </h3>
                                 <p className="mb-0">
                                     {currencyFormat(product.price)}

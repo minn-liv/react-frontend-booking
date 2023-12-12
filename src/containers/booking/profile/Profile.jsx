@@ -93,14 +93,18 @@ class Profile extends Component {
             }
         }
     };
-
     toggleShow = () => {};
     render() {
         let userInfo = this.props.userInfo;
+        const { isLoggedIn } = this.props;
+
+        if (!isLoggedIn) {
+            return <Navigate to="/dang-nhap" />;
+        }
         return (
             <div className="">
                 <Header />
-                <section style={{ backgroundColor: "#eee" }}>
+                <section style={{ backgroundColor: "#eee" }} className="mt-0">
                     <MDBModal
                         show={this.state.basicModal}
                         setShow={() => this.toggleShow()}
@@ -253,6 +257,7 @@ class Profile extends Component {
 const mapStateToProps = (state) => {
     return {
         userInfo: state.user.userInfo,
+        isLoggedIn: state.user.isLoggedIn,
     };
 };
 

@@ -7,7 +7,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import "./CategoryShop.scss";
 import Header from "../header/Header";
 import FooterMini from "../../booking/footer/FooterMini";
-function CategoryTopSell() {
+function Category4() {
     const [products, setProducts] = useState([]);
     const [productsLength, setProductsLength] = useState(0);
 
@@ -15,9 +15,8 @@ function CategoryTopSell() {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    "https://localhost:7109/api/v1/ClientBuyProductApi/GetBestSellingProduct"
+                    "api/v1/ClientSearchProduct/filterProduct?productTypeId=4"
                 );
-                console.log("API Response:", response.data);
                 setProducts(response.data);
                 setProductsLength(response.data.length);
             } catch (error) {
@@ -42,18 +41,23 @@ function CategoryTopSell() {
         <React.Fragment>
             <Header />
             <div className="filter-container container-custom">
-                <p className="filter-title mb-0">Top sản phẩm bán chạy</p>
+                <p className="filter-title mb-0">DANH MỤC</p>
                 <ul className="filter-menu">
                     <a href="/danh-muc">Tất cả</a>
                     <a href="/danh-muc/tao-mau-cho-toc">Tạo kiểu tóc</a>
-                    <a href="/danh-muc/cham-soc-da-mat">Chăm sóc da mặt</a>
+                    <a
+                        href="/danh-muc/cham-soc-da-mat"
+                        className="filter-menu-selected"
+                    >
+                        Chăm sóc da mặt
+                    </a>
                     <a href="/danh-muc/cham-soc-toc">Chăm sóc tóc</a>
                     <a href="/#">Gôm giữ nếp</a>
                 </ul>
                 <div className="filter-info">
                     <p className="mb-0 filter-info-text text-center">
-                        {productsLength} sản phẩm được tìm thấy theo *Top sản
-                        phẩm bán chạy*
+                        {productsLength} sản phẩm được tìm thấy theo *Chăm sóc
+                        da mặt*
                     </p>
                     <div className="filter-button">
                         <p className="mb-0">Sắp xếp theo</p>
@@ -107,4 +111,4 @@ function CategoryTopSell() {
         </React.Fragment>
     );
 }
-export default CategoryTopSell;
+export default Category4;

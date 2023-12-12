@@ -84,6 +84,7 @@
                 .product-info-list {
                     display: flex;
                     border-top: 1px solid #ddd;
+                    border-right: 1px solid #ddd;
                     border-radius: 3px;
                     li {
                         border-bottom: 1px solid #ddd;
@@ -101,11 +102,7 @@
 
                     .product-info-first {
                         border-left: 1px solid #ddd;
-                        border-right: 1px solid #ddd;
-                    }
-                    .product-info-third {
-                        border-left: 1px solid #ddd;
-                        border-right: 1px solid #ddd;
+                        width: 100%;
                     }
                 }
             }
@@ -124,9 +121,10 @@
     }
 
     .product-checkout {
-        display: flex;
+        z-index: 9999;
+        position: fixed;
+        bottom: 1px;
         width: 100%;
-        display: flex;
         justify-content: center;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         button {

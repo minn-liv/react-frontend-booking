@@ -138,7 +138,7 @@ class Register extends Component {
         } = this.state;
         return (
             <div>
-                {this.state.registerSuccess && <Navigate to="/login" />}
+                {this.state.registerSuccess && <Navigate to="/dang-nhap" />}
                 <Header />
                 <Toaster />
                 <div
@@ -297,10 +297,11 @@ class Register extends Component {
                                     <div className="text-center">
                                         <p>
                                             Already Register?{" "}
-                                            <Link to="/login">Đăng nhập</Link>
+                                            <Link to="/dang-nhap">
+                                                Đăng nhập
+                                            </Link>
                                         </p>
-                                        <p>or sign up with:</p>
-
+                                        {/* 
                                         <MDBBtn
                                             tag="a"
                                             color="none"
@@ -351,7 +352,7 @@ class Register extends Component {
                                                 icon="github"
                                                 size="sm"
                                             />
-                                        </MDBBtn>
+                                        </MDBBtn> */}
                                     </div>
                                 </MDBCardBody>
                             </MDBCard>

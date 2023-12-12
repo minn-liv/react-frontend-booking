@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./containers/booking/home-page/HomePage";
 import Register from "./containers/booking/auth/Register";
 import Login from "./containers/booking/auth/Login";
@@ -12,29 +12,32 @@ import HomePageShop from "./containers/shop/home-page/HomePageShop";
 import CategoryShop from "./containers/shop/category/CategoryShop";
 import Cart from "./containers/shop/cart/Cart";
 import Product from "./containers/shop/product/Product";
-import MainShop from "./containers/shop/main-shop/MainShop";
 import About from "./containers/booking/about/About";
-import Category1 from "./containers/shop/category/Category1";
+import Category8 from "./containers/shop/category/Category8";
 import CategoryTopSell from "./containers/shop/category/CategoryTopSell";
+import Location from "./containers/booking/location/Location";
+import Category4 from "./containers/shop/category/Category4";
+import Category5 from "./containers/shop/category/Category5";
+import CartFalse from "./containers/shop/cart/CartFalse";
 const router = createBrowserRouter([
     {
         path: "/",
         element: <HomePage />,
     },
     {
-        path: "/register",
+        path: "/dang-ky",
         element: <Register />,
     },
     {
-        path: "/login",
+        path: "/dang-nhap",
         element: <Login />,
     },
     {
-        path: "/booking",
+        path: "/dat-lich",
         element: <Booking />,
     },
     {
-        path: "/services",
+        path: "/dich-vu",
         element: <Services />,
     },
     {
@@ -42,43 +45,55 @@ const router = createBrowserRouter([
         element: <Blog />,
     },
     {
-        path: "/post",
+        path: "/dia-chi",
+        element: <Location />,
+    },
+    {
+        path: "/bai-viet/:blogPostId",
         element: <SinglePost />,
     },
     {
-        path: "/shop",
+        path: "/cua-hang",
         element: <HomePageShop />,
     },
     {
-        path: "/category",
+        path: "/danh-muc",
         element: <CategoryShop />,
     },
     {
-        path: "/category/tao-mau-cho-toc",
-        element: <Category1 />,
+        path: "/danh-muc/tao-mau-cho-toc",
+        element: <Category8 />,
     },
     {
-        path: "/category/san-pham-ban-chay",
+        path: "/danh-muc/cham-soc-da-mat",
+        element: <Category4 />,
+    },
+    {
+        path: "/danh-muc/cham-soc-toc",
+        element: <Category5 />,
+    },
+    {
+        path: "/danh-muc/san-pham-ban-chay",
         element: <CategoryTopSell />,
     },
     {
-        path: "/cart/:cartId",
+        path: "/gio-hang/:cartId",
         element: <Cart />,
     },
     {
-        path: "/cart",
-        element: <Cart />,
+        path: "/gio-hang-false",
+        element: <CartFalse />,
     },
     {
-        path: "/product/:productId",
+        path: "/san-pham/:productId",
         element: <Product />,
     },
     {
-        path: "/profile/:id",
+        path: "/trang-ca-nhan/:id",
         element: <Profile />,
     },
     {
-        path: "/about",
+        path: "/ve-chung-toi",
         element: <About />,
     },
     {

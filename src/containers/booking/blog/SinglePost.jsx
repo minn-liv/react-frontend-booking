@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { useParams } from "react-router-dom";
 
 import axios from "../../../axios";
 
@@ -7,58 +8,86 @@ import "./SinglePost.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
-import avatar7 from "../../../assets/avatar/avatar7.jpg";
-import blog10 from "../../../assets/blog/blog10.jpg";
-
 function SinglePost() {
+    const { blogPostId } = useParams();
+    const [blogs, setBlogs] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (blogPostId) {
+                    const response = await axios.get(
+                        `/api/BlogApi/GetBlogById/${blogPostId}`
+                    );
+                    const productData = response.data;
+                    setBlogs(productData);
+                }
+            } catch (error) {
+                console.error("Error fetching product:", error);
+            }
+        };
+
+        fetchData();
+    }, [blogPostId]);
+
+    function formatDateTime(inputDateTime) {
+        const options = {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: false,
+            timeZone: "Asia/Ho_Chi_Minh",
+        };
+
+        const formattedDateTime = new Date(inputDateTime).toLocaleString(
+            "en-US",
+            options
+        );
+
+        const [datePart, timePart] = formattedDateTime.split(", ");
+        const [month, day, year] = datePart.split("/");
+        const [hour, minute] = timePart.split(":");
+        const formattedResult = `${day}/${month}/${year} - ${hour}:${minute}`;
+
+        return formattedResult;
+    }
+    const blogName = blogs.staff;
+    const blogDateTime = blogs.dateTime;
+    console.log(blogDateTime);
     return (
         <>
             <Header />
             <section className="singlepost">
                 <div className="container singlepost__container">
-                    <h2 className="post__title">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit
-                    </h2>
-                    <div className="post__author">
-                        <div className="post__author-avatar">
-                            <img src={avatar7} alt="" />
+                    {blogs ? (
+                        <div>
+                            <h2 className="post__title">{blogs.titile}</h2>
+                            <div className="post__author">
+                                {/* <div className="post__author-avatar">
+                                    <img src={avatar7} alt="" />
+                                </div> */}
+                                <div className="post__author-info">
+                                    <h5 className="post__author-info-title">
+                                        By: {blogName.name}
+                                    </h5>
+                                    <small className="post__author-info-time">
+                                        {formatDateTime(blogDateTime)}
+                                    </small>
+                                </div>
+                            </div>
+                            <div className="singlepost__thumbnail">
+                                <img
+                                    src={`https://localhost:7109${blogs.thumbnail}`}
+                                    alt=""
+                                />
+                            </div>
+                            <p>{blogs.body}</p>
                         </div>
-                        <div className="post__author-info">
-                            <h5 className="post__author-info-title">
-                                By: Minh
-                            </h5>
-                            <small className="post__author-info-time">
-                                19/9/2023 - 10:00
-                            </small>
-                        </div>
-                    </div>
-                    <div className="singlepost__thumbnail">
-                        <img src={blog10} alt="" />
-                    </div>
-                    <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Corrupti, ipsam. Accusamus officiis, similique
-                        praesentium amet omnis doloremque fugiat rem numquam
-                        inventore repellat ipsum. Iusto numquam ratione quia
-                        accusantium dolorem aspernatur corrupti itaque veniam
-                        aut, nam, at, quidem maiores. Laboriosam, tempore?
-                    </p>
-                    <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Corrupti, ipsam. Accusamus officiis, similique
-                        praesentium amet omnis doloremque fugiat rem numquam
-                        inventore repellat ipsum. Iusto numquam ratione quia
-                        accusantium dolorem aspernatur corrupti itaque veniam
-                        aut, nam, at, quidem maiores. Laboriosam, tempore?
-                    </p>
-                    <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Corrupti, ipsam. Accusamus officiis, similique
-                        praesentium amet omnis doloremque fugiat rem numquam
-                        inventore repellat ipsum. Iusto numquam ratione quia
-                        accusantium dolorem aspernatur corrupti itaque veniam
-                        aut, nam, at, quidem maiores. Laboriosam, tempore?
-                    </p>
+                    ) : (
+                        <div>Loading</div>
+                    )}
                 </div>
             </section>
             <FooterMini />

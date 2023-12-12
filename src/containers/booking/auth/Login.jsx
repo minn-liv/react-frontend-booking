@@ -95,7 +95,7 @@ class Login extends Component {
                 <div className="" style={{ background: "#f5f5f5" }}>
                     <MDBContainer
                         fluid
-                        className=" overflow-hidden"
+                        className=" overflow-hidden pb-5 pt-3"
                         style={{ width: "50%" }}
                     >
                         <MDBCard
@@ -151,9 +151,9 @@ class Login extends Component {
                                 <div className="text-center">
                                     <p>
                                         Not Registered?{" "}
-                                        <Link to="/register">Đăng ký</Link>
+                                        <Link to="/dang-ky">Đăng ký</Link>
                                     </p>
-                                    <p>or sign up with:</p>
+                                    {/* <p>or sign up with:</p>
 
                                     <MDBBtn
                                         tag="a"
@@ -193,7 +193,7 @@ class Login extends Component {
                                         style={{ color: "#1266f1" }}
                                     >
                                         <MDBIcon fab icon="github" size="sm" />
-                                    </MDBBtn>
+                                    </MDBBtn> */}
                                 </div>
                             </MDBCardBody>
                         </MDBCard>

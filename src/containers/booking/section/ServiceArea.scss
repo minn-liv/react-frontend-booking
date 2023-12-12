@@ -1,5 +1,7 @@
-.service-experience {
+.service-area {
     margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid #ddd;
 
     .service-experience-link {
         color: black;
@@ -24,18 +26,13 @@
     .service-experience-container {
         display: flex;
         gap: 3rem;
-        margin-top: 3rem;
+        margin-top: 2rem;
 
         .service-experience-box {
             display: flex;
             gap: 0.8rem;
             color: black;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            div {
-                text-align: justify;
-            }
             h4 {
                 font-weight: 600;
                 font-size: 20px;
@@ -46,8 +43,6 @@
             }
 
             img {
-                width: 100px;
-                height: 100px;
                 border-radius: 5px;
                 transition: transform 0.3s;
                 &:hover {

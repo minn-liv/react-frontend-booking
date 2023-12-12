@@ -31,12 +31,12 @@ class Header extends Component {
                     </Link>
                     <ul className="nav__items">
                         <li>
-                            <Link to="/services" className="nav__items-link">
+                            <Link to="/dich-vu" className="nav__items-link">
                                 Trải nghiệm dịch vụ
                             </Link>
                         </li>
                         <li>
-                            <a href="/shop" className="nav__items-link">
+                            <a href="/cua-hang" className="nav__items-link">
                                 Cửa hàng
                             </a>
                         </li>
@@ -46,9 +46,9 @@ class Header extends Component {
                             </Link>
                         </li>
                         <li>
-                            <a href="" className="nav__items-link">
+                            <Link to="/dia-chi" className="nav__items-link">
                                 Tìm baber gần nhất
-                            </a>
+                            </Link>
                         </li>
                         {userInfo && userInfo.userID ? (
                             <li className="nav__profile">
@@ -58,7 +58,7 @@ class Header extends Component {
                                 <ul>
                                     <li>
                                         <Link
-                                            to={`/profile/${userInfo.userID}`}
+                                            to={`/trang-ca-nhan/${userInfo.userID}`}
                                         >
                                             Thông tin cá nhân
                                         </Link>
@@ -74,7 +74,7 @@ class Header extends Component {
                             <ul style={{ display: "flex", gap: "2rem" }}>
                                 <li>
                                     <Link
-                                        to="/register"
+                                        to="/dang-ky"
                                         className="nav__items--register"
                                     >
                                         Đăng ký
@@ -82,7 +82,7 @@ class Header extends Component {
                                 </li>
                                 <li>
                                     <Link
-                                        to="/login"
+                                        to="/dang-nhap"
                                         className="nav__items--register"
                                     >
                                         Đăng nhập

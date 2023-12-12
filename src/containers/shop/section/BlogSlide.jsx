@@ -1,42 +1,20 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import axios from "../../../axios";
 
 import sanpham1 from "../../../assets/shop/product/sanpham1.jpg";
 import suaruamat from "../../../assets/shop/product/sua-rua-mat-1.png";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./Trending.scss";
+import "./BlogSlide.scss";
 
-class Trending extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            arrProduct: [],
-        };
-    }
-
+class BlogSlide extends Component {
     replaceIfOverflow = (str, maxLength) => {
         if (str.length > maxLength) {
             return str.substring(0, maxLength) + "...";
         }
         return str;
     };
-
-    componentDidMount(prevProps, prevState, snapshot) {
-        axios
-            .get(`/api/v1/ClientBuyProductApi/GetBestSellingProduct`)
-            .then((response) => {
-                this.setState({
-                    arrProduct: response.data,
-                });
-            })
-            .catch((error) => {
-                console.error("Error fetching branch data:", error);
-            });
-    }
-
     render() {
         const settings = {
             dots: false,
@@ -67,8 +45,7 @@ class Trending extends Component {
                 img: suaruamat,
             },
         ];
-        const product = this.state.arrProduct;
-        console.log(product);
+
         return (
             <div className=" trending-wrapper pb-5 mb-3">
                 <div className="trending-container">
@@ -76,30 +53,27 @@ class Trending extends Component {
                     <div className="trending-box mt-5">
                         <div className="trending-card">
                             <Slider {...settings}>
-                                {product.map((item, index) => (
-                                    <div key={index} className="">
+                                {data.map((d) => (
+                                    <div key={d.name} className="">
                                         <div className=" d-flex justify-content-center align-items-center ">
                                             <img
-                                                src={`https://localhost:7109${item.image}`}
+                                                src={d.img}
                                                 alt=""
-                                                style={{ objectFit: "contain" }}
+                                                className=" "
                                             />
                                         </div>
 
                                         <div className="d-flex flex-column align-items-center justify-content-center  ">
-                                            <p
-                                                className="text-xl font-semibold "
-                                                style={{ height: "40px" }}
-                                            >
+                                            <p className="text-xl font-semibold mt-3">
                                                 {this.replaceIfOverflow(
-                                                    item.name,
-                                                    100
+                                                    d.name,
+                                                    130
                                                 )}
                                             </p>
                                         </div>
                                         <a
                                             className="trending-link text-center"
-                                            href={`/san-pham/${item.productId}`}
+                                            href="/#"
                                         >
                                             Xem tiếp &#8594;
                                         </a>
@@ -114,4 +88,4 @@ class Trending extends Component {
     }
 }
 
-export default Trending;
+export default BlogSlide;

@@ -37,7 +37,7 @@ class Header extends Component {
                                         <ul>
                                             <li>
                                                 <Link
-                                                    to={`/profile/${userInfo.userID}`}
+                                                    to={`/trang-ca-nhan/${userInfo.userID}`}
                                                 >
                                                     Thông tin cá nhân
                                                 </Link>
@@ -55,7 +55,7 @@ class Header extends Component {
                                     >
                                         <li>
                                             <Link
-                                                to="/login"
+                                                to="/dang-nhap"
                                                 className="nav__items--register"
                                             >
                                                 Đăng nhập
@@ -68,7 +68,7 @@ class Header extends Component {
                                 {userInfo && userInfo.userID ? (
                                     <Link
                                         className="nav__items-cart icon"
-                                        to={`/cart/${userInfo.userID}`}
+                                        to={`/gio-hang/${userInfo.userID}`}
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +82,7 @@ class Header extends Component {
                                 ) : (
                                     <Link
                                         className="nav__items-cart icon"
-                                        to="/cart"
+                                        to="/gio-hang-false"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -101,17 +101,17 @@ class Header extends Component {
                 <div className="nav__menu">
                     <ul className="nav__menu-items mb-0">
                         <li>
-                            <a href="/category">Danh mục</a>
+                            <a href="/danh-muc">Danh mục</a>
                         </li>
                         <li>
-                            <a href="/category/san-pham-ban-chay">
+                            <a href="/danh-muc/san-pham-ban-chay">
                                 {" "}
                                 Sản Phẩm Bán Chạy{" "}
                             </a>
                         </li>
 
                         <li>
-                            <a href="/about"> Giới Thiệu</a>
+                            <a href="/ve-chung-toi"> Giới Thiệu</a>
                         </li>
                         <li>
                             <a href="/#"> Liên Hệ </a>

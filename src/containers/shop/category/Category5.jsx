@@ -7,7 +7,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import "./CategoryShop.scss";
 import Header from "../header/Header";
 import FooterMini from "../../booking/footer/FooterMini";
-function Category1() {
+function Category5() {
     const [products, setProducts] = useState([]);
     const [productsLength, setProductsLength] = useState(0);
 
@@ -15,9 +15,8 @@ function Category1() {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    "api/v1/ClientSearchProduct/filterProduct?productTypeId=8"
+                    "api/v1/ClientSearchProduct/filterProduct?productTypeId=5"
                 );
-                console.log("API Response:", response.data);
                 setProducts(response.data);
                 setProductsLength(response.data.length);
             } catch (error) {
@@ -44,20 +43,20 @@ function Category1() {
             <div className="filter-container container-custom">
                 <p className="filter-title mb-0">DANH MỤC</p>
                 <ul className="filter-menu">
-                    <a href="/category">Tất cả</a>
+                    <a href="/danh-muc">Tất cả</a>
+                    <a href="/danh-muc/tao-mau-cho-toc">Tạo kiểu tóc</a>
+                    <a href="/danh-muc/cham-soc-da-mat">Chăm sóc da mặt</a>
                     <a
-                        href="/category/tao-mau-cho-toc"
+                        href="/danh-muc/cham-soc-toc"
                         className="filter-menu-selected"
                     >
-                        Tạo kiểu tóc
+                        Chăm sóc tóc
                     </a>
-                    <a href="/#">Máy sấy tóc</a>
-                    <a href="/#">Sáp vuốt tóc</a>
                     <a href="/#">Gôm giữ nếp</a>
                 </ul>
                 <div className="filter-info">
                     <p className="mb-0 filter-info-text text-center">
-                        {productsLength} sản phẩm được tìm thấy theo *Tạo kiểu
+                        {productsLength} sản phẩm được tìm thấy theo *Chăm sóc
                         tóc*
                     </p>
                     <div className="filter-button">
@@ -112,4 +111,4 @@ function Category1() {
         </React.Fragment>
     );
 }
-export default Category1;
+export default Category5;

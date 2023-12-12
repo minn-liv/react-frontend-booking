@@ -1,0 +1,30 @@
+.location-container {
+    .location-box {
+        display: flex;
+        justify-content: center;
+        gap: 5rem;
+        .location-info {
+            h2 {
+                font-size: 25px;
+                color: black;
+            }
+            .location-text {
+                color: black;
+                font-size: 1.3rem;
+            }
+            .location-content {
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+
+                    p {
+                        color: black;
+
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}

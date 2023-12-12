@@ -10,7 +10,7 @@ class ServiceExperience extends Component {
         return (
             <div className="container service-experience">
                 <div>
-                    <Link to="/services" className="service-experience-link">
+                    <Link to="/dich-vu" className="service-experience-link">
                         Trải nghiệm dịch vụ
                     </Link>
                     <h3 className="service-experience-text">
@@ -18,7 +18,7 @@ class ServiceExperience extends Component {
                     </h3>
                 </div>
 
-                <Link to="/services">
+                <Link to="/dich-vu">
                     {" "}
                     <img
                         src={uon_han_quoc}
@@ -28,28 +28,28 @@ class ServiceExperience extends Component {
                 </Link>
 
                 <div className="service-experience-container row">
-                    <Link to="/services" className="service-experience-box col">
+                    <Link to="/dich-vu" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Thuốc uốn cao cấp</h4>
                             <p>Được sao Hàn tin dùng</p>
                         </div>
                     </Link>
-                    <Link to="/services" className="service-experience-box col">
+                    <Link to="/dich-vu" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Style tay nghề cao</h4>
                             <p>100% áp dụng công nghệ giao...</p>
                         </div>
                     </Link>
-                    <Link to="/services" className="service-experience-box col">
+                    <Link to="/dich-vu" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Đa dạng phong cách</h4>
                             <p>Bao đẹp trai với mọi khuôn mặt</p>
                         </div>
                     </Link>
-                    <Link to="/services" className="service-experience-box col">
+                    <Link to="/dich-vu" className="service-experience-box col">
                         <img src={cat_goi_message} alt="" className="" />
                         <div>
                             <h4>Cắt gội message</h4>

@@ -105,6 +105,102 @@
         }
     }
 
+    .shop-blog-container {
+        .trending-wrapper {
+            .slick-slide > div {
+                margin: 0 10px;
+            }
+
+            .slick-dots li.slick-active button:before {
+                color: orange !important;
+            }
+            // Reset slick slider css
+            .slick-prev {
+                left: -10px !important;
+                z-index: 1000 !important;
+                height: 48px !important;
+                width: 44px !important;
+                background: #fff !important;
+                border: 2px solid #d7d7d7 !important;
+
+                &:hover {
+                    background: #eceaea !important;
+                }
+            }
+
+            .slick-prev::before,
+            .slick-next::before {
+                font-family: FontAwesome !important;
+                color: red !important;
+                // content: "\f060" !important;
+            }
+            .slick-disabled {
+                display: none !important;
+            }
+            .slick-next {
+                right: -10px !important;
+                z-index: 1000 !important;
+                height: 48px !important;
+                width: 44px !important;
+                background: #fff !important;
+                border: 2px solid #d7d7d7 !important;
+
+                &:hover {
+                    background: #eceaea !important;
+                }
+            }
+            .trending-container {
+                margin: 0 100px;
+                display: flex;
+                flex-direction: column;
+                .trending-title {
+                    color: #e54d3e;
+                    font-size: 1.875rem;
+                    line-height: 2.25rem;
+                    border-bottom: 5px solid #fc2;
+                    padding-bottom: 1rem;
+                    padding-top: 1rem;
+                    font-weight: 700;
+                }
+
+                .trending-box {
+                    .trending-card {
+                        img {
+                            width: 347px;
+                            height: 277px;
+                            background-position: center center;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                        }
+                    }
+                    .trending-link {
+                        border: 2px solid #ddd;
+                        border-radius: 5px;
+                        display: flex;
+                        justify-content: center;
+                        padding: 1rem;
+                        color: #fc2;
+
+                        &.hover {
+                            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+                                rgba(0, 0, 0, 0.12) 0px -12px 30px,
+                                rgba(0, 0, 0, 0.12) 0px 4px 6px,
+                                rgba(0, 0, 0, 0.17) 0px 12px 13px,
+                                rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                        }
+                    }
+                }
+            }
+
+            .trending-card {
+                img {
+                    width: 400px;
+                    height: 300px;
+                }
+            }
+        }
+    }
+
     .shop-branding {
         height: 300px;
 

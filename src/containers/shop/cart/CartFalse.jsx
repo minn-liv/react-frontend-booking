@@ -18,18 +18,18 @@ class CategoryShop extends Component {
         };
     }
     componentDidMount(prevProps, prevState, snapshot) {
-        axios
-            .get(
-                `/api/v1/ClientBuyProductApi/GetCart/${this.props.userInfo.userID}`
-            )
-            .then((response) => {
-                this.setState({
-                    arrCart: response.data,
-                });
-            })
-            .catch((error) => {
-                console.error("Error fetching branch data:", error);
-            });
+        // axios
+        //     .get(
+        //         `/api/v1/ClientBuyProductApi/GetCart/${this.props.userInfo.userID}`
+        //     )
+        //     .then((response) => {
+        //         this.setState({
+        //             arrCart: response.data,
+        //         });
+        //     })
+        //     .catch((error) => {
+        //         console.error("Error fetching branch data:", error);
+        //     });
         // if (prevProps.cart !== this.props.cart) {
         //     this.setState({
         //         arrCart: this.props.cart,

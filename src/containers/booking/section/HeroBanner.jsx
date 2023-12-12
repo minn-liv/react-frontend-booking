@@ -49,7 +49,7 @@ class HeroBanner extends Component {
                 <div className="booking-click">
                     <h3>ĐẶT LỊCH GIỮ CHỖ CHỈ 30 GIÂY</h3>
                     <p>Cắt xong trả tiền, hủy lịch không sao</p>
-                    <Link to="/booking" className="booking-click-link">
+                    <Link to="/dat-lich" className="booking-click-link">
                         ĐẶT LỊCH NGAY
                     </Link>
                 </div>

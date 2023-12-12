@@ -111,88 +111,110 @@ function Product() {
     function currencyFormat(num) {
         return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
     }
+
+    const replaceIfOverflow = (str, maxLength) => {
+        if (str.length > maxLength) {
+            return str.substring(0, maxLength) + "...";
+        }
+        return str;
+    };
+
     return (
         <div className="product-wrapper">
             <Header />
             <Toaster />
-            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
-                <div>
-                    <MDBModalDialog>
-                        <MDBModalContent>
-                            <div className="checkout-container">
-                                <div className="checkout-close">
-                                    <span onClick={toggleShow}>X</span>
-                                </div>
-                                <div class="iphone">
-                                    <header class="header">
-                                        <h1>Thanh Toán</h1>
-                                    </header>
+            {userInfo ? (
+                <MDBModal
+                    show={basicModal}
+                    setShow={setBasicModal}
+                    tabIndex="-1"
+                >
+                    <div>
+                        <MDBModalDialog>
+                            <MDBModalContent>
+                                <div className="checkout-container">
+                                    <div className="checkout-close">
+                                        <span onClick={toggleShow}>X</span>
+                                    </div>
+                                    <div class="iphone">
+                                        <header class="header">
+                                            <h1>Thanh Toán</h1>
+                                        </header>
 
-                                    <div>
                                         <div>
-                                            <h2>Địa chỉ</h2>
+                                            <div>
+                                                <h2>Địa chỉ</h2>
 
-                                            <div class="card">
-                                                <address>
-                                                    Adam Johnson
-                                                    <br />
-                                                    {userInfo.address}
-                                                </address>
+                                                <div class="card">
+                                                    <address>
+                                                        Adam Johnson
+                                                        <br />
+                                                        {userInfo.address}
+                                                    </address>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div>
-                                            <h2>Hóa đơn</h2>
+                                            <div>
+                                                <h2>Hóa đơn</h2>
 
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Shipping fee</td>
-                                                        <td align="right">
-                                                            $5.43
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Discount 10%</td>
-                                                        <td align="right">
-                                                            -$1.89
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Price Total</td>
-                                                        <td align="right">
-                                                            $84.82
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td>Tổng thanh toán</td>
-                                                        <td align="right">
-                                                            {currencyFormat(
-                                                                product.price
-                                                            )}
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                Shipping fee
+                                                            </td>
+                                                            <td align="right">
+                                                                $5.43
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Discount 10%
+                                                            </td>
+                                                            <td align="right">
+                                                                -$1.89
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Price Total</td>
+                                                            <td align="right">
+                                                                $84.82
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td>
+                                                                Tổng thanh toán
+                                                            </td>
+                                                            <td align="right">
+                                                                {currencyFormat(
+                                                                    product.price
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
 
-                                        <div>
-                                            <button
-                                                class="button button--full"
-                                                onClick={handleBuyNow}
-                                            >
-                                                Mua ngay
-                                            </button>
+                                            <div>
+                                                <button
+                                                    class="button button--full"
+                                                    onClick={handleBuyNow}
+                                                >
+                                                    Mua ngay
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </MDBModalContent>
-                    </MDBModalDialog>
-                </div>
-            </MDBModal>
+                            </MDBModalContent>
+                        </MDBModalDialog>
+                    </div>
+                </MDBModal>
+            ) : (
+                ""
+            )}
 
             <div className="product-container container">
                 <div className="product-info-main">
@@ -290,20 +312,14 @@ function Product() {
                             <li className="product-info-first selected">
                                 Thông tin sản phẩm
                             </li>
-                            <li className="product-info-second">Thành phần</li>
+                            {/* <li className="product-info-second">Thành phần</li>
                             <li className="product-info-third">
                                 Hướng dẫn sử dụng
-                            </li>
+                            </li> */}
                         </ul>
                         <div className="product-info-text">
                             <p className="mb-0">
-                                Nếu bạn đang không có quá nhiều tiền để mua sáp
-                                vuốt tóc nhưng vẫn muốn có được một kiểu tóc đẹp
-                                thì sáp vuốt tóc Uno Hybrid Hard chắc chắn sẽ là
-                                sản phẩm đáp ứng được những nhu cầu trên của
-                                bạn. Cùng 30Shine Shop khám phá sản phẩm chỉ với
-                                mức giá chưa đến 150 “cành” qua bài viết dưới
-                                đây!
+                                {replaceIfOverflow(product.description, 300)}
                             </p>
                         </div>
                     </div>
@@ -318,8 +334,6 @@ function Product() {
                     MUA NGAY
                 </button>
             </div>
-
-            <FooterMini />
         </div>
     );
 }
