@@ -1,6 +1,7 @@
 import { Component, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
     MDBCol,
     MDBContainer,
@@ -111,9 +112,10 @@ function ItemsBooking({ currentItems }) {
 
 function PaginatedItemsBooking({ itemsPerPage }) {
     const [data, setData] = useState([]);
+    const userInfo = useSelector((state) => state.user.userInfo);
     useEffect(() => {
         axios
-            .get(`/api/v1/ClientBuyProductApi/GetBooking/19`)
+            .get(`/api/v1/ClientBuyProductApi/GetBooking/${userInfo.userID}`)
             .then((response) => {
                 setData(response.data);
             });
@@ -210,9 +212,13 @@ function ItemsBuying({ currentItems }) {
 
 function PaginatedItemsBuying({ itemsPerPage }) {
     const [data, setData] = useState([]);
+    const userInfo = useSelector((state) => state.user.userInfo);
+
     useEffect(() => {
         axios
-            .get(`/api/v1/ClientBuyProductApi/GetAllBillDetails/19`)
+            .get(
+                `/api/v1/ClientBuyProductApi/GetAllBillDetails/${userInfo.userID}`
+            )
             .then((response) => {
                 setData(response.data);
             });
