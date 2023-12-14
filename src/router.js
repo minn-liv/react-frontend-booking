@@ -19,6 +19,9 @@ import Location from "./containers/booking/location/Location";
 import Category4 from "./containers/shop/category/Category4";
 import Category5 from "./containers/shop/category/Category5";
 import CartFalse from "./containers/shop/cart/CartFalse";
+import MainShop4 from "./containers/shop/main-shop/MainShop4";
+import MainShop5 from "./containers/shop/main-shop/MainShop5";
+import MainShop6 from "./containers/shop/main-shop/MainShop6";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -55,6 +58,18 @@ const router = createBrowserRouter([
     {
         path: "/cua-hang",
         element: <HomePageShop />,
+    },
+    {
+        path: "/cua-hang/cham-soc-da-mat",
+        element: <MainShop4 />,
+    },
+    {
+        path: "/cua-hang/tao-kieu-toc",
+        element: <MainShop5 />,
+    },
+    {
+        path: "/cua-hang/cham-soc-co-the",
+        element: <MainShop6 />,
     },
     {
         path: "/danh-muc",

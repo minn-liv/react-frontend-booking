@@ -49,19 +49,23 @@ class HeroBanner extends Component {
                     <ul className="menu-item">
                         <li>
                             <img />
-                            <p>Giao hàng siêu tốc 2h</p>
+                            <p style={{ color: "black" }}>
+                                Giao hàng siêu tốc 2h
+                            </p>
                         </li>
                         <li>
                             <img />
-                            <p>Hoàn tiền 120%</p>
+                            <p style={{ color: "black" }}>Hoàn tiền 120%</p>
                         </li>
                         <li>
                             <img />
-                            <p>Đổi trả tận nơi</p>
+                            <p style={{ color: "black" }}> Đổi trả tận nơi</p>
                         </li>
                         <li>
                             <img />
-                            <p>Cam kết 7 ngày hiệu quả</p>
+                            <p style={{ color: "black" }}>
+                                Cam kết 7 ngày hiệu quả
+                            </p>
                         </li>
                     </ul>
                 </div>

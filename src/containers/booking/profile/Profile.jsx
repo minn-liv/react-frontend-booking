@@ -1,4 +1,5 @@
-import { Component } from "react";
+import { Component, useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { Navigate } from "react-router-dom";
 import {
     MDBCol,
@@ -17,6 +18,9 @@ import {
     MDBModalBody,
     MDBModalFooter,
     MDBInput,
+    MDBTable,
+    MDBTableHead,
+    MDBTableBody,
 } from "mdb-react-ui-kit";
 import { connect } from "react-redux";
 
@@ -24,6 +28,228 @@ import axios from "../../../axios";
 import "./Profile.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
+
+const replaceIfOverflow = (str, maxLength) => {
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + "...";
+    }
+    return str;
+};
+
+function formatDateTime(inputDateTime) {
+    const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+        timeZone: "Asia/Ho_Chi_Minh",
+    };
+
+    const formattedDateTime = new Date(inputDateTime).toLocaleString(
+        "en-US",
+        options
+    );
+
+    const [datePart, timePart] = formattedDateTime.split(", ");
+    const [month, day, year] = datePart.split("/");
+    const [hour, minute] = timePart.split(":");
+    const formattedResult = `${day}/${month}/${year} - ${hour}:${minute}`;
+
+    return formattedResult;
+}
+function currencyFormat(num) {
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
+}
+
+function ItemsBooking({ currentItems }) {
+    return (
+        <>
+            <MDBCardText className="mb-4">
+                <span
+                    className=" font-italic me-1 font-weight-bold"
+                    style={{
+                        color: "black",
+                        fontSize: "1.5rem",
+                    }}
+                >
+                    <strong>Lịch sử mua hàng</strong>
+                </span>{" "}
+            </MDBCardText>
+            <MDBTable hover>
+                <MDBTableHead light>
+                    <tr>
+                        <th scope="col">Dịch vụ</th>
+                        <th scope="col">Nhân viên phục vụ</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Tình Trạng</th>
+                        <th scope="col">Thời gian</th>
+                    </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                    {currentItems &&
+                        currentItems.length > 0 &&
+                        currentItems.map((item, index) => (
+                            <tr key={index}>
+                                <th scope="col">{item.combo.name}</th>
+                                <th scope="col">{item.staff.name}</th>
+                                <th scope="col">{item.branch.address}</th>
+                                <th scope="col">
+                                    {item.status ? "Hoàn Thành" : "Đang Đợi"}
+                                </th>
+                                <th scope="col">
+                                    {formatDateTime(item.dateTime)}
+                                </th>
+                            </tr>
+                        ))}
+                </MDBTableBody>
+            </MDBTable>
+        </>
+    );
+}
+
+function PaginatedItemsBooking({ itemsPerPage }) {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios
+            .get(`/api/v1/ClientBuyProductApi/GetBooking/19`)
+            .then((response) => {
+                setData(response.data);
+            });
+    }, []);
+    const [itemOffset, setItemOffset] = useState(0);
+
+    const endOffset = itemOffset + itemsPerPage;
+    const currentItems = data.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(data.length / itemsPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % data.length;
+        setItemOffset(newOffset);
+    };
+
+    return (
+        <MDBRow className="mt-5">
+            <MDBCol md="12">
+                <MDBCard className="mb-4 mb-md-0">
+                    <div className="p-5">
+                        <ItemsBooking currentItems={currentItems} />
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel=">>"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            previousLabel="<<"
+                            renderOnZeroPageCount={null}
+                            className="paginate-container d-flex justify-content-center mt-5 "
+                        />
+                    </div>
+                </MDBCard>
+            </MDBCol>
+        </MDBRow>
+    );
+}
+
+function ItemsBuying({ currentItems }) {
+    return (
+        <>
+            <MDBCardText className="mb-4">
+                <span
+                    className=" font-italic me-1 font-weight-bold"
+                    style={{
+                        color: "black",
+                        fontSize: "1.5rem",
+                    }}
+                >
+                    <strong>Lịch sử mua hàng</strong>
+                </span>{" "}
+            </MDBCardText>
+            <MDBTable hover responsive>
+                <MDBTableHead light>
+                    <tr>
+                        <th scope="col" colSpan={9}>
+                            Tên sản phẩm
+                        </th>
+                        <th scope="col" colSpan={1}>
+                            Số lượng
+                        </th>
+                        <th scope="col" colSpan={1}>
+                            Tổng thanh toán
+                        </th>
+                        <th scope="col" colSpan={1}>
+                            Thời Gian
+                        </th>
+                    </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                    {currentItems &&
+                        currentItems.length > 0 &&
+                        currentItems.map((item, index) => (
+                            <tr key={index}>
+                                <th scope="col" colSpan={9}>
+                                    {replaceIfOverflow(item.productName, 50)}
+                                </th>
+                                <th scope="col" colSpan={1}>
+                                    {item.quantity}
+                                </th>
+                                <th scope="col" colSpan={1}>
+                                    {currencyFormat(item.price)}
+                                </th>
+                                <th scope="col" colSpan={1}>
+                                    {formatDateTime(item.createdAt)}
+                                </th>
+                            </tr>
+                        ))}
+                </MDBTableBody>
+            </MDBTable>
+        </>
+    );
+}
+
+function PaginatedItemsBuying({ itemsPerPage }) {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios
+            .get(`/api/v1/ClientBuyProductApi/GetAllBillDetails/19`)
+            .then((response) => {
+                setData(response.data);
+            });
+    }, []);
+    const [itemOffset, setItemOffset] = useState(0);
+
+    const endOffset = itemOffset + itemsPerPage;
+    const currentItems = data.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(data.length / itemsPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % data.length;
+        setItemOffset(newOffset);
+    };
+
+    return (
+        <MDBRow className="mt-5">
+            <MDBCol md="12">
+                <MDBCard className="mb-4 mb-md-0">
+                    <div className="p-5">
+                        <ItemsBuying currentItems={currentItems} />
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel=">>"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            previousLabel="<<"
+                            renderOnZeroPageCount={null}
+                            className="paginate-container d-flex justify-content-center mt-5 "
+                        />
+                    </div>
+                </MDBCard>
+            </MDBCol>
+        </MDBRow>
+    );
+}
 
 class Profile extends Component {
     constructor(props) {
@@ -35,33 +261,12 @@ class Profile extends Component {
             address: "",
             userData: "",
             basicModal: false,
+            historyBuying: [],
+            historyBooking: [],
         };
     }
 
-    // if (!idUser) {
-    //     return <Navigate to="/login" />;
-    // }
-    fetchData = async () => {
-        try {
-            if (this.props.userInfo.userID) {
-                const response = await fetch(
-                    `https://localhost:7109/api/v1/ClientLogin/user/${this.props.userInfo.userID}`
-                );
-                const user = await response.json();
-                this.setState({
-                    email: user.email,
-                    name: user.name,
-                    phone: user.phone,
-                    address: user.address,
-                });
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-    componentDidUpdate() {
-        this.fetchData();
-    }
+    componentDidMount() {}
 
     onSubmit = async () => {
         const payload = {
@@ -93,16 +298,17 @@ class Profile extends Component {
             }
         }
     };
+
     toggleShow = () => {};
     render() {
         let userInfo = this.props.userInfo;
-        const { isLoggedIn } = this.props;
 
+        const { isLoggedIn } = this.props;
         if (!isLoggedIn) {
             return <Navigate to="/dang-nhap" />;
         }
         return (
-            <div className="">
+            <div className="profile-container">
                 <Header />
                 <section style={{ backgroundColor: "#eee" }} className="mt-0">
                     <MDBModal
@@ -246,6 +452,9 @@ class Profile extends Component {
                                 </MDBCard>
                             </MDBCol>
                         </MDBRow>
+
+                        <PaginatedItemsBooking itemsPerPage={5} />
+                        <PaginatedItemsBuying itemsPerPage={5} />
                     </MDBContainer>
                 </section>
                 <FooterMini />

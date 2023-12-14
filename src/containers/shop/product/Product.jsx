@@ -41,7 +41,7 @@ function Product() {
             .then((response) => {
                 setTimeout(() => {
                     toast.success("Thêm sản phẩm vào giỏ hàng thành công!");
-                }, 2000);
+                }, 1000);
                 console.log(response);
             })
             .catch((error) => {
@@ -49,7 +49,7 @@ function Product() {
                     toast.error(
                         "Thêm sản phẩm vào giỏ hàng thất bại, sản phẩm đã hết hàng!"
                     );
-                }, 2000);
+                }, 1000);
                 console.log(error);
             });
     };
@@ -70,11 +70,11 @@ function Product() {
                     toast.success(
                         "Đặt hàng thành công, Vui lòng kiểm tra Email!"
                     );
-                }, 2000);
+                }, 500);
 
                 setTimeout(() => {
-                    navigate("/shop");
-                }, 4000);
+                    navigate("/cua-hang");
+                }, 2000);
             })
             .catch((error) => {
                 setTimeout(() => {
@@ -143,51 +143,34 @@ function Product() {
 
                                         <div>
                                             <div>
-                                                <h2>Địa chỉ</h2>
+                                                <h2>Sản phẩm</h2>
 
-                                                <div class="card">
+                                                <div class="card mb-3 mt-3">
                                                     <address>
-                                                        Adam Johnson
-                                                        <br />
-                                                        {userInfo.address}
+                                                        {product.name}
                                                     </address>
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <h2>Hóa đơn</h2>
+                                                <h2>Địa chỉ</h2>
 
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                Shipping fee
-                                                            </td>
-                                                            <td align="right">
-                                                                $5.43
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Discount 10%
-                                                            </td>
-                                                            <td align="right">
-                                                                -$1.89
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Price Total</td>
-                                                            <td align="right">
-                                                                $84.82
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
+                                                <div class="card mb-3 mt-3">
+                                                    <address>
+                                                        {userInfo.address}
+                                                    </address>
+                                                </div>
+
+                                                <table className="mt-3 mb-3">
                                                     <tfoot>
                                                         <tr>
-                                                            <td>
+                                                            <td className="pt-2">
                                                                 Tổng thanh toán
                                                             </td>
-                                                            <td align="right">
+                                                            <td
+                                                                align="right"
+                                                                className="pt-2"
+                                                            >
                                                                 {currencyFormat(
                                                                     product.price
                                                                 )}

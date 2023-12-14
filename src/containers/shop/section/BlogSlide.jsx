@@ -50,7 +50,7 @@ class BlogSlide extends Component {
             <div className=" trending-wrapper pb-5 mb-3">
                 <div className="trending-container">
                     <h2 className=" trending-title mt-3">TOP TÌM KIẾM</h2>
-                    <div className="trending-box mt-5">
+                    <div className="trending-box mt-5 mb-5">
                         <div className="trending-card">
                             <Slider {...settings}>
                                 {data.map((d) => (

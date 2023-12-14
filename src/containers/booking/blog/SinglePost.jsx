@@ -30,32 +30,23 @@ function SinglePost() {
         fetchData();
     }, [blogPostId]);
 
-    function formatDateTime(inputDateTime) {
-        const options = {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            hour12: false,
-            timeZone: "Asia/Ho_Chi_Minh",
-        };
+    function formatDateAndTime(input) {
+        if (input) {
+            let dateTime = new Date(input);
 
-        const formattedDateTime = new Date(inputDateTime).toLocaleString(
-            "en-US",
-            options
-        );
+            // Get information about the date, month, year, hour, minute, second
+            let date = dateTime.toLocaleDateString("en-US");
+            let time = dateTime.toLocaleTimeString("en-US", { hour12: false });
 
-        const [datePart, timePart] = formattedDateTime.split(", ");
-        const [month, day, year] = datePart.split("/");
-        const [hour, minute] = timePart.split(":");
-        const formattedResult = `${day}/${month}/${year} - ${hour}:${minute}`;
+            // Combine into the desired format
+            let result = `${date} - ${time}`;
 
-        return formattedResult;
+            return result;
+        }
     }
     const blogName = blogs.staff;
     const blogDateTime = blogs.dateTime;
-    console.log(blogDateTime);
+    const timeFormat = formatDateAndTime(blogDateTime);
     return (
         <>
             <Header />
@@ -73,7 +64,7 @@ function SinglePost() {
                                         By: {blogName.name}
                                     </h5>
                                     <small className="post__author-info-time">
-                                        {formatDateTime(blogDateTime)}
+                                        {timeFormat}
                                     </small>
                                 </div>
                             </div>

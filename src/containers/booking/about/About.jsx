@@ -7,12 +7,13 @@ import aboutBanner from "../../../assets/banner/about-banner.jpg";
 import aboutBanner2 from "../../../assets/banner/about-banner2.jpg";
 import aboutBanner3 from "../../../assets/banner/about-banner3.jpg";
 import aboutBanner4 from "../../../assets/banner/about-banner4.jpg";
+import BlogSlide from "../../shop/section/BlogSlide";
 
 function About() {
     return (
         <React.Fragment>
             <Header />
-            <div className="about-container container">
+            <div className="about-container container mb-5">
                 <div className="about-banner mt-5">
                     <img src={aboutBanner} />
                 </div>
@@ -64,11 +65,8 @@ function About() {
                         tới cuộc sống sung túc và hạnh phúc.
                     </p>
                 </div>
-
-                <div className="about-vision">
-                    <h2 className="mt-5">TIN TỨC MỚI NHẤT VỀ 30SHINE</h2>
-                </div>
             </div>
+
             <FooterMini />
         </React.Fragment>
     );

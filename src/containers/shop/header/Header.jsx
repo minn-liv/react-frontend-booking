@@ -26,9 +26,6 @@ class Header extends Component {
                                 />
                             </li>
                             <li>
-                                {/* <button className="nav__items-login">
-                                    Đăng Nhập
-                                </button> */}
                                 {userInfo && userInfo.userID ? (
                                     <li className="nav__profile">
                                         <div className="nav__profile-avatar">

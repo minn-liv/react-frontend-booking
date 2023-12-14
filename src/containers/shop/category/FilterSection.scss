@@ -100,11 +100,20 @@
             padding: 2rem;
             display: flex;
             justify-content: center;
-            button {
-                background-color: #fff;
-                border-radius: 6px;
-                padding: 1rem 4rem 1rem 4rem;
-                border: 1px solid black;
+            li {
+                &.selected {
+                    a {
+                        background: #ddd;
+                    }
+                }
+            }
+            a {
+                padding: 0.7rem 1rem;
+                border: 1px solid #ddd;
+
+                &:hover {
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                }
             }
         }
     }

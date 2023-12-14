@@ -45,30 +45,8 @@ class Trending extends Component {
             slidesToShow: 3,
             slidesToScroll: 1,
         };
-        const data = [
-            {
-                name: `  30Shine - chuỗi salon tóc nam lớn nhất Việt Nam
-                được đầu tư gần 15 triệu USDđược đầu tư gần 15 triệu USDđược đầu tư gần 15 triệu USDđược đầu tư gần 15 triệu USD`,
-                img: sanpham1,
-            },
-            {
-                name: `  30Shine - chuỗi salon tóc nam lớn nhất Việt Nam
-                được đầu tư gần 15 triệu USD`,
-                img: suaruamat,
-            },
-            {
-                name: `  30Shine - chuỗi salon tóc nam lớn nhất Việt Nam
-                được đầu tư gần 15 triệu USD`,
-                img: sanpham1,
-            },
-            {
-                name: `  30Shine - chuỗi salon tóc nam lớn nhất Việt Nam
-                được đầu tư gần 15 triệu USD`,
-                img: suaruamat,
-            },
-        ];
+
         const product = this.state.arrProduct;
-        console.log(product);
         return (
             <div className=" trending-wrapper pb-5 mb-3">
                 <div className="trending-container">
@@ -77,7 +55,7 @@ class Trending extends Component {
                         <div className="trending-card">
                             <Slider {...settings}>
                                 {product.map((item, index) => (
-                                    <div key={index} className="">
+                                    <div key={index}>
                                         <div className=" d-flex justify-content-center align-items-center ">
                                             <img
                                                 src={`https://localhost:7109${item.image}`}

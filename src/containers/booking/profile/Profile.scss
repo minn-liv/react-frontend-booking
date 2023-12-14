@@ -1,6 +1,26 @@
-.profile-avatar-container {
-    padding-top: 3rem !important;
-}
-.profile-information-container {
-    padding-top: 3rem !important;
+.profile-container {
+    .profile-avatar-container {
+        padding-top: 3rem !important;
+    }
+    .profile-information-container {
+        padding-top: 3rem !important;
+    }
+
+    .paginate-container {
+        li {
+            &.selected {
+                a {
+                    background: #ddd;
+                }
+            }
+        }
+        a {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+
+            &:hover {
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            }
+        }
+    }
 }
