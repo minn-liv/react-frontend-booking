@@ -117,20 +117,20 @@ class CategoryShop extends Component {
             .then(() => {
                 console.log("Xóa tất cả sản phẩm thành công");
                 this.fetchCartData();
-                location.reload();
+                window.location.reload();
             })
             .catch((error) => {
                 console.error(
                     "Lỗi khi xóa tất cả sản phẩm từ giỏ hàng:",
                     error
                 );
-                location.reload();
+                window.location.reload();
             });
     };
     onDeleteItem = (productId, quantity) => {
         const { userID } = this.props.userInfo;
         this.props.deleteAItemCart(userID, productId, quantity);
-        location.reload();
+        window.location.reload();
     };
     currencyFormat(num) {
         return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";

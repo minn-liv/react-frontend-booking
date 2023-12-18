@@ -1,12 +1,38 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import avatar7 from "../../../assets/avatar/avatar7.jpg";
 import icon_vo_van from "../../../assets/icon_vo_van.png";
+import { useNavigate } from "react-router-dom";
 import "./Header.scss";
 
+function Search() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+    const onSubmitSearch = (event) => {
+        event.preventDefault();
+        navigate(`/tim-kiem/${searchQuery}`);
+    };
+    return (
+        <form onSubmit={onSubmitSearch}>
+            <input
+                type="text"
+                placeholder="Nhập từ khóa..."
+                className="nav__items-search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit">Tìm kiếm</button>
+        </form>
+    );
+}
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { searchQuery: "" };
+    }
+
     render() {
         const { userLogout, userInfo } = this.props;
         return (
@@ -18,18 +44,27 @@ class Header extends Component {
                         </Link>
                         <ul className="nav__items">
                             <li>
-                                <input
-                                    type="text"
-                                    className="nav__items-search"
-                                    placeholder="Tìm kiếm sản phẩm"
-                                    id="search"
-                                />
+                                <Search />
                             </li>
                             <li>
                                 {userInfo && userInfo.userID ? (
                                     <li className="nav__profile">
                                         <div className="nav__profile-avatar">
-                                            <img src={avatar7} alt="" />
+                                            <p className="mb-0">
+                                                {userInfo.username} {""}
+                                                <svg
+                                                    viewBox="0 0 1024 1024"
+                                                    focusable="false"
+                                                    class=""
+                                                    data-icon="caret-down"
+                                                    width="1em"
+                                                    height="1em"
+                                                    fill="currentColor"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"></path>
+                                                </svg>
+                                            </p>
                                         </div>
                                         <ul>
                                             <li>

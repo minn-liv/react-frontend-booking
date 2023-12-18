@@ -13,6 +13,16 @@
                 }
             }
             .nav__items {
+                form {
+                    display: flex;
+                    gap: 1rem;
+
+                    button {
+                        background: #ffcc33;
+                        border-radius: 5px;
+                        padding: 0 1rem;
+                    }
+                }
                 .nav__items-cart {
                     height: 50px;
                     width: 50px;

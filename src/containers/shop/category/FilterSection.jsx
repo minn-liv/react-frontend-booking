@@ -20,7 +20,7 @@ function currencyFormat(num) {
 
 function Items({ currentItems }) {
     return (
-        <div className="shop-main-card">
+        <div className="shop-main-card mt-4">
             {currentItems.map((product, index) => (
                 <Link
                     key={product.productId}
@@ -54,8 +54,11 @@ function Items({ currentItems }) {
 
 function PaginatedItems({ itemsPerPage }) {
     const [data, setData] = useState([]);
+    const [productsLength, setProductsLength] = useState(0);
+    const [sortType, setSortType] = useState("default");
     useEffect(() => {
         axios.get(`/api/ProductApi`).then((response) => {
+            setProductsLength(response.data.length);
             setData(response.data);
         });
     }, []);
@@ -69,9 +72,43 @@ function PaginatedItems({ itemsPerPage }) {
         const newOffset = (event.selected * itemsPerPage) % data.length;
         setItemOffset(newOffset);
     };
+    const handleSort = (type) => {
+        setSortType(type);
+        let sortedData = [];
+
+        if (type === "default") {
+            sortedData = [...data];
+        } else if (type === "lowToHigh") {
+            sortedData = [...data].sort((a, b) => a.price - b.price);
+        } else if (type === "highToLow") {
+            sortedData = [...data].sort((a, b) => b.price - a.price);
+        }
+        setData(sortedData);
+    };
 
     return (
         <div className="shop-main-content container mt-3">
+            <div className="filter-info">
+                <p className="mb-0 filter-info-text">
+                    {productsLength} sản phẩm được tìm thấy theo *Tất cả*
+                </p>
+                <div className="filter-button">
+                    <p className="mb-0">Sắp xếp theo</p>
+                    <select
+                        id="sortSelect"
+                        value={sortType}
+                        onChange={(e) => handleSort(e.target.value)}
+                    >
+                        <option value="default">Mặc định</option>
+                        <option value="lowToHigh">
+                            Giá thấp nhất đến cao nhất
+                        </option>
+                        <option value="highToLow">
+                            Giá cao nhất đến thấp nhất
+                        </option>
+                    </select>
+                </div>
+            </div>
             <Items currentItems={currentItems} />
             <div className="shop-main-show-more">
                 <ReactPaginate
@@ -90,21 +127,6 @@ function PaginatedItems({ itemsPerPage }) {
 }
 
 function FilterSection() {
-    const [productsLength, setProductsLength] = useState(0);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get("/api/ProductApi");
-                setProductsLength(response.data.length);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
-
-        fetchProducts();
-    }, []);
-
     return (
         <div className="filter-container container-custom">
             <p className="filter-title mb-0">DANH MỤC</p>
@@ -115,21 +137,8 @@ function FilterSection() {
                 <a href="/danh-muc/tao-mau-cho-toc">Tạo kiểu tóc</a>
                 <a href="/danh-muc/cham-soc-da-mat">Chăm sóc da mặt</a>
                 <a href="/danh-muc/cham-soc-toc">Chăm sóc tóc</a>
-                <a href="/#">Gôm giữ nếp</a>
             </ul>
-            <div className="filter-info">
-                <p className="mb-0 filter-info-text">
-                    {productsLength} sản phẩm được tìm thấy theo *Tất cả*
-                </p>
-                <div className="filter-button">
-                    <p className="mb-0">Sắp xếp theo</p>
-                    <select>
-                        <option defaultChecked>Mặc định</option>
-                        <option>Giá thấp nhất đến cao nhất</option>
-                        <option>Giá cao nhất đến thấp nhất</option>
-                    </select>
-                </div>
-            </div>
+
             <PaginatedItems itemsPerPage={5} />
         </div>
     );

@@ -22,6 +22,7 @@ import CartFalse from "./containers/shop/cart/CartFalse";
 import MainShop4 from "./containers/shop/main-shop/MainShop4";
 import MainShop5 from "./containers/shop/main-shop/MainShop5";
 import MainShop6 from "./containers/shop/main-shop/MainShop6";
+import Search from "./containers/shop/category/Search";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
     {
         path: "/danh-muc",
         element: <CategoryShop />,
+    },
+    {
+        path: "/tim-kiem/:query",
+        element: <Search />,
     },
     {
         path: "/danh-muc/tao-mau-cho-toc",

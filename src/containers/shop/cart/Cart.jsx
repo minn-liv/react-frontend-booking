@@ -66,6 +66,53 @@ class CategoryShop extends Component {
             });
     };
 
+    buyAllInCart = () => {
+        const { userID } = this.props.userInfo;
+
+        axios
+            .post(`/api/v1/ClientBuyProductApi/BuyAllInCart/${userID}`)
+            .then((response) => {
+                console.log("Purchase successful:", response.data);
+
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error("Error purchasing items:", error);
+            });
+    };
+
+    IncreaseAnDecrease = (productId, operation) => {
+        const { userID } = this.props.userInfo;
+
+        let axiosRequest;
+
+        if (operation === "increase") {
+            axiosRequest = axios.put(
+                `/api/v1/ClientBuyProductApi/UpdateCartIncrease/${userID}/${productId}`
+            );
+        } else if (operation === "decrease") {
+            axiosRequest = axios.put(
+                `/api/v1/ClientBuyProductApi/UpdateCartDecrease/${userID}/${productId}`
+            );
+        }
+
+        if (axiosRequest) {
+            axiosRequest
+                .then((response) => {
+                    console.log(
+                        `Quantity ${operation}d successfully`,
+                        response
+                    );
+                    this.fetchCartData();
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error(`Error ${operation}ing quantity:`, error);
+                    window.location.reload();
+                });
+        }
+    };
+
     handleCheckboxChange = () => {
         this.setState((prevState) => ({
             allChecked: !prevState.allChecked,
@@ -117,20 +164,20 @@ class CategoryShop extends Component {
             .then(() => {
                 console.log("Xóa tất cả sản phẩm thành công");
                 this.fetchCartData();
-                location.reload();
+                window.location.reload();
             })
             .catch((error) => {
                 console.error(
                     "Lỗi khi xóa tất cả sản phẩm từ giỏ hàng:",
                     error
                 );
-                location.reload();
+                window.location.reload();
             });
     };
     onDeleteItem = (productId, quantity) => {
         const { userID } = this.props.userInfo;
         this.props.deleteAItemCart(userID, productId, quantity);
-        location.reload();
+        window.location.reload();
     };
     currencyFormat(num) {
         return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
@@ -175,13 +222,29 @@ class CategoryShop extends Component {
 
                                             <div className="cart-item-button">
                                                 <div className="cart-item-button-box">
-                                                    <span className="button-decrease">
+                                                    <span
+                                                        className="button-decrease"
+                                                        onClick={() =>
+                                                            this.IncreaseAnDecrease(
+                                                                item.productId,
+                                                                "decrease"
+                                                            )
+                                                        }
+                                                    >
                                                         -
                                                     </span>
                                                     <span className="button-number">
                                                         {item.quantity}
                                                     </span>
-                                                    <span className="button-increase">
+                                                    <span
+                                                        className="button-increase"
+                                                        onClick={() =>
+                                                            this.IncreaseAnDecrease(
+                                                                item.productId,
+                                                                "increase"
+                                                            )
+                                                        }
+                                                    >
                                                         +
                                                     </span>
                                                 </div>
@@ -227,7 +290,9 @@ class CategoryShop extends Component {
                                 <button onClick={this.XoaTatCaSanPham}>
                                     Xóa sản phẩm đã chọn
                                 </button>
-                                <button>ĐẶT HÀNG</button>
+                                <button onClick={this.buyAllInCart}>
+                                    ĐẶT HÀNG
+                                </button>
                             </div>
                         </div>
                     </div>

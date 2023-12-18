@@ -57,12 +57,14 @@ nav {
             position: relative;
             cursor: pointer;
             .nav__profile-avatar {
-                width: 3rem !important;
-                height: 3rem !important;
-                border-radius: 50%;
                 overflow: hidden;
                 display: flex;
                 cursor: pointer;
+                p {
+                    background: #ffcc33;
+                    padding: 0.25rem 1rem;
+                    border-radius: 5px;
+                }
             }
         }
 

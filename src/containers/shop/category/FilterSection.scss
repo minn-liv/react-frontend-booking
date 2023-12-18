@@ -27,7 +27,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 3rem;
         .filter-info-text {
             font-size: 1.3rem;
             color: black;
@@ -40,9 +39,10 @@
             p {
                 font-size: 1rem;
                 font-weight: 700;
+                color: black;
             }
             select {
-                padding: 1rem 2rem;
+                padding: 0.5rem 1rem;
                 border: 1px solid black;
                 border-radius: 3px;
             }
@@ -114,6 +114,21 @@
                 &:hover {
                     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
                 }
+            }
+        }
+
+        .shop-main-content-error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                width: 256px;
+                height: 256px;
+            }
+            p {
+                font-size: 1.5rem;
+                color: black;
             }
         }
     }
