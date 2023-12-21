@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import toast, { Toaster } from "react-hot-toast";
+import main_banner from "../../../assets/main_banner.png";
+
 import "./Header.scss";
-import avatar7 from "../../../assets/avatar/avatar7.jpg";
-import icon_vo_van from "../../../assets/icon_vo_van.png";
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +27,11 @@ class Header extends Component {
                 <Toaster />
                 <div className="container-custom nav__container">
                     <Link to="/" className="nav__logo">
-                        <img src={icon_vo_van} />
+                        <img
+                            src={main_banner}
+                            alt="img-banner"
+                            style={{ objectFit: "contain" }}
+                        />
                     </Link>
                     <ul className="nav__items">
                         <li>
@@ -58,7 +62,6 @@ class Header extends Component {
                                         <svg
                                             viewBox="0 0 1024 1024"
                                             focusable="false"
-                                            class=""
                                             data-icon="caret-down"
                                             width="1em"
                                             height="1em"

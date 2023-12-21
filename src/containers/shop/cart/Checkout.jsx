@@ -9,7 +9,7 @@ class Checkout extends Component {
             <div className="checkout-container container">
                 <div class="iphone">
                     <header class="header">
-                        <h1>Thanh Toán</h1>
+                        <h1 className="mb-0">Thanh Toán</h1>
                     </header>
 
                     <form

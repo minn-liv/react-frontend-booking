@@ -66,6 +66,9 @@ function PaginatedItems({ itemsPerPage }) {
             .get(`api/v1/ClientSearchProduct/filterProduct?productTypeId=4`)
             .then((response) => {
                 setData(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
             });
     }, []);
     const [itemOffset, setItemOffset] = useState(0);
@@ -104,8 +107,14 @@ function MainShop4() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get("/api/BlogApi");
-                setBlogs(response.data);
+                axios
+                    .get("/api/BlogApi")
+                    .then((response) => {
+                        setBlogs(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             } catch (error) {
                 console.error("Error fetching products:", error);
             }

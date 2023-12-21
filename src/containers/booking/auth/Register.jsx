@@ -126,16 +126,7 @@ class Register extends Component {
     };
 
     render() {
-        let {
-            username,
-            name,
-            phone,
-            email,
-            password,
-            address,
-            avatar,
-            errors,
-        } = this.state;
+        let { username, name, phone, email, password, address } = this.state;
         return (
             <div>
                 {this.state.registerSuccess && <Navigate to="/dang-nhap" />}
@@ -301,58 +292,6 @@ class Register extends Component {
                                                 Đăng nhập
                                             </Link>
                                         </p>
-                                        {/* 
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="facebook-f"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
-
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="twitter"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
-
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="google"
-                                                size="sm"
-                                            />
-                                        </MDBBtn>
-
-                                        <MDBBtn
-                                            tag="a"
-                                            color="none"
-                                            className="mx-3"
-                                            style={{ color: "#1266f1" }}
-                                        >
-                                            <MDBIcon
-                                                fab
-                                                icon="github"
-                                                size="sm"
-                                            />
-                                        </MDBBtn> */}
                                     </div>
                                 </MDBCardBody>
                             </MDBCard>

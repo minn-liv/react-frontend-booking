@@ -9,7 +9,6 @@ import {
     MDBCard,
     MDBCardText,
     MDBCardBody,
-    MDBCardImage,
     MDBBtn,
     MDBModal,
     MDBModalDialog,
@@ -29,6 +28,7 @@ import axios from "../../../axios";
 import "./Profile.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
+import moment from "moment-timezone";
 
 const replaceIfOverflow = (str, maxLength) => {
     if (str.length > maxLength) {
@@ -37,28 +37,12 @@ const replaceIfOverflow = (str, maxLength) => {
     return str;
 };
 
-function formatDateTime(inputDateTime) {
-    const options = {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: false,
-        timeZone: "Asia/Ho_Chi_Minh",
-    };
+function formatDateTime(dateTimeString) {
+    const originalMoment = moment(dateTimeString);
 
-    const formattedDateTime = new Date(inputDateTime).toLocaleString(
-        "en-US",
-        options
-    );
+    const vietnamMoment = originalMoment.clone().tz("Asia/Ho_Chi_Minh");
 
-    const [datePart, timePart] = formattedDateTime.split(", ");
-    const [month, day, year] = datePart.split("/");
-    const [hour, minute] = timePart.split(":");
-    const formattedResult = `${day}/${month}/${year} - ${hour}:${minute}`;
-
-    return formattedResult;
+    return vietnamMoment.format("DD/MM/YYYY HH:mm:ss");
 }
 function currencyFormat(num) {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
@@ -75,7 +59,7 @@ function ItemsBooking({ currentItems }) {
                         fontSize: "1.5rem",
                     }}
                 >
-                    <strong>Lịch sử mua hàng</strong>
+                    <strong>Lịch sử đặt lịch cắt tóc</strong>
                 </span>{" "}
             </MDBCardText>
             <MDBTable hover>
@@ -257,6 +241,110 @@ function PaginatedItemsBuying({ itemsPerPage }) {
     );
 }
 
+function ModalProfile() {
+    const [basicModal, setBasicModal] = useState(false);
+    const userInfo = useSelector((state) => state.user.userInfo);
+    const [user, setUser] = useState();
+    const toggleOpen = () => setBasicModal(!basicModal);
+
+    useEffect(() => {
+        axios
+            .get(`/api/v1/ClientLogin/user/${userInfo.userID}`)
+            .then((response) => {
+                setUser(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+    console.log(user);
+
+    const onSubmit = (ev) => {
+        ev.preventDefault();
+        const payload = {
+            name: name,
+            phone: phone,
+            address: address,
+        };
+        console.log(payload);
+        if (payload.name && payload.phone && payload.address) {
+            try {
+                const clientId = userInfo.userID;
+                axios
+                    .put(`/api/v1/ClientUpdateApi/update/${clientId}`, payload)
+                    .then(() => {
+                        console.log("Update thanh cong!");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } catch (error) {
+                console.error("Error updating client", error);
+            }
+        }
+    };
+    if (user) {
+        let userData = user;
+    }
+
+    return (
+        <>
+            <MDBBtn onClick={toggleOpen}>Chỉnh sửa thông tin</MDBBtn>
+            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
+                <MDBModalDialog>
+                    <MDBModalContent>
+                        <MDBModalHeader>
+                            <MDBModalTitle>Chỉnh sửa thông tin</MDBModalTitle>
+                            <MDBBtn
+                                className="btn-close"
+                                color="none"
+                                onClick={toggleOpen}
+                            ></MDBBtn>
+                        </MDBModalHeader>
+                        <MDBModalBody
+                            className="d-flex flex-column"
+                            style={{ gap: "1rem" }}
+                        >
+                            <MDBInput
+                                wrapperClass="mb-4"
+                                label="Tên Người Dùng"
+                                id="name"
+                                type="text"
+                                value={userData.name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+
+                            <MDBInput
+                                wrapperClass="mb-4"
+                                label="Số điện thoại"
+                                id="phone"
+                                type="text"
+                                value={userData.phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                            <MDBInput
+                                wrapperClass="mb-4"
+                                label="Địa chỉ"
+                                id="address"
+                                type="text"
+                                // value={user.address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </MDBModalBody>
+
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={toggleOpen}>
+                                Close
+                            </MDBBtn>
+                            <MDBBtn onClick={onSubmit}>Save changes</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModalContent>
+                </MDBModalDialog>
+            </MDBModal>
+        </>
+    );
+}
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -274,37 +362,6 @@ class Profile extends Component {
 
     componentDidMount() {}
 
-    onSubmit = async () => {
-        const payload = {
-            name: "",
-            phone: "",
-            address: "",
-        };
-        if (payload) {
-            try {
-                const clientId = this.props.userInfo.userID;
-                const response = await axios.put(
-                    `/api/v1/ClientUpdateApi/update/${clientId}`,
-                    payload
-                );
-                if (response.status === 200) {
-                    const data = response.data;
-                    console.log(data);
-                    console.log(
-                        data.name,
-                        data.phone,
-                        data.address,
-                        data.email
-                    );
-                } else {
-                    console.error("Failed to update client:", response.data);
-                }
-            } catch (error) {
-                console.error("Error updating client", error);
-            }
-        }
-    };
-
     toggleShow = () => {};
     render() {
         let userInfo = this.props.userInfo;
@@ -317,75 +374,11 @@ class Profile extends Component {
             <div className="profile-container">
                 <Header />
                 <section style={{ backgroundColor: "#eee" }} className="mt-0">
-                    <MDBModal
-                        show={this.state.basicModal}
-                        setShow={() => this.toggleShow()}
-                        tabIndex="-1"
-                    >
-                        <form action="">
-                            <MDBModalDialog>
-                                <MDBModalContent>
-                                    <MDBModalHeader>
-                                        <MDBModalTitle>
-                                            Chỉnh sửa thông tin
-                                        </MDBModalTitle>
-                                        <MDBBtn
-                                            className="btn-close"
-                                            color="none"
-                                            onClick={() => this.toggleShow()}
-                                        ></MDBBtn>
-                                    </MDBModalHeader>
-                                    <MDBModalBody>
-                                        <MDBInput
-                                            wrapperClass="mb-4"
-                                            label="Tên Người Dùng"
-                                            id="name"
-                                            type="text"
-                                        />
-                                        <MDBInput
-                                            wrapperClass="mb-4"
-                                            label="Số điện thoại"
-                                            id="phone"
-                                            type="text"
-                                        />
-                                        <MDBInput
-                                            wrapperClass="mb-4"
-                                            label="Địa chỉ"
-                                            id="address"
-                                            type="text"
-                                        />
-                                    </MDBModalBody>
-
-                                    <MDBModalFooter>
-                                        <MDBBtn
-                                            color="secondary"
-                                            type="button"
-                                            onClick={() => this.toggleShow()}
-                                        >
-                                            Close
-                                        </MDBBtn>
-                                        <MDBBtn
-                                            type="submit"
-                                            onClick={() => this.toggleShow()}
-                                        >
-                                            Save changes
-                                        </MDBBtn>
-                                    </MDBModalFooter>
-                                </MDBModalContent>
-                            </MDBModalDialog>
-                        </form>
-                    </MDBModal>
                     <MDBContainer className="py-5">
                         <MDBRow>
                             <MDBCol lg="4">
                                 <MDBCard className="mb-4">
                                     <MDBCardBody className="profile-avatar-container text-center ps-4">
-                                        <MDBCardImage
-                                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                            alt="avatar"
-                                            className="rounded-circle"
-                                            fluid
-                                        />
                                         <p
                                             className="text-muted mb-4 mt-4"
                                             style={{ fontSize: "20px" }}
@@ -393,11 +386,7 @@ class Profile extends Component {
                                             {userInfo.name}
                                         </p>
                                         <div className="d-flex justify-content-center mb-2">
-                                            <MDBBtn
-                                                onClick={() => this.fetchData()}
-                                            >
-                                                Chỉnh sửa thông tin
-                                            </MDBBtn>
+                                            <ModalProfile />
                                         </div>
                                     </MDBCardBody>
                                 </MDBCard>
@@ -405,19 +394,6 @@ class Profile extends Component {
                             <MDBCol lg="8">
                                 <MDBCard className="mb-4">
                                     <MDBCardBody className="profile-information-container">
-                                        <MDBRow>
-                                            <MDBCol sm="3">
-                                                <MDBCardText>
-                                                    Tên người dùng
-                                                </MDBCardText>
-                                            </MDBCol>
-                                            <MDBCol sm="9">
-                                                <MDBCardText className="text-muted">
-                                                    {userInfo.name}
-                                                </MDBCardText>
-                                            </MDBCol>
-                                        </MDBRow>
-                                        <hr />
                                         <MDBRow>
                                             <MDBCol sm="3">
                                                 <MDBCardText>Email</MDBCardText>

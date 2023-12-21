@@ -36,7 +36,6 @@ function Items({ currentItems }) {
                         <h3 className="shop-main-item-name">
                             {replaceIfOverflow(product.name, 55)}
                         </h3>
-                        {/* <h3>Mã Sản phảm: {product.productId}</h3> */}
                         <p className="mb-0">{currencyFormat(product.price)}</p>
                         <div className="shop-main-item-rating">
                             <FontAwesomeIcon icon={faStar} />
@@ -56,6 +55,7 @@ function PaginatedItems({ itemsPerPage }) {
     const [data, setData] = useState([]);
     const [productsLength, setProductsLength] = useState(0);
     const [sortType, setSortType] = useState("default");
+
     useEffect(() => {
         axios.get(`/api/ProductApi`).then((response) => {
             setProductsLength(response.data.length);

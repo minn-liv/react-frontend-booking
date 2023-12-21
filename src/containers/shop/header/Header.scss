@@ -28,10 +28,25 @@
                     width: 50px;
                     padding: 5px;
                     display: flex;
-                    border: 1px solid black;
-                    border-radius: 50%;
-                    &:hover {
-                        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                    }
+                    .nav__items-cart-notification {
+                        height: 22px;
+                        position: relative;
+                        border-radius: 13px;
+                        min-width: 27px;
+                        line-height: 19px;
+                        padding: 0 0.3125rem;
+                        text-align: center;
+                        border: 2px solid #ee4d2d;
+                        color: #ee4d2d;
+                        background-color: #fff;
+                        left: -13px;
+                        top: -11px;
+                        margin-right: -0.875rem;
                     }
                 }
                 .nav__items-search {

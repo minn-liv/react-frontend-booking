@@ -177,23 +177,11 @@
             block-size: 600px;
             inline-size: 375px;
             overflow: auto;
-            padding: 2em;
-
-            address {
-                font-style: normal;
-            }
-
-            button {
-                border: 0;
-                color: inherit;
-                cursor: pointer;
-                font: inherit;
-            }
-
-            fieldset {
-                border: 0;
-                margin: 0;
-                padding: 0;
+            padding: 0em 2em 2em 2em;
+            .information-checkout {
+                padding: 1rem;
+                border-radius: 5px;
+                border: 1px solid #ddd;
             }
 
             h1 {
@@ -208,29 +196,9 @@
                 margin-block: 0 0.5em;
             }
 
-            legend {
-                font-weight: 600;
-                margin-block-end: 0.5em;
-                padding: 0;
-            }
-
-            input {
-                border: 0;
-                color: inherit;
-                font: inherit;
-            }
-
-            input[type="radio"] {
-                accent-color: #fc8080;
-            }
-
             table {
                 border-collapse: collapse;
                 inline-size: 100%;
-            }
-
-            tbody {
-                color: #b4b4b4;
             }
 
             td {
@@ -249,7 +217,7 @@
 
             .button {
                 align-items: center;
-                background-color: #fc8080;
+                background-color: #ffcc33;
                 border-radius: 5px;
                 color: #fff;
                 display: flex;
@@ -258,48 +226,15 @@
                 padding-block: 0.75em;
                 padding-inline: 1em;
                 transition: 0.3s;
-            }
+                opacity: 0.8;
 
-            .button:focus,
-            .button:hover {
-                background-color: #e96363;
+                &:hover {
+                    opacity: 1;
+                }
             }
 
             .button--full {
                 inline-size: 100%;
-            }
-
-            .card {
-                border-radius: 1em;
-                background-color: #fc8080;
-                color: #fff;
-                padding: 1em;
-            }
-
-            .form {
-                display: grid;
-                gap: 2em;
-            }
-
-            .form__radios {
-                display: grid;
-                gap: 1em;
-            }
-
-            .form__radio {
-                align-items: center;
-                background-color: #fefdfe;
-                border-radius: 1em;
-                box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
-                display: flex;
-                padding: 1em;
-            }
-
-            .form__radio label {
-                align-items: center;
-                display: flex;
-                flex: 1;
-                gap: 1em;
             }
 
             .header {
@@ -307,14 +242,6 @@
                 justify-content: center;
                 padding-block: 0.5em;
                 padding-inline: 1em;
-            }
-
-            .icon {
-                block-size: 1em;
-                display: inline-block;
-                fill: currentColor;
-                inline-size: 1em;
-                vertical-align: middle;
             }
         }
     }

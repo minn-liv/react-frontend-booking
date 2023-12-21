@@ -2,7 +2,6 @@ import "./Product.scss";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../header/Header";
-import FooterMini from "../../booking/footer/FooterMini";
 import Banner from "../../shop/trending/Trending";
 import axios from "../../../axios";
 import { useSelector } from "react-redux";
@@ -86,11 +85,14 @@ function Product() {
         const fetchData = async () => {
             try {
                 if (productId) {
-                    const response = await axios.get(
-                        `/api/ProductApi/${productId}`
-                    );
-                    const productData = response.data;
-                    setProduct(productData);
+                    axios
+                        .get(`/api/ProductApi/${productId}`)
+                        .then((response) => {
+                            setProduct(response.data);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 }
             } catch (error) {
                 console.error("Error fetching product:", error);
@@ -136,31 +138,39 @@ function Product() {
                                     <div className="checkout-close">
                                         <span onClick={toggleShow}>X</span>
                                     </div>
-                                    <div class="iphone">
-                                        <header class="header">
-                                            <h1>Thanh Toán</h1>
+                                    <div className="iphone">
+                                        <header className="header">
+                                            <h1 className="mb-2">Thanh Toán</h1>
                                         </header>
 
                                         <div>
                                             <div>
-                                                <h2>Sản phẩm</h2>
+                                                <h2 className="mt-3">
+                                                    Sản phẩm
+                                                </h2>
 
-                                                <div class="card mb-3 mt-3">
-                                                    <address>
-                                                        {product.name}
-                                                    </address>
+                                                <div className="information-checkout">
+                                                    {product.name}
+                                                </div>
+
+                                                <h2 className="mt-3">
+                                                    Địa chỉ
+                                                </h2>
+
+                                                <div class="information-checkout">
+                                                    {userInfo.address}
+                                                </div>
+
+                                                <h2 className="mt-3">Giá</h2>
+
+                                                <div className="information-checkout">
+                                                    {currencyFormat(
+                                                        product.price
+                                                    )}
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <h2>Địa chỉ</h2>
-
-                                                <div class="card mb-3 mt-3">
-                                                    <address>
-                                                        {userInfo.address}
-                                                    </address>
-                                                </div>
-
                                                 <table className="mt-3 mb-3">
                                                     <tfoot>
                                                         <tr>
@@ -182,7 +192,7 @@ function Product() {
 
                                             <div>
                                                 <button
-                                                    class="button button--full"
+                                                    className="button button--full"
                                                     onClick={handleBuyNow}
                                                 >
                                                     Mua ngay

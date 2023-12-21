@@ -7,7 +7,6 @@ import aboutBanner from "../../../assets/banner/about-banner.jpg";
 import aboutBanner2 from "../../../assets/banner/about-banner2.jpg";
 import aboutBanner3 from "../../../assets/banner/about-banner3.jpg";
 import aboutBanner4 from "../../../assets/banner/about-banner4.jpg";
-import BlogSlide from "../../shop/section/BlogSlide";
 
 function About() {
     return (

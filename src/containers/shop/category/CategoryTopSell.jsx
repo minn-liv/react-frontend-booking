@@ -59,7 +59,7 @@ function PaginatedItems({ itemsPerPage }) {
     const [sortType, setSortType] = useState("default");
     useEffect(() => {
         axios
-            .get(`/api/v1/ClientSearchProduct/filterProduct?productTypeId=8`)
+            .get(`/api/v1/ClientBuyProductApi/GetBestSellingProduct`)
             .then((response) => {
                 setProductsLength(response.data.length);
                 setData(response.data);
@@ -93,7 +93,8 @@ function PaginatedItems({ itemsPerPage }) {
         <div className="shop-main-content container mt-3">
             <div className="filter-info">
                 <p className="mb-0 filter-info-text">
-                    {productsLength} sản phẩm được tìm thấy theo *Tất cả*
+                    {productsLength} sản phẩm được tìm thấy theo *Top sản phẩm
+                    bán chạy*
                 </p>
                 <div className="filter-button">
                     <p className="mb-0">Sắp xếp theo</p>
