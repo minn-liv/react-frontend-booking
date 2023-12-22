@@ -14,8 +14,8 @@ import cart_empty_banner from "../../../assets/shop/cart_empty_banner.jpg";
 function CheckOut(arrCheckout) {
     const [basicModal, setBasicModal] = useState(false);
     const userInfo = useSelector((state) => state.user.userInfo);
+    const [userData, setUserData] = useState({});
     const toggleOpen = () => setBasicModal(!basicModal);
-    // const payload = arrCheckout.product;
     const payload = arrCheckout.product.map((item) => ({
         UserId: userInfo.userID,
         ProductId: item.productId,
@@ -23,7 +23,20 @@ function CheckOut(arrCheckout) {
         User: {},
         Product: {},
     }));
-    console.log(payload);
+
+    useEffect(() => {
+        if (userInfo.userID) {
+            axios
+                .get(`/api/v1/ClientLogin/user/${userInfo.userID}`)
+                .then((response) => {
+                    setUserData(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, []);
+    console.log(userData.name);
 
     const onSubmit = (ev) => {
         ev.preventDefault();
@@ -99,9 +112,11 @@ function CheckOut(arrCheckout) {
                                                 padding: "0 2rem",
                                             }}
                                         >
-                                            <p>Tạ Lý Minh (+84) 354147718</p>
+                                            <p>
+                                                {userData.name} {userData.phone}
+                                            </p>
                                             <p className="fw-normal">
-                                                Chung cư TDH Riverview
+                                                {userData.address}
                                             </p>
                                         </div>
                                     </div>

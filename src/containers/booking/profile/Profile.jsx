@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from "react";
+import { Component, useEffect, useState, useRef } from "react";
 import ReactPaginate from "react-paginate";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,6 +23,7 @@ import {
     MDBTableBody,
 } from "mdb-react-ui-kit";
 import { connect } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
 import axios from "../../../axios";
 import "./Profile.scss";
@@ -81,7 +82,7 @@ function ItemsBooking({ currentItems }) {
                                 <th scope="col">{item.staff.name}</th>
                                 <th scope="col">{item.branch.address}</th>
                                 <th scope="col">
-                                    {item.status ? "Hoàn Thành" : "Đang Đợi"}
+                                    {item.status ? "Đang Đợi" : "Hoàn Thành"}
                                 </th>
                                 <th scope="col">
                                     {formatDateTime(item.dateTime)}
@@ -241,23 +242,21 @@ function PaginatedItemsBuying({ itemsPerPage }) {
     );
 }
 
-function ModalProfile() {
+function ModalProfile(userData) {
     const [basicModal, setBasicModal] = useState(false);
     const userInfo = useSelector((state) => state.user.userInfo);
-    const [user, setUser] = useState();
-    const toggleOpen = () => setBasicModal(!basicModal);
+    const [name, setName] = useState();
+    const [phone, setPhone] = useState();
+    const [address, setAddress] = useState();
+    const user = userData.userData;
 
     useEffect(() => {
-        axios
-            .get(`/api/v1/ClientLogin/user/${userInfo.userID}`)
-            .then((response) => {
-                setUser(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
-    console.log(user);
+        setName(user.name);
+        setPhone(user.phone);
+        setAddress(user.address);
+    }, [userData]);
+
+    const toggleOpen = () => setBasicModal(!basicModal);
 
     const onSubmit = (ev) => {
         ev.preventDefault();
@@ -266,26 +265,28 @@ function ModalProfile() {
             phone: phone,
             address: address,
         };
-        console.log(payload);
         if (payload.name && payload.phone && payload.address) {
             try {
                 const clientId = userInfo.userID;
                 axios
                     .put(`/api/v1/ClientUpdateApi/update/${clientId}`, payload)
                     .then(() => {
-                        console.log("Update thanh cong!");
+                        toast.success("Chỉnh sửa thông tin thành công");
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
                     })
                     .catch((error) => {
                         console.log(error);
+                        toast.error(
+                            "Chỉnh sửa thông tin thất bại. Vui lòng thử lại!"
+                        );
                     });
             } catch (error) {
                 console.error("Error updating client", error);
             }
         }
     };
-    if (user) {
-        let userData = user;
-    }
 
     return (
         <>
@@ -310,25 +311,24 @@ function ModalProfile() {
                                 label="Tên Người Dùng"
                                 id="name"
                                 type="text"
-                                value={userData.name}
-                                onChange={(e) => setName(e.target.value)}
+                                value={name}
+                                onChange={() => setName(event.target.value)}
                             />
-
                             <MDBInput
                                 wrapperClass="mb-4"
                                 label="Số điện thoại"
                                 id="phone"
                                 type="text"
-                                value={userData.phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                value={phone}
+                                onChange={() => setPhone(event.target.value)}
                             />
                             <MDBInput
                                 wrapperClass="mb-4"
                                 label="Địa chỉ"
                                 id="address"
                                 type="text"
-                                // value={user.address}
-                                onChange={(e) => setAddress(e.target.value)}
+                                value={address}
+                                onChange={() => setAddress(event.target.value)}
                             />
                         </MDBModalBody>
 
@@ -349,23 +349,35 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userData: [],
             email: "",
             name: "",
             phone: "",
             address: "",
-            userData: "",
             basicModal: false,
             historyBuying: [],
             historyBooking: [],
         };
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        if (this.props.userInfo.userID) {
+            axios
+                .get(`/api/v1/ClientLogin/user/${this.props.userInfo.userID}`)
+                .then((response) => {
+                    this.setState({
+                        userData: response.data,
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
 
     toggleShow = () => {};
     render() {
-        let userInfo = this.props.userInfo;
-
+        let userData = this.state.userData;
         const { isLoggedIn } = this.props;
         if (!isLoggedIn) {
             return <Navigate to="/dang-nhap" />;
@@ -373,6 +385,7 @@ class Profile extends Component {
         return (
             <div className="profile-container">
                 <Header />
+                <Toaster />
                 <section style={{ backgroundColor: "#eee" }} className="mt-0">
                     <MDBContainer className="py-5">
                         <MDBRow>
@@ -383,10 +396,10 @@ class Profile extends Component {
                                             className="text-muted mb-4 mt-4"
                                             style={{ fontSize: "20px" }}
                                         >
-                                            {userInfo.name}
+                                            {userData.name}
                                         </p>
                                         <div className="d-flex justify-content-center mb-2">
-                                            <ModalProfile />
+                                            <ModalProfile userData={userData} />
                                         </div>
                                     </MDBCardBody>
                                 </MDBCard>
@@ -400,7 +413,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {userInfo.email}
+                                                    {userData.email}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>
@@ -413,7 +426,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {userInfo.phone}
+                                                    {userData.phone}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>
@@ -426,7 +439,7 @@ class Profile extends Component {
                                             </MDBCol>
                                             <MDBCol sm="9">
                                                 <MDBCardText className="text-muted">
-                                                    {userInfo.address}
+                                                    {userData.address}
                                                 </MDBCardText>
                                             </MDBCol>
                                         </MDBRow>
