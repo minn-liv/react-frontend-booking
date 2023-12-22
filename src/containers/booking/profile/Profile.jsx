@@ -265,7 +265,13 @@ function ModalProfile(userData) {
             phone: phone,
             address: address,
         };
-        if (payload.name && payload.phone && payload.address) {
+        if (!payload.name && !payload.phone && !payload.address) {
+            toast.error("Vui lòng nhập đầy đủ thông tin");
+        } else if (
+            !/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(payload.phone)
+        ) {
+            toast.error("Vui lòng nhập đúng đúng định dạng số điện thoại");
+        } else {
             try {
                 const clientId = userInfo.userID;
                 axios
@@ -312,7 +318,9 @@ function ModalProfile(userData) {
                                 id="name"
                                 type="text"
                                 value={name}
-                                onChange={() => setName(event.target.value)}
+                                onChange={(event) =>
+                                    setName(event.target.value)
+                                }
                             />
                             <MDBInput
                                 wrapperClass="mb-4"
@@ -320,7 +328,9 @@ function ModalProfile(userData) {
                                 id="phone"
                                 type="text"
                                 value={phone}
-                                onChange={() => setPhone(event.target.value)}
+                                onChange={(event) =>
+                                    setPhone(event.target.value)
+                                }
                             />
                             <MDBInput
                                 wrapperClass="mb-4"
@@ -328,7 +338,9 @@ function ModalProfile(userData) {
                                 id="address"
                                 type="text"
                                 value={address}
-                                onChange={() => setAddress(event.target.value)}
+                                onChange={(event) =>
+                                    setAddress(event.target.value)
+                                }
                             />
                         </MDBModalBody>
 

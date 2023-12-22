@@ -135,7 +135,7 @@ function Blog() {
                 </div>
             </section>
 
-            <section className="category__buttons">
+            {/* <section className="category__buttons">
                 <div className="container-custom category__buttons-container">
                     {categories.map((item, index) => (
                         <Link to="" className="category__button" key={index}>
@@ -143,7 +143,7 @@ function Blog() {
                         </Link>
                     ))}
                 </div>
-            </section>
+            </section> */}
             <FooterMini />
         </div>
     );

@@ -87,6 +87,12 @@ class Register extends Component {
             this.setState({
                 errors: "Vui lòng nhập Số điện thoại",
             });
+        } else if (
+            !/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(payload.phone)
+        ) {
+            this.setState({
+                errors: "Vui lòng nhập đúng định dạng số điện thoại",
+            });
         } else if (!payload.email) {
             this.setState({
                 errors: "Vui lòng nhập Tên Email",

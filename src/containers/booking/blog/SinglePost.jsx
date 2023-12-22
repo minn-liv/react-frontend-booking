@@ -44,7 +44,7 @@ function SinglePost() {
             return result;
         }
     }
-    const blogName = blogs.staff;
+    const blogName = blogs?.staff?.name;
     const blogDateTime = blogs.dateTime;
     const timeFormat = formatDateAndTime(blogDateTime);
     return (
@@ -61,7 +61,7 @@ function SinglePost() {
                                 </div> */}
                                 <div className="post__author-info">
                                     <h5 className="post__author-info-title">
-                                        By: {blogName.name}
+                                        By: {blogName || "Unknown"}
                                     </h5>
                                     <small className="post__author-info-time">
                                         {timeFormat}

@@ -122,6 +122,9 @@
         padding-bottom: 5rem;
 
         .post {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 1rem;
             .post__thumbnail {
                 border: 0.5rem solid white;
                 overflow: hidden;
@@ -184,6 +187,7 @@
 
                     .post__author-info {
                         .post__author-info-title {
+                            font-size: 0.9rem;
                             color: black;
                             line-height: 1.3;
                             margin-bottom: 0 !important;
