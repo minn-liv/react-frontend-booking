@@ -4,14 +4,12 @@ import "./Blog.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
 
-import avatar7 from "../../../assets/avatar/avatar7.jpg";
-import blog10 from "../../../assets/blog/blog10.jpg";
 import { useEffect, useState } from "react";
 import axios from "../../../axios";
 
 function Blog() {
     const [blogs, setBlogs] = useState([]);
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
 
     const replaceIfOverflow = (str, maxLength) => {
         if (str.length > maxLength) {
@@ -25,8 +23,8 @@ function Blog() {
                 const response = await axios.get("/api/BlogApi");
                 setBlogs(response.data);
 
-                const resCategory = await axios.get("/api/BlogCategoryApi");
-                setCategories(resCategory.data);
+                // const resCategory = await axios.get("/api/BlogCategoryApi");
+                // setCategories(resCategory.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }

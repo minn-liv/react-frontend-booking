@@ -1,14 +1,10 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
-
-import { LANGUAGES } from "../../../utils/Constants";
 import "./Services.scss";
 import { changeLanguageApp } from "../../../store/actions";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
-import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
+import { MDBRow, MDBCol } from "mdb-react-ui-kit";
 
 import cat_goi_10_buoc from "../../../assets/service/cat_goi_10_buoc.jpg";
 import service_list_1 from "../../../assets/service/list_combo/service_list_1.jpg";
@@ -18,16 +14,11 @@ import service_list_4 from "../../../assets/service/list_combo/service_list_4.jp
 import vip_combo from "../../../assets/service/vip_combo.jpg";
 
 class Services extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     changeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language);
     };
 
     render() {
-        let language = this.props.language;
         return (
             <div>
                 <Header />

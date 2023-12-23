@@ -63,6 +63,9 @@ function PaginatedItems({ itemsPerPage }) {
             .then((response) => {
                 setProductsLength(response.data.length);
                 setData(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
             });
     }, []);
     const [itemOffset, setItemOffset] = useState(0);

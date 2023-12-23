@@ -32,7 +32,6 @@ function Search() {
 function NotificationsCart() {
     const userInfo = useSelector((state) => state.user.userInfo);
     const [arrCart, setArtCart] = useState([]);
-
     const lengthCart = arrCart.length;
     useEffect(() => {
         if (userInfo) {
@@ -52,12 +51,6 @@ function NotificationsCart() {
     }
 }
 class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidMount(prevProps, prevState, snapshot) {}
-
     render() {
         const { userLogout, userInfo } = this.props;
         return (

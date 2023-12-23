@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MDBBtn } from "mdb-react-ui-kit";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import {
     MDBContainer,
@@ -217,6 +217,10 @@ class Register extends Component {
         }
     };
 
+    currencyFormat(num) {
+        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
+    }
+
     render() {
         const { branches, staffList, services } = this.state;
         return (
@@ -335,6 +339,7 @@ class Register extends Component {
                                                     event.target.value,
                                             })
                                         }
+                                        style={{ background: "none" }}
                                     >
                                         <option defaultChecked>
                                             Chọn nhân viên
@@ -357,6 +362,7 @@ class Register extends Component {
                                         className="form-control select-combo"
                                         value={this.state.selectedComboId}
                                         onChange={this.handleComboChange}
+                                        style={{ background: "none" }}
                                     >
                                         <option value="" defaultChecked>
                                             Chọn dịch vụ
@@ -373,12 +379,22 @@ class Register extends Component {
 
                                     <h3 className="text-start mt-3">
                                         Tổng thanh toán:{" "}
-                                        {this.state.selectedServicePrice}
+                                        {this.currencyFormat(
+                                            this.state.selectedServicePrice
+                                        )}
                                     </h3>
                                     <h3 className="text-start">
                                         Ngày đặt lịch *
                                     </h3>
-                                    <input type="date" className="input-date" />
+                                    <input
+                                        type="date"
+                                        className="input-date"
+                                        style={{
+                                            background: "none",
+                                            border: "1px solid #ddd",
+                                            borderRadius: "5px",
+                                        }}
+                                    />
                                     <h3 className="text-start">
                                         Chọn khung giờ dịch vụ *
                                     </h3>
