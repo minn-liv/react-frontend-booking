@@ -146,7 +146,7 @@ function CategoryTopSell() {
                     <a href="/danh-muc/cham-soc-toc">Chăm sóc tóc</a>
                 </ul>
 
-                <PaginatedItems itemsPerPage={5} />
+                <PaginatedItems itemsPerPage={8} />
             </div>
             <FooterMini />
         </React.Fragment>

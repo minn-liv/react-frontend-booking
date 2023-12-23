@@ -148,7 +148,7 @@ function Category5() {
                         Chăm sóc tóc
                     </a>
                 </ul>
-                <PaginatedItems itemsPerPage={5} />
+                <PaginatedItems itemsPerPage={8} />
             </div>
             <FooterMini />
         </React.Fragment>
