@@ -97,11 +97,15 @@ function ItemsBooking({ currentItems }) {
 function PaginatedItemsBooking({ itemsPerPage }) {
     const [data, setData] = useState([]);
     const userInfo = useSelector((state) => state.user.userInfo);
+    console.log(data);
     useEffect(() => {
         axios
             .get(`/api/v1/ClientBuyProductApi/GetBooking/${userInfo.userID}`)
             .then((response) => {
                 setData(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
             });
     }, []);
     const [itemOffset, setItemOffset] = useState(0);
@@ -139,7 +143,6 @@ function PaginatedItemsBooking({ itemsPerPage }) {
 }
 
 function ItemsBuying({ currentItems }) {
-    console.log(currentItems);
     return (
         <>
             <MDBCardText className="mb-4">
@@ -206,6 +209,9 @@ function PaginatedItemsBuying({ itemsPerPage }) {
             )
             .then((response) => {
                 setData(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
             });
     }, []);
     const [itemOffset, setItemOffset] = useState(0);

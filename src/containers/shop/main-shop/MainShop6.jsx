@@ -125,7 +125,7 @@ function MainShop6() {
 
     const settings = {
         dots: false,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -180,7 +180,7 @@ function MainShop6() {
                         </ul>
                     </div>
                 </div>
-                <PaginatedItems itemsPerPage={5} />
+                <PaginatedItems itemsPerPage={12} />
                 <div className="shop-blog-container">
                     <div className="trending-wrapper pb-5 mb-3">
                         <div className="trending-container">
