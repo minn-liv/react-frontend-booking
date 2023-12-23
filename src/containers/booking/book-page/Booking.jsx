@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { MDBBtn } from "mdb-react-ui-kit";
 import toast from "react-hot-toast";
@@ -15,6 +15,52 @@ import axios from "../../../axios";
 import "./Booking.scss";
 import Header from "../header/Header";
 import FooterMini from "../footer/FooterMini";
+
+const DateTimePicker = () => {
+    const [selectedDateTime, setSelectedDateTime] = useState(getFormattedNow());
+
+    useEffect(() => {
+        const formattedNow = getFormattedNow();
+        setSelectedDateTime(formattedNow);
+    }, []);
+
+    function getFormattedNow() {
+        const now = new Date();
+        const formattedNow = now.toISOString().slice(0, 16);
+        return formattedNow;
+    }
+
+    function isPastDateTime(value) {
+        // Lấy ngày và giờ hiện tại
+        const now = new Date();
+        const formattedNow = now.toISOString().slice(0, 16);
+
+        // So sánh giá trị mới chỉ theo giờ và phút
+        return value.slice(0, 16) < formattedNow;
+    }
+
+    function handleDateTimeChange(value) {
+        // Kiểm tra nếu giá trị mới không phải là giờ đã qua
+        if (!isPastDateTime(value)) {
+            setSelectedDateTime(value);
+        }
+    }
+
+    return (
+        <input
+            type="datetime-local"
+            className="input-date"
+            style={{
+                background: "none",
+                border: "1px solid #ddd",
+                borderRadius: "5px",
+            }}
+            value={selectedDateTime}
+            onChange={(e) => handleDateTimeChange(e.target.value)}
+            min={getFormattedNow()}
+        />
+    );
+};
 
 class Register extends Component {
     constructor(props) {
@@ -202,11 +248,10 @@ class Register extends Component {
                 .then((response) => {
                     setTimeout(() => {
                         toast.success(responseMessage);
-                        window.location.reload();
                     }, 500);
                     setTimeout(() => {
                         window.location.reload();
-                    }, 1000);
+                    }, 1500);
                 })
                 .catch((error) => {
                     setTimeout(() => {
@@ -377,7 +422,7 @@ class Register extends Component {
                                         ))}
                                     </select>
 
-                                    <h3 className="text-start mt-3">
+                                    <h3 className="text-start mt-3 fw-bold">
                                         Tổng thanh toán:{" "}
                                         {this.currencyFormat(
                                             this.state.selectedServicePrice
@@ -386,15 +431,16 @@ class Register extends Component {
                                     <h3 className="text-start">
                                         Ngày đặt lịch *
                                     </h3>
-                                    <input
-                                        type="date"
+                                    <DateTimePicker />
+                                    {/* <input
+                                        type="datetime-local"
                                         className="input-date"
                                         style={{
                                             background: "none",
                                             border: "1px solid #ddd",
                                             borderRadius: "5px",
                                         }}
-                                    />
+                                    /> */}
                                     <h3 className="text-start">
                                         Chọn khung giờ dịch vụ *
                                     </h3>

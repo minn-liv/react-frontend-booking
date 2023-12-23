@@ -150,7 +150,7 @@ class Login extends Component {
 
                                 <div className="text-center">
                                     <p>
-                                        Not Registered?{" "}
+                                        Chưa có tài khoản?{" "}
                                         <Link to="/dang-ky">Đăng ký</Link>
                                     </p>
                                 </div>

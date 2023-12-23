@@ -245,7 +245,7 @@ class Register extends Component {
                                             );
                                         }}
                                     />
-                                    <div>
+                                    {/* <div>
                                         <label
                                             className="mb-2 d-flex"
                                             htmlFor="avatar"
@@ -270,16 +270,16 @@ class Register extends Component {
                                                 this.openPreviewImage();
                                             }}
                                         ></div>
-                                    </div>
+                                    </div> */}
 
-                                    <div className="d-flex justify-content-center mb-4">
+                                    {/* <div className="d-flex justify-content-center mb-4">
                                         <MDBCheckbox
                                             name="flexCheck"
                                             value=""
                                             id="flexCheckDefault"
                                             label="Đồng ý với các điều khoản của chúng tôi"
                                         />
-                                    </div>
+                                    </div> */}
 
                                     <button
                                         className="w-100 mb-4 btn-register"
@@ -293,7 +293,7 @@ class Register extends Component {
 
                                     <div className="text-center">
                                         <p>
-                                            Already Register?{" "}
+                                            Đã có tài khoản?{" "}
                                             <Link to="/dang-nhap">
                                                 Đăng nhập
                                             </Link>

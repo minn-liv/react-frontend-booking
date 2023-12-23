@@ -39,16 +39,15 @@ const replaceIfOverflow = (str, maxLength) => {
 };
 
 function formatDateTime(dateTimeString) {
-    const originalMoment = moment(dateTimeString);
+    let originalMoment = moment(dateTimeString);
 
-    const vietnamMoment = originalMoment.clone().tz("Asia/Ho_Chi_Minh");
+    let vietnamMoment = originalMoment.clone().tz("Asia/Ho_Chi_Minh");
 
-    return vietnamMoment.format("DD/MM/YYYY HH:mm:ss");
+    return vietnamMoment.format("DD/MM/YYYY HH:mm");
 }
 function currencyFormat(num) {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "₫";
 }
-
 function ItemsBooking({ currentItems }) {
     return (
         <>
@@ -140,6 +139,7 @@ function PaginatedItemsBooking({ itemsPerPage }) {
 }
 
 function ItemsBuying({ currentItems }) {
+    console.log(currentItems);
     return (
         <>
             <MDBCardText className="mb-4">

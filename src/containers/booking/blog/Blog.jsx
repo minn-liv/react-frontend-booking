@@ -103,7 +103,7 @@ function Blog() {
                                 />
                             </div>
                             <div className="post__info">
-                                <a href="/#" className="post__category-button">
+                                <a className="post__category-button">
                                     {item.blogCategory.title}
                                 </a>
                                 <h3 className="post__title">
