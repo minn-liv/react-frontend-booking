@@ -71,6 +71,7 @@ class Register extends Component {
             branches: [],
             staffList: [],
             services: [],
+            staffSchedule: [],
             selectedBranchId: null,
             staffListByBranch: [],
             selectedStaffId: null,
@@ -119,14 +120,57 @@ class Register extends Component {
         }
     }
 
+    getStaffSchedule = (staffId) => {
+        axios
+            .get(`/api/v1/BookingDate/${staffId}`)
+            .then((response) => {
+                const { staff, schedule } = response.data.value;
+                if (staff && schedule) {
+                    const staffSchedule = {
+                        staffId: staff.staffId,
+                        name: staff.name,
+                        schedule: schedule.map(item => ({
+                            scheduleId: item.scheduleId,
+                            time: item.time,
+                            date: item.date
+                        }))
+                    };
+                    this.setState({ staffSchedule });
+                    console.log("staffSchedule", staffSchedule);
+                } else {
+                    console.error("Staff data or schedule data is undefined");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching staff schedule:", error);
+            });
+    };
+    
+    
+    
+    handleStaffChange = (event) => {
+        const selectedStaffId = parseInt(event.target.value);
+        
+        this.setState({
+            selectedStaffId: selectedStaffId,
+        }, () => {
+            console.log("selectedStaffId", this.state.selectedStaffId);
+            this.getStaffSchedule(selectedStaffId);
+        });
+    };
+    
+    
+
     getStaffByBranch = (branchId) => {
         const staffList = this.state.staffList;
         const filteredStaffList = staffList.filter(
-            (staff) => staff.branchId === branchId
+            (staff) => staff.branch && staff.branch.branchId === branchId
         );
+        console.log("filteredStaffList", filteredStaffList)
         return filteredStaffList;
     };
-
+    
+    
     handleBranchChange = (event) => {
         const selectedBranchId = parseInt(event.target.value);
         const staffListByBranch = this.getStaffByBranch(selectedBranchId);
@@ -137,6 +181,8 @@ class Register extends Component {
             selectedStaffId: null,
         });
     };
+
+
     handleComboChange = (event) => {
         const selectedComboId = parseInt(event.target.value);
         console.log(
@@ -267,7 +313,7 @@ class Register extends Component {
     }
 
     render() {
-        const { branches, staffList, services } = this.state;
+        const {  branches, staffList, services, staffSchedule } = this.state;
         return (
             <div className="booking-container">
                 <Header />
@@ -378,12 +424,7 @@ class Register extends Component {
                                     <select
                                         className="form-control select-staff"
                                         value={this.state.selectedStaffId}
-                                        onChange={(event) =>
-                                            this.setState({
-                                                selectedStaffId:
-                                                    event.target.value,
-                                            })
-                                        }
+                                        onChange={this.handleStaffChange}
                                         style={{ background: "none" }}
                                     >
                                         <option defaultChecked>
@@ -400,6 +441,22 @@ class Register extends Component {
                                             )
                                         )}
                                     </select>
+                                    <h3 className="text-start mt-3">Lịch làm việc của nhân viên</h3>
+                                    {Object.keys(staffSchedule).length > 0 ? (
+                                        <ul>
+                                            {staffSchedule.schedule.map((scheduleItem) => (
+                                                <li key={scheduleItem.scheduleId}>
+                                                    <span>Date: {scheduleItem.date}</span>
+                                                    <span>Time: {scheduleItem.time}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>No schedule found</p>
+                                    )}
+
+
+
                                     <h3 className="text-start">
                                         Chọn dịch vụ *
                                     </h3>
