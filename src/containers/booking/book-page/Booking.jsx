@@ -122,10 +122,12 @@ class Register extends Component {
     getStaffByBranch = (branchId) => {
         const staffList = this.state.staffList;
         const filteredStaffList = staffList.filter(
-            (staff) => staff.branchId === branchId
+            (staff) => staff.branch && staff.branch.branchId === branchId
         );
+        console.log("filteredStaffList", filteredStaffList)
         return filteredStaffList;
     };
+    
 
     handleBranchChange = (event) => {
         const selectedBranchId = parseInt(event.target.value);
@@ -137,6 +139,8 @@ class Register extends Component {
             selectedStaffId: null,
         });
     };
+
+
     handleComboChange = (event) => {
         const selectedComboId = parseInt(event.target.value);
         console.log(
