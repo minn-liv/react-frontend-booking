@@ -124,14 +124,19 @@ class Register extends Component {
         axios
             .get(`/api/v1/BookingDate/${staffId}`)
             .then((response) => {
-                const { staff, schedule } = response.data.value; // Lấy dữ liệu từ thuộc tính "value"
+                const { staff, schedule } = response.data.value;
                 if (staff && schedule) {
                     const staffSchedule = {
                         staffId: staff.staffId,
                         name: staff.name,
-                        schedule: schedule.map(item => item.scheduleId)
+                        schedule: schedule.map(item => ({
+                            scheduleId: item.scheduleId,
+                            time: item.time,
+                            date: item.date
+                        }))
                     };
                     this.setState({ staffSchedule });
+                    console.log("staffSchedule", staffSchedule);
                 } else {
                     console.error("Staff data or schedule data is undefined");
                 }
@@ -140,6 +145,7 @@ class Register extends Component {
                 console.error("Error fetching staff schedule:", error);
             });
     };
+    
     
     
     handleStaffChange = (event) => {
@@ -152,6 +158,7 @@ class Register extends Component {
             this.getStaffSchedule(selectedStaffId);
         });
     };
+    
     
 
     getStaffByBranch = (branchId) => {
@@ -435,20 +442,19 @@ class Register extends Component {
                                         )}
                                     </select>
                                     <h3 className="text-start mt-3">Lịch làm việc của nhân viên</h3>
-                                    {staffSchedule.length > 0 ? (
+                                    {Object.keys(staffSchedule).length > 0 ? (
                                         <ul>
-                                            {staffSchedule.map((scheduleItem) => (
+                                            {staffSchedule.schedule.map((scheduleItem) => (
                                                 <li key={scheduleItem.scheduleId}>
-                                                    <span>StaffId: {scheduleItem.staffId}</span>
-                                                    <span>ScheduleId: {scheduleItem.scheduleId}</span>
-                                                    <span>Ngày: {scheduleItem.date}</span>
-                                                    <span>Giờ: {scheduleItem.time}</span>
+                                                    <span>Date: {scheduleItem.date}</span>
+                                                    <span>Time: {scheduleItem.time}</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     ) : (
-                                        <p>Không có lịch làm việc được tìm thấy</p>
+                                        <p>No schedule found</p>
                                     )}
+
 
 
                                     <h3 className="text-start">
