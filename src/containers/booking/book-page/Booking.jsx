@@ -120,6 +120,17 @@ class Register extends Component {
         }
     }
 
+    handleStaffChange = (event) => {
+        const selectedStaffId = parseInt(event.target.value);
+        
+        this.setState({
+            selectedStaffId: selectedStaffId,
+        }, () => {
+            console.log("selectedStaffId", this.state.selectedStaffId);
+            this.getStaffSchedule(selectedStaffId);
+        });
+    };
+    
     getStaffSchedule = (staffId) => {
         axios
             .get(`/api/v1/BookingDate/${staffId}`)
@@ -144,19 +155,6 @@ class Register extends Component {
             .catch((error) => {
                 console.error("Error fetching staff schedule:", error);
             });
-    };
-    
-    
-    
-    handleStaffChange = (event) => {
-        const selectedStaffId = parseInt(event.target.value);
-        
-        this.setState({
-            selectedStaffId: selectedStaffId,
-        }, () => {
-            console.log("selectedStaffId", this.state.selectedStaffId);
-            this.getStaffSchedule(selectedStaffId);
-        });
     };
     
     

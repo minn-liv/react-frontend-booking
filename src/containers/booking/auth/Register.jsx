@@ -75,37 +75,18 @@ class Register extends Component {
             address: this.state.address,
             avatar: this.state.avatar,
         };
-        if (!payload.username) {
+        if (!payload.username || !payload.name || !payload.phone || !payload.email || !payload.password || !payload.address) {
             this.setState({
-                errors: "Vui lòng nhập Tên tài khoản",
+                errors: "Vui lòng điền đầy đủ thông tin",
             });
-        } else if (!payload.name) {
-            this.setState({
-                errors: "Vui lòng nhập Tên người dùng",
-            });
-        } else if (!payload.phone) {
-            this.setState({
-                errors: "Vui lòng nhập Số điện thoại",
-            });
-        } else if (
-            !/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(payload.phone)
-        ) {
-            this.setState({
-                errors: "Vui lòng nhập đúng định dạng số điện thoại",
-            });
-        } else if (!payload.email) {
-            this.setState({
-                errors: "Vui lòng nhập Tên Email",
-            });
-        } else if (!payload.password) {
-            this.setState({
-                errors: "Vui lòng nhập Mật khẩu",
-            });
-        } else if (!payload.address) {
-            this.setState({
-                errors: "Vui lòng nhập Địa chỉ",
-            });
-        } else {
+        }else if (
+                !/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(payload.phone)
+            ) {
+                this.setState({
+                    errors: "Vui lòng nhập đúng định dạng số điện thoại",
+                }); 
+        }
+        else {
             axios
                 .post("api/v1/ClientLogin/Register", payload)
                 .then((response) => {
@@ -127,9 +108,40 @@ class Register extends Component {
                         errors: errorMessage,
                     });
                 });
-            // }
         }
     };
+
+        // if (!payload.username) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập Tên tài khoản",
+        //     });
+        // } else if (!payload.name) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập Tên người dùng",
+        //     });
+        // } else if (!payload.phone) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập Số điện thoại",
+        //     });
+        // } else if (
+        //     !/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(payload.phone)
+        // ) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập đúng định dạng số điện thoại",
+        //     });
+        // } else if (!payload.email) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập Tên Email",
+        //     });
+        // } else if (!payload.password) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập Mật khẩu",
+        //     });
+        // } else if (!payload.address) {
+        //     this.setState({
+        //         errors: "Vui lòng nhập Địa chỉ",
+        //     });
+      
 
     render() {
         let { username, name, phone, email, password, address } = this.state;
