@@ -40,4 +40,23 @@
         padding: 1rem;
         margin-bottom: 1rem;
     }
+    .schedule-staff-container {
+        display: flex;
+        gap: 1rem;
+
+        .schedule-staff-box {
+            background-color: #ddd;
+            display: flex;
+            flex-direction: column;
+            padding: 0.7rem;
+            border-radius: 3px;
+            cursor: pointer;
+
+            &.active {
+                background-color: #fc2;
+            }
+        }
+    }
+
+  
 }
